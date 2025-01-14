@@ -45,9 +45,27 @@ sequenceDiagram
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Ability to input goals
+- Ability to nest goals
+- Visual display of progress towards goals, accomplished goals, and streaks
+- Ability to send and accept friend invites from other users
+- Ability to see friends goals, send messages, reply to messages, and see when others accomplish milestones
+- Pulls from Canvas to see homework as part of goals, if desired
+- Ability to create user account and store goal info
+- Display a feed of your and friends goals and accomplishments
+- Play a rewarding sound effect and animation when marking goal progress
+- Gives mini-quests to keep you on track with goals (ai generated)
+- Ability to tune quest suggestions with feedback
+- Ability to collaborate - make teams to work on a shared type of goal together
+- Ability to add overall vision, anti-vision to goals and link goals to them
+- Reward people for a percentage improvement in meeting their goals week over week
+- Competition mode in team goals
+- Unlock features as you acheive goals
+- Ability to send reminders on mobile like duolingo does
+- maybe display goal progress like a jigsaw puzzle
+- a random chance of a reward when a goal is completed or checked off
+- NEED a fun core loop of daily progress checkoffs
+
 
 ### Technologies
 
