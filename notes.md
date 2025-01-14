@@ -25,3 +25,37 @@ commit
 diff (compares versions)
 pull - gets the latest version
 push - makes your code the latest version - the head
+
+## Brainstorming
+### Potential general website ideas:
+- ai powered monster generator
+- dungeon generator (like donjon)
+- a t-shirt print on demand business
+- a interactive coding portfolio
+- cat target practice minigame
+- riddle generator
+- a fun cypher website
+- an ai chatbot / cat-fish-bot
+- ai t-shirt generator website
+- tetris
+- minesweeper
+- punnit square simulator
+- finger blender simulator
+- gamified research engine
+- encounter balancer
+- mutual for dogs
+- adopt a college student
+- political platform aggregator
+- musical experimentation website
+- a gamified ad clicking website
+- personality test website
+- ai generated horoscope
+- mtn dew finder
+- aoe2 build order generator
+- heroscape stat generator
+- gamification of goals/homework with integration w/ Canvas and social media addiction patterns in flashcards, other's progress, etc
+- online mmo Risk-like
+- clicker game
+- atari game emulator
+- an email service
+- online goal and schedule planner
