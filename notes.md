@@ -59,3 +59,27 @@ push - makes your code the latest version - the head
 - atari game emulator
 - an email service
 - online goal and schedule planner
+
+### Interesting ideas
+- monster generator
+- t-shirt POD or ai generation business
+- catfish version of mutual
+- minesweeper
+- gamified ad clicking website
+- ai generated horoscope
+- aoe2 build order generator
+- gamification of goals/homework
+- email service
+
+### Simple, interesting ideas
+- t-shirt POD
+- minesweeper
+- ai generated horoscope
+- gamification of goals/homework
+
+### Simple, interesting, profitable ideas
+- t-shirt POD
+- gamification of goals/homework
+
+### Final Plan
+- gamification of goals/homework
