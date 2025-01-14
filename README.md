@@ -55,7 +55,7 @@ sequenceDiagram
 - HTTPS login
 - Visual display of progress towards goals, accomplished goals, and streaks
 - Ability to store goal and progress info
-- A feed of other users pulic goals and accomplished goals/microgoals
+- A feed of other users' pulic goals and accomplished goals/microgoals
 - Integrates with ai with microgoal suggestions (to maintain motivation)
 - Ability to send goal reminders on mobile
 
@@ -65,9 +65,11 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
+- **HTML** - Use properly formatted HTML. Have 4 HTML pages: A login page, a goal setting/tracking page with embedded feed, 
+and a user settings page.
+- **CSS** - Formatting works well for PC and mobile sized browsers. Uses good color contrast and palette as well as text font, 
+prioritizing readability and professionalism. Display feed and goal progress bars.
+- **React** - Runs login, ChatGPT connection and microgoal generator, goal display backend, ...
 - **Service** - Description here
 - **DB/Login** - Description here
 - **WebSocket** - Description here
