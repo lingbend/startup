@@ -83,3 +83,21 @@ push - makes your code the latest version - the head
 
 ### Final Plan
 - gamification of goals/homework
+
+
+### Stretch goal features
+
+- maybe display goal progress like a jigsaw puzzle
+- a random chance of a reward when a goal is completed or checked off
+- NEED a fun core loop of daily progress checkoffs
+- Ability to send and accept friend invites from other users
+- Ability to see friends goals, send messages, reply to messages, and see when others accomplish milestones
+- Display a feed of your and friends goals and accomplishments
+- Play a rewarding sound effect and animation when marking goal progress
+- Pulls from Canvas to see homework as part of goals, if desired
+- Ability to tune quest suggestions with feedback
+- Ability to collaborate - make teams to work on a shared type of goal together
+- Ability to add overall vision, anti-vision to goals and link goals to them
+- Reward people for a percentage improvement in meeting their goals week over week
+- Competition mode in team goals
+- Unlock features as you acheive goals
