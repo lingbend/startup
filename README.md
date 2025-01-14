@@ -50,13 +50,14 @@ sequenceDiagram
 
 ### Key features
 
-- Ability to input goals
-- Ability to nest goals
+- Ability to input, delete, edit, and nest goals
+- Ability to track daily progress towards goals
+- HTTPS login
 - Visual display of progress towards goals, accomplished goals, and streaks
-- Ability to create user account and store goal info
-- A feed of other users pulic goals and accomplishments
-- Gives mini-quests to keep you on track with goals (ai generated)
-- Ability to send reminders on mobile like duolingo does
+- Ability to store goal and progress info
+- A feed of other users pulic goals and accomplished goals/microgoals
+- Integrates with ai with microgoal suggestions (to maintain motivation)
+- Ability to send goal reminders on mobile
 
 
 
