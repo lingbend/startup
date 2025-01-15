@@ -2,7 +2,8 @@
 
 [My Notes](notes.md)
 
-A brief description of the application here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+This website is a simple, gamified goal tracker with social media motivational features, goal suggestions, 
+and text reminders.
 
 
 > [!NOTE]
@@ -32,8 +33,6 @@ or watching Disney+. The goal-tracking site makes it easy to keep up motivation,
 entertainment with long term success. Easy to use, it even integrates with Canvas to keep track of all your homework assignments 
 and tie them to goals that you find intrinsically motivating. It keeps track of streaks and helps you keep up motivation by 
 creating a community of friends to help. It also 
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ### Design
 
@@ -74,7 +73,7 @@ to and receives data from backend for goals, progress, streaks, and microgoal su
 and settings as reactive components of the goal setting page. 
 - **Service** - The backend provides a goal feed endpoint, retrieve goals endpoint, update goals endpoint, 
 delete goals endpoint, ChatGPT API-integrated microgoal suggestion endpoint, login endpoint, user creation 
-endpoint, and update user settings endpoint.
+endpoint, and update user settings endpoint. Backend also integrates with 
 - **DB/Login** - DB requires authentication to access user info (except public "posts" for the feed). Stores 
 user credentials and goal info securely. Is accessed by backend service.
 - **WebSocket** - Social goal feed is received live from the server.
