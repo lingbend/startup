@@ -56,7 +56,7 @@ sequenceDiagram
 - Visual display of progress towards goals, accomplished goals, and streaks
 - Ability to store goal and progress info
 - A feed of other users' pulic goals and accomplished goals/microgoals
-- Integrates with ai with microgoal suggestions (to maintain motivation)
+- Integrates with ai (ChatGPT) with microgoal suggestions (to maintain motivation)
 - Ability to send goal reminders on mobile
 
 
@@ -65,14 +65,19 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Use properly formatted HTML. Have 4 HTML pages: A login page, a goal setting/tracking page with embedded feed, 
-and a user settings page.
+- **HTML** - Use properly formatted HTML. Have 2 HTML pages: A login page and a goal setting/tracking page 
+with embedded feed.
 - **CSS** - Formatting works well for PC and mobile sized browsers. Uses good color contrast and palette as well as text font, 
 prioritizing readability and professionalism. Display feed and goal progress bars.
-- **React** - Runs login, ChatGPT connection and microgoal generator, goal display backend, ...
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **React** - Runs login. Runs goal display, goal input GUI, and alters progress and streak meters. Sends requests 
+to and receives data from backend for goals, progress, streaks, and microgoal suggestions. Displays feed 
+and settings as reactive components of the goal setting page. 
+- **Service** - The backend provides a goal feed endpoint, retrieve goals endpoint, update goals endpoint, 
+delete goals endpoint, ChatGPT API-integrated microgoal suggestion endpoint, login endpoint, user creation 
+endpoint, and update user settings endpoint.
+- **DB/Login** - DB requires authentication to access user info (except public "posts" for the feed). Stores 
+user credentials and goal info securely. Is accessed by backend service.
+- **WebSocket** - Social goal feed is received live from the server.
 
 ## 🚀 AWS deliverable
 
