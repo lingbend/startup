@@ -1,4 +1,4 @@
-# Your startup name here
+# Goals Gamified
 
 [My Notes](notes.md)
 
@@ -19,36 +19,40 @@ and text reminders.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
+- [x] Description of key features
+- [x] Description of how you will use each technology
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
 The start of a new year is a new chance to improve ourselves, to try again. Often its hard to keep up the motivation to exercise, 
 journal, or serve others. More immediately pleasurable activities often take their place such as sleeping in, playing video games, 
 or watching Disney+. The goal-tracking site makes it easy to keep up motivation, by combining the immediate pleasure of games and 
-entertainment with long term success. Easy to use, it even integrates with Canvas to keep track of all your homework assignments 
-and tie them to goals that you find intrinsically motivating. It keeps track of streaks and helps you keep up motivation by 
-creating a community of friends to help. It also 
+social media with long term success. Easy to use, it suggests mini goals to keep up momentum. 
+It keeps track of streaks and helps you keep up motivation by creating a social feed of inspiration.
 
 ### Design
 
-![Design image](placeholder.png)
+#### Login page:
+
+![Login image](Loginpage.png)
+
+#### Login page:
+
+![Goal home image](Goalpage.png)
 
 #### Sequence diagram of logging in and adding a goal:
 
 ```mermaid
 sequenceDiagram
     actor You
-    actor Website
-    You->>Website: Credentials
-    Website-->>You: Goal info and microgoal suggestions
-    Website-->>You: Social goal feed
-    You->>Website: New goal info
-    Website->>You: New goal microgoal suggestion
+    You->>Server: Credentials
+    Server-->>You: Goal info and microgoal suggestions
+    Server-->>You: Social goal feed
+    You->>Server: New goal info
+    Server->>You: New goal microgoal suggestion
 ```
 
 
@@ -59,16 +63,16 @@ sequenceDiagram
     actor Bill
     actor Eve
     actor Jarnathan
-    actor Website
-    Bill-->>Website: New public goal 10
-    Website-->>Eve: Goal 10
-    Website-->Jarnathan: Goal 10
-    Eve-->>Website: Update public goal 11
-    Website-->Bill: Goal 11
-    Website-->Jarnathan: Goal 11
-    Jarnathan-->>Website: Update public goal 4
-    Website-->>Eve: Goal 4 reached streak milestone
-    Website-->>Bill: Goal 4 reached streak milestone
+    actor Server
+    Bill-->>Server: New public goal 10
+    Server-->>Eve: Goal 10
+    Server-->Jarnathan: Goal 10
+    Eve-->>Server: Update public goal 11
+    Server-->Bill: Goal 11
+    Server-->Jarnathan: Goal 11
+    Jarnathan-->>Server: Update public goal 4
+    Server-->>Eve: Goal 4 reached streak milestone
+    Server-->>Bill: Goal 4 reached streak milestone
 ```
 
 ### Key features
@@ -88,7 +92,7 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Use properly formatted HTML. Have 2 HTML pages: A login page and a goal setting/tracking page 
+- **HTML** - Uses properly formatted HTML. Has 2 HTML pages: A login page and a goal setting/tracking page 
 with embedded feed.
 - **CSS** - Formatting works well for PC and mobile sized browsers. Uses good color contrast and palette as well as text font, 
 prioritizing readability and professionalism. Display feed and goal progress bars.
