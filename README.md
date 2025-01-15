@@ -38,13 +38,17 @@ creating a community of friends to help. It also
 
 ![Design image](placeholder.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Sequence diagram of logging in and adding a goal:
 
 ```mermaid
 sequenceDiagram
     actor You
     actor Website
-    You->>Website: Replace this with your design
+    You->>Website: Credentials
+    Website-->>You: Goal info and microgoal suggestions
+    Website-->>You: Social goal feed
+    You->>Website: New goal info
+    Website->>You: New goal microgoal suggestion
 ```
 
 ### Key features
@@ -71,9 +75,9 @@ prioritizing readability and professionalism. Display feed and goal progress bar
 - **React** - Runs login. Runs goal display, goal input GUI, and alters progress and streak meters. Sends requests 
 to and receives data from backend for goals, progress, streaks, and microgoal suggestions. Displays feed 
 and settings as reactive components of the goal setting page. 
-- **Service** - The backend provides a goal feed endpoint, retrieve goals endpoint, update goals endpoint, 
-delete goals endpoint, ChatGPT API-integrated microgoal suggestion endpoint, login endpoint, user creation 
-endpoint, and update user settings endpoint. Backend also integrates with 
+- **Service** - The backend provides a goal feed endpoint, login and retrieve goals endpoint, update goals endpoint, 
+delete goals endpoint, ChatGPT API-integrated microgoal suggestion endpoint, user creation endpoint, 
+and update user settings endpoint. Backend also integrates with SMS API.
 - **DB/Login** - DB requires authentication to access user info (except public "posts" for the feed). Stores 
 user credentials and goal info securely. Is accessed by backend service.
 - **WebSocket** - Social goal feed is received live from the server.
