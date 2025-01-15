@@ -38,7 +38,7 @@ creating a community of friends to help. It also
 
 ![Design image](placeholder.png)
 
-Sequence diagram of logging in and adding a goal:
+#### Sequence diagram of logging in and adding a goal:
 
 ```mermaid
 sequenceDiagram
