@@ -51,6 +51,26 @@ sequenceDiagram
     Website->>You: New goal microgoal suggestion
 ```
 
+
+#### Sequence diagram of social goal feed system
+
+```mermaid
+sequenceDiagram
+    actor Bill
+    actor Eve
+    actor Jarnathan
+    actor Website
+    Bill-->>Website: New public goal 10
+    Website-->>Eve: Goal 10
+    Website-->Jarnathan: Goal 10
+    Eve-->>Website: Update public goal 11
+    Website-->Bill: Goal 11
+    Website-->Jarnathan: Goal 11
+    Jarnathan-->>Website: Update public goal 4
+    Website-->>Eve: Goal 4 reached streak milestone
+    Website-->>Bill: Goal 4 reached streak milestone
+```
+
 ### Key features
 
 - Ability to input, delete, edit, and nest goals
