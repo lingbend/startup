@@ -11,6 +11,7 @@
 ## AWS Notes
 
 IP address: 100.24.191.135
+Domain: benjaminlingwall.com
 
 ## HTML Notes
 
