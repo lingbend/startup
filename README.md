@@ -110,7 +110,7 @@ user credentials and goal info securely. Is accessed by backend service.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **Server deployed and accessible with custom domain name** - [My server](https://benjaminlingwall.com).
+- [x] **Server deployed and accessible with custom domain name** - [benjaminlingwall.com](https://benjaminlingwall.com).
 
 ## 🚀 HTML deliverable
 
