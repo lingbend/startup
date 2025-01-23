@@ -6,7 +6,7 @@ This website is a simple, gamified goal tracker with social media motivational f
 and text reminders.
 
 
-> [!NOTE]
+# Note
 >  **This project is currently in progress and is on track to complete at the end of Winter semester, 2025 (April).**
 > 
 ## 🚀 Specification Deliverable
