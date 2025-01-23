@@ -1,6 +1,6 @@
 # Goals Gamified
 
-[My Notes](notes.md)
+[My Class Notes](notes.md)
 
 This website is a simple, gamified goal tracker with social media motivational features, goal suggestions, 
 and text reminders.
