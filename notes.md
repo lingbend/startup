@@ -12,10 +12,12 @@
 
 IP address: 100.24.191.135
 Domain: benjaminlingwall.com
+DON'T LOSE YOUR KEY. ITS REALLY ANNOYING TO REPLACE.
+To replace your key, create a temporary instance with a new key. connect your data to it. ssh into it.create a temporary folder and mount it. mount your data folder onto it and copy the authorized_key file from the temporary instance into it. Then reconnect the data to your original server.
 
 ## HTML Notes
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
 
 ## Git
 Github is a good way to create backups and versioning for a project. I should aim to have evenly spaced commits per deliverable.
