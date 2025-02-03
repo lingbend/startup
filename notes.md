@@ -17,6 +17,7 @@ To replace your key, create a temporary instance with a new key. connect your da
 
 ## HTML Notes
 
+make sure to run deployment scripts from the directory of the files you want to copy
 
 
 ## Git
