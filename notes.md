@@ -19,6 +19,9 @@ To replace your key, create a temporary instance with a new key. connect your da
 
 make sure to run deployment scripts from the directory of the files you want to copy
 
+Tags:
+meta: used for SEO, viewport sizing, and communicating what text encoding was used-UTF-8 is recommended.
+
 
 ## Git
 Github is a good way to create backups and versioning for a project. I should aim to have evenly spaced commits per deliverable.
