@@ -25,6 +25,13 @@ meta: used for SEO, viewport sizing, and communicating what text encoding was us
     <svg width height> formatting: elliptical path: <path d="axradius yradius degreerotationfrom x largeorsmall curve(0 or 1) clockwiseorcounter(0=counter,1=clock) endx endy>
         line: <line x1=xstart y1=ystart x2=xend y2=yend stroke=color stroke-width=px fill=none(for other types of svgs)>
 
+    <input> blocks need "name" attributes to send data to the server. They need "id" attributes so they can be referenced by other tags such as <label> tags.
+
+    hidden attribute is useful for sections you want to be dynamically visible. Grouping in <div> tags is especially useful in combination.
+
+    if you want a <img> tag to be inline with a header (h1-6), put it inside the header tag.
+
+
 
 ## Git
 Github is a good way to create backups and versioning for a project. I should aim to have evenly spaced commits per deliverable.
