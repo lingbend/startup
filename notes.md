@@ -22,7 +22,7 @@ make sure to run deployment scripts from the directory of the files you want to 
 Tags:
 meta: used for SEO, viewport sizing, and communicating what text encoding was used-UTF-8 is recommended.
 
-svg formatting: path element: attribute d: a is elipse arc formatted: a xradius yradius degreerotationfrom x largeorsmall curve(0 or 1) clockwiseorcounter(0=counter,1=clock) endx endy
+<svg> formatting: path element: attribute d: a is elipse arc formatted: a xradius yradius degreerotationfrom x largeorsmall curve(0 or 1) clockwiseorcounter(0=counter,1=clock) endx endy
 
 
 ## Git
