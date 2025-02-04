@@ -112,15 +112,15 @@ For this deliverable I did the following.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - I created 4 pages. 2 are only intended to be embedded in iframes. 1 page is for logins. 1 page is for a goals main display. 1 page is for personal goals (embedded). 1 page is for live feed of others' public goals.
+- [x] **Proper HTML element usage** - I properly used HTML, including svg, input, form, iframe, and img elements.
+- [x] **Links** - I created navigation links in the header, placeholder javascript links such as "more details" and "edit" in personal goals, and a GitHub link. The login button links to the goals page.
+- [x] **Text** - I added a lot of placeholder text, labels, and headings. This includes personal goal text, text about others' goal milestones, and text pulled from a 3rd party API (as "Goal Suggestions").
+- [x] **3rd party API placeholder** - I added a placeholder for ChatGPT api feature (Called "Goal Suggestions").
+- [x] **Images** - I created flame pngs/icons as well as a checkmark png. I edited a CC0 profile icon and found a CC0 thumbsup icon. All of these have been integrated into the site. I also created several progress bar/circle svgs.
+- [x] **Login placeholder** - I created a form with username and password inputs on the index page.
+- [x] **DB data placeholder** - The iframe with the personal goals listed represents data pulled from and sent to the DB.
+- [x] **WebSocket placeholder** - The "Feed" iframe represents data pulled live from the server.
 
 ## 🚀 CSS deliverable
 
