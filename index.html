@@ -4,21 +4,44 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Not including tag elements here since I don't want to really have search engines pick up my unfinished website-->
+        <link rel="icon" href="/flameIcon.ico">
+        <title>Goals Gamified</title>
     </head>
     <body>
         <header>
-            <title>Goals Gamified</title>
+            <h1 class="title">Goals Gamified
+                <img src="/flameIcon.png" alt="" height="32">
+            </h1>
+            <!-- alt attribute left blank because it is a decorative image-->
             <nav>
                 <menu>
-
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/goals.html">My Goals</a></li>
                 </menu>
             </nav>
         </header>
         <main>
-
+            <form action="index.html" method="post">
+                <div>
+                    <label for="username">Username</label>
+                    <input id="username" type="text">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input id="password" type="password">
+                </div>
+                <div>
+                    <button type="submit">Login</button>
+                </div>
+                <div>
+                    <button type="submit">Create Account</button>
+                </div>
+            </form>
         </main>
         <footer>
-
+            <h2>Website by: Benjamin Lingwall</h2>
+            <!-- Header left at h2 for accessibility reasons, restyle later with CSS-->
+            <a href="https://github.com/lingbend/startup">View GitHub</a>
         </footer>
     </body>
 </html>
