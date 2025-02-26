@@ -69,9 +69,15 @@ menu {
     width:100%;
 }
 
-
-
 body {
     border: white thin solid;
     margin: 10%;
+}
+
+.profileseparator {
+    width:30vw;
+}
+
+.profileseparator2 {
+    width: 32px;
 }
