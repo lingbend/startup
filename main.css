@@ -1,6 +1,20 @@
 * {
     text-align:center;
+    margin-top:2vh;
+    margin-bottom:2vh;
+    margin-left:1vw;
+    margin-right:1vw;
+
 }
+
+menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    list-style-type: none;
+}
+
+
 
 body {
     border: white thin solid;
