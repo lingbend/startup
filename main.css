@@ -48,6 +48,9 @@ main {
     iframe {
         width:90vw;
     }
+    h2 {
+        margin-bottom:15px;
+    }
 }
 
 div:has(button) {

@@ -1,19 +1,32 @@
 table {
     width:100%;
     text-align: center;
-    tr {
+    td:has(p) {
+        text-align: left;
         border: white solid 1px;
+        padding:10px;
+        width: 80%;
+        * {
+            margin-top:3px;
+            margin-bottom: 3px;
+        }
+        h1, h2, h3, h4 {
+            margin-bottom: 5px;
+        }
+
     }
     td {
-        border: white solid 1px;
+        border-bottom: white solid 1px;
+        border-top: white solid 1px;
     }
-    td:has(p) {
-        width: 80%;
-        text-align: left;
+    td:has(input[type="checkbox"]) {
+        border-left: white solid 1px;
     }
 }
 
 body {
+    margin-top:2vh;
+    margin-bottom: 2vh;
     display: flex;
     flex-direction: column;
     align-items: center;
