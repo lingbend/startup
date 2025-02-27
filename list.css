@@ -1,7 +1,15 @@
+@media (max-width:420px) {
+    th {
+        display: none;
+    }
+}
+
 table {
     width:100%;
     text-align: center;
-
+    th {
+        font-size:10pt;
+    }
     td:has(p) {
         text-align: left;
         border: #808282 solid 1px;
