@@ -1,11 +1,12 @@
 table {
     width:100%;
     text-align: center;
+
     td:has(p) {
         text-align: left;
         border: #808282 solid 1px;
         padding:10px;
-        width: 80%;
+        width: 85%;
         * {
             margin-top:3px;
             margin-bottom: 3px;
@@ -19,10 +20,13 @@ table {
 
     }
     td {
+        width:6.66%;
         border-bottom: #808282 solid 1px;
         border-top: #808282 solid 1px;
+        text-align: center;
     }
-    td:has(input[type="checkbox"]) {
+    td:has(> form > input[type="checkbox"]) {
+        width: 1.66%;
         border-left: #808282 solid 1px;
     }
 }
