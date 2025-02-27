@@ -40,3 +40,13 @@ body {
     text-align: center;
     width: 100vw;
 }
+
+.progress {
+    transform: rotate(270deg);
+    width: 90%;
+    max-width: 55px;
+    margin-top: 50%;
+    margin-bottom: 50%;
+    margin-left:20%;
+    margin-right:80%;
+}
