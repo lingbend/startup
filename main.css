@@ -19,7 +19,6 @@ i {
 }
 
 footer {
-    /* text-align:center; */
     margin-top:10vh;
     margin-bottom:2vh;
     display: flex;
@@ -44,7 +43,6 @@ header {
     div {
         display: flex;
         flex-direction: row;
-        /* width:100%; */
         align-items: center;
         a {
             float:right;
@@ -71,7 +69,6 @@ main {
     h2 {
         margin-bottom:15px;
     }
-    /* margin: 10%; */
 }
 
 div:has(button) {
