@@ -60,6 +60,10 @@ main {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    label {
+        align-items: left;
+        text-align: left;
+    }
     iframe {
         width:90vw;
     }
