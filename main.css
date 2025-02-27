@@ -51,6 +51,7 @@ header {
         }
     }
     h1 {
+        margin-top:9px;
         text-align:center;
     }
 }
