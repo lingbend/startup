@@ -126,12 +126,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** - I did not complete this part of the deliverable.
-- [ ] **Navigation elements** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing** - I did not complete this part of the deliverable.
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** - I styled these area's margins, background color, font size, layout using flex, and more using CSS stylesheet and bootstrap.
+- [x] **Navigation elements** - I used flex to change navigation to a row layout. Used bootstrap to style navigation buttons and make profile icon more professional. I used bootstrap to increase the contrast of the links.
+- [x] **Responsive to window resizing** - I used bootstraps container-fluid to make the content responsive as well as the @media selector to make the table legible at smaller widths.
+- [x] **Application elements** - Used good spacing and clean icons to make the elements clearly understandable. Used bootstrap to ensure buttons had good contrast and were visually pleasing.
+- [x] **Application text content** - Resized text and text white to be easier to read, and more visually pleasing.
+- [x] **Application images** - Ensured my applications logo was included with good formatting inline with the header. Replaced the placeholder icons with better ones from bootstrap. Replaced streak svg with progress bar from Bootstrap, altered with overriding CSS to be upright. Ensured the streak indicator and progress loop svg had good spacing.
 
 ## 🚀 React part 1: Routing deliverable
 
