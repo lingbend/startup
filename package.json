@@ -4,9 +4,9 @@
   "description": "[My Class Notes](notes.md)",
   "main": "index.js",
   "scripts": {
-    "dev":"vite",
-    "build":"vite build",
-    "preview":"vite preview"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,9 @@
   "homepage": "https://github.com/lingbend/startup#readme",
   "devDependencies": {
     "vite": "^6.2.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "react-bootstrap": "^2.10.9"
   }
 }
