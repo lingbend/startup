@@ -1,0 +1,25 @@
+{
+  "name": "startup",
+  "version": "1.0.0",
+  "description": "[My Class Notes](notes.md)",
+  "main": "index.js",
+  "scripts": {
+    "dev":"vite",
+    "build":"vite build",
+    "preview":"vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lingbend/startup.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lingbend/startup/issues"
+  },
+  "homepage": "https://github.com/lingbend/startup#readme",
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}
