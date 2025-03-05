@@ -17,8 +17,6 @@ export default function App() {
                 <menu className="btn-group">
                     <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/">Login page</NavLink>
                     <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/goals">My Goals</NavLink>
-                    {/* <li><a className="btn btn-outline-light m-4" style={{"min-width":"110px"}} href="/index.html">Login page</a></li>
-                    <li><a className="btn btn-outline-light m-4" style={{"min-width":"110px"}} href="/goals.html">My Goals</a></li> */}
                 </menu>
             </nav>
         </header>

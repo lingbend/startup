@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export function Login() {
     return (
-        <form className="login" action="/goals.html" method="get">
+        <form className="login" action="/goals" method="get">
             <div>
                 <label for="username">Username</label>
                 <input id="username" name="username" type="text"/>
