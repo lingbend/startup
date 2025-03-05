@@ -6,13 +6,13 @@ export function Goals() {
         <>
             <h2>Username's Goals</h2>
             <div>
-                {/* <iframe src="/src/goal_list.html" title="My Goals" style={{width:"68.1%", height:"1000px"}}></iframe> */}
+                <iframe src="/src/goals/goal_list.html" title="My Goals" width="68.1%" height="600"></iframe>
             </div>
             <br />
             <br />
             <h2>Feed</h2>
             <div>
-                {/* <iframe src="/src/goal_feed.html" title="Goal Feed" width="68.1%" height="300"></iframe> */}
+                <iframe src="/src/goals/goal_feed.html" title="Goal Feed" width="68.1%" height="300"></iframe>
             </div>
         </>
     );
