@@ -1,60 +1,70 @@
-@media (max-width:420px) {
-    th {
-        display: none;
-    }
-}
-
-table {
-    width:100%;
-    text-align: center;
-    th {
-        font-size:10pt;
-    }
-    td:has(p) {
-        text-align: left;
-        border: #808282 solid 1px;
-        padding:10px;
-        width: 85%;
-        * {
-            margin-top:3px;
-            margin-bottom: 3px;
-        }
-        h1, h2, h3, h4 {
-            margin-bottom: 5px;
-        }
-        h4 {
-            margin-top: 25px;
-        }
-
-    }
-    td {
-        width:6.66%;
-        border-bottom: #808282 solid 1px;
-        border-top: #808282 solid 1px;
-        text-align: center;
-    }
-    td:has(> form > input[type="checkbox"]) {
-        width: 1.66%;
-        border-left: #808282 solid 1px;
-    }
-}
-
-body {
+.goal-list{
+    all:unset;
+    width:68.1vw;
     margin-top:2vh;
     margin-bottom: 2vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: 100vw;
-}
 
-.progress {
-    transform: rotate(270deg);
-    width: 90%;
-    max-width: 55px;
-    margin-top: 50%;
-    margin-bottom: 50%;
-    margin-left:20%;
-    margin-right:80%;
+    button {
+        margin:4px;
+    }
+
+
+    @media (max-width:420px) {
+        th {
+            display: none;
+        }   
+    }
+
+    table {
+        width:100%;
+        text-align: center;
+        th {
+            font-size:10pt;
+        }
+        td:has(p) {
+            text-align: left;
+            justify-items:left;
+            border: #808282 solid 1px;
+            padding:10px;
+            width: 85%;
+            * {
+                margin-top:3px;
+                margin-bottom: 3px;
+            }
+            h1, h2, h3, h4 {
+                margin-bottom: 5px;
+            }
+            h4 {
+                margin-top: 25px;
+            }
+            input {
+                align-items: left;
+            }
+
+        }
+        td {
+            width:6.66%;
+            border-bottom: #808282 solid 1px;
+            border-top: #808282 solid 1px;
+            text-align: center;
+        }
+        td:has(> form > input[type="checkbox"]) {
+            width: 1.66%;
+            border-left: #808282 solid 1px;
+        }
+    }
+
+    .progress {
+        transform: rotate(270deg);
+        width: 90%;
+        max-width: 55px;
+        margin-top: 50%;
+        margin-bottom: 50%;
+        margin-left:20%;
+        margin-right:80%;
+    }
 }
