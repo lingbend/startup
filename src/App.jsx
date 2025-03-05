@@ -8,7 +8,7 @@ import {Routes, Route, BrowserRouter, NavLink} from 'react-router-dom';
 export default function App() {
     return (
         <BrowserRouter>
-        <div className="bg-dark text-light container-fluid" style={{"padding":"0px"}}>
+        <div className="bg-dark text-light container-fluid m-12" style={{"padding":"0px"}}>
         <header>
             <h1 className="title">Goals Gamified
                 <img src="/flameIcon.png" alt="" height="32"/>

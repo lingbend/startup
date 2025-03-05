@@ -77,11 +77,11 @@ main {
     }
 }
 
-div:has(button) {
+/* div:has(button) {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+} */
 
 div:has(input) {
     display: flex;
