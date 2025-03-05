@@ -1,7 +1,10 @@
-body {
+.feed {
+    width:68.1vw;
     border: 7vw solid #66561e;
-}
-
-div {
-    border: 1px solid #808282;
+    background-color: white;
+    color:black;
+    text-align: left;
+    div {
+        border: 1px solid #808282;
+    }
 }

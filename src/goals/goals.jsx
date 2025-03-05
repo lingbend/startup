@@ -1,6 +1,7 @@
 import React from 'react';
 import '/src/main.css';
 import '/src/goals/list.css';
+import '/src/goals/feed.css';
 
 
 export function Goals() {
@@ -229,7 +230,37 @@ export function Goals() {
             <br />
             <h2>Feed</h2>
             <div>
-                <iframe src="/src/goals/goal_feed.html" title="Goal Feed" width="68.1%" height="300"></iframe>
+                {/* <iframe src="/src/goals/goal_feed.html" title="Goal Feed" width="68.1%" height="300"></iframe> */}
+                <div className="feed">
+                    <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <i class="bi bi-hand-thumbs-up"></i>
+                            </td>
+                            <td>
+                                Suzie made a goal to eat more Styrofoam!
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-check2-circle"></i>
+                            </td>
+                            <td>
+                                Johnnie climbed Mt. Everest!
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-check2-circle"></i>
+                            </td>
+                            <td>
+                                Mr. Potatohead started a pizza company.
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                </div>
             </div>
         </>
     );
