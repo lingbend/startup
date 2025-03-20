@@ -5,6 +5,24 @@ import '/src/goals/feed.css';
 
 
 export function Goals(props) {
+
+    const [displayNewGoal, setDisplayNewGoal] = React.useState(true);
+    const [newGoalName, setNewGoalName] = React.useState('');
+    const [newGoalText, setNewGoalText] = React.useState('');
+    const [newGoalPublic, setNewGoalPublic] = React.useState(false);
+    
+    async function toggleNewGoal(){
+        setDisplayNewGoal(state => !state);
+        if (displayNewGoal) {
+            setNewGoalName('');
+            setNewGoalText('');
+            setNewGoalPublic(false);
+        }
+    }
+
+
+
+
     return (
         <>
             <h2>{props.userName}'s Goals</h2>
@@ -12,8 +30,8 @@ export function Goals(props) {
                 {/* <iframe src="/src/goals/goal_list.html" title="My Goals" width="68.1%" height="600"></iframe> */}
                 <div className="bg-dark text-light container-fluid goal-list">
                     {/* <div> */}
-                    <button className="btn btn-warning" type="button">New Goal</button>
-                    <div hidden>
+                    <button className="btn btn-warning" type="button" onClick={toggleNewGoal}>New Goal</button>
+                    <div hidden={displayNewGoal}>
                         <form id="goalnew_form" method="post">
                             <div>
                                 <h3><label for="goal_input">Edit here:</label></h3>
