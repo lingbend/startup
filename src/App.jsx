@@ -23,8 +23,8 @@ export default function App() {
         </header>
         <main>
             <Routes>
-                <Route path="/" setName={(name) => setName(name)} element={<Login/>}/>
-                <Route path="/goals" name={name} element={<Goals/>}/>
+                <Route path="/" element={<Login setName={(name) => setName(name)}/>}/>
+                <Route path="/goals" element={<Goals name={name}/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </main>
