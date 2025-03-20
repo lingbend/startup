@@ -7,7 +7,7 @@ import '/src/goals/feed.css';
 export function Goals(props) {
     return (
         <>
-            <h2>{props.name}\'s Goals</h2>
+            <h2>{props.userName}\'s Goals</h2>
             <div>
                 {/* <iframe src="/src/goals/goal_list.html" title="My Goals" width="68.1%" height="600"></iframe> */}
                 <div className="bg-dark text-light container-fluid goal-list">
@@ -236,7 +236,7 @@ export function Goals(props) {
                     <table>
                         <tr>
                             <td>
-                                <i class="bi bi-hand-thumbs-up"></i>
+                                <i className="bi bi-hand-thumbs-up"></i>
                             </td>
                             <td>
                                 Suzie made a goal to eat more Styrofoam!
@@ -244,7 +244,7 @@ export function Goals(props) {
                         </tr>
                         <tr>
                             <td>
-                                <i class="bi bi-check2-circle"></i>
+                                <i className="bi bi-check2-circle"></i>
                             </td>
                             <td>
                                 Johnnie climbed Mt. Everest!
@@ -252,7 +252,7 @@ export function Goals(props) {
                         </tr>
                         <tr>
                             <td>
-                                <i class="bi bi-check2-circle"></i>
+                                <i className="bi bi-check2-circle"></i>
                             </td>
                             <td>
                                 Mr. Potatohead started a pizza company.

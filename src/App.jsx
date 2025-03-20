@@ -6,7 +6,8 @@ import {Goals} from '/src/goals/goals';
 import {Routes, Route, BrowserRouter, NavLink} from 'react-router-dom';
 
 export default function App() {
-    const [name, setName] = React.useState(localStorage.getItem('name') || '');
+    const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
+    const [authToken, setAuthToken] = React.useState(localStorage.getItem('authToken') || '');
     return (
         <BrowserRouter>
         <div className="bg-dark text-light container-fluid m-12" style={{"padding":"0px"}}>
@@ -17,14 +18,14 @@ export default function App() {
             <nav>
                 <menu className="btn-group">
                     <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/">Login page</NavLink>
-                    {name && <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/goals">My Goals</NavLink>}
+                    {userName && <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/goals">My Goals</NavLink>}
                 </menu>
             </nav>
         </header>
         <main>
             <Routes>
-                <Route path="/" element={<Login setName={(name) => setName(name)}/>}/>
-                <Route path="/goals" element={<Goals name={name}/>}/>
+                <Route path="/" element={<Login setUserName={(userName) => setUserName(userName)}/>}/>
+                <Route path="/goals" element={<Goals userName={userName}/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </main>
