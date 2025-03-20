@@ -4,10 +4,10 @@ import '/src/goals/list.css';
 import '/src/goals/feed.css';
 
 
-export function Goals() {
+export function Goals(name) {
     return (
         <>
-            <h2>Username's Goals</h2>
+            <h2>{name}\'s Goals</h2>
             <div>
                 {/* <iframe src="/src/goals/goal_list.html" title="My Goals" width="68.1%" height="600"></iframe> */}
                 <div className="bg-dark text-light container-fluid goal-list">

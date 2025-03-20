@@ -6,6 +6,7 @@ import {Goals} from '/src/goals/goals';
 import {Routes, Route, BrowserRouter, NavLink} from 'react-router-dom';
 
 export default function App() {
+    const [name, setName] = React.useState(localStorage.getItem('name') || '');
     return (
         <BrowserRouter>
         <div className="bg-dark text-light container-fluid m-12" style={{"padding":"0px"}}>
@@ -16,14 +17,14 @@ export default function App() {
             <nav>
                 <menu className="btn-group">
                     <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/">Login page</NavLink>
-                    <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/goals">My Goals</NavLink>
+                    {name && <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/goals">My Goals</NavLink>}
                 </menu>
             </nav>
         </header>
         <main>
             <Routes>
-                <Route path="/" element={<Login/>}/>
-                <Route path="/goals" element={<Goals/>}/>
+                <Route path="/" setName={(name) => setName(name)} element={<Login/>}/>
+                <Route path="/goals" name={name} element={<Goals/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </main>
