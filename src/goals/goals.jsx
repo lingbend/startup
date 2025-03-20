@@ -10,14 +10,38 @@ export function Goals(props) {
     const [newGoalName, setNewGoalName] = React.useState('');
     const [newGoalText, setNewGoalText] = React.useState('');
     const [newGoalPublic, setNewGoalPublic] = React.useState(false);
+    const [numGoals, setNumGoals] = React.useState(0);
+    const [goals, setGoals] = React.useState(localStorage.getItem('goals'));
+
+    React.useEffect(() => {if (localStorage.getItem('goals')) {
+        setNumGoals(localStorage.getItem('goals').length)};}, []);
+
+    React.useEffect(() => {setGoals(localStorage.getItem('goals'));}, [localStorage.getItem('goals')]);
+
+    function stringsToGoals(goalsArray) {
+        let objGoals = [];
+        for (let i = 0; i < goalsArray.length; i++) {
+            objGoals.push(JSON.parse(goalsArray[i]));
+        }
+        return objGoals;
+    }
     
-    async function toggleNewGoal(){
+
+    
+    function toggleNewGoal(){
         setDisplayNewGoal(state => !state);
-        if (displayNewGoal) {
+        if (!displayNewGoal) {
             setNewGoalName('');
             setNewGoalText('');
             setNewGoalPublic(false);
         }
+    }
+
+    async function saveGoal() {
+        let newGoal = JSON.stringify({name:{newGoalName}, text:{newGoalText}, public:{newGoalPublic}});
+        let oldGoals = localStorage.getItem('goals') || [];
+        oldGoals.push(newGoal)
+        localStorage.setItem('goals', oldGoals);
     }
 
 
@@ -26,6 +50,7 @@ export function Goals(props) {
     return (
         <>
             <h2>{props.userName}'s Goals</h2>
+            <p>{goals}</p>
             <div>
                 {/* <iframe src="/src/goals/goal_list.html" title="My Goals" width="68.1%" height="600"></iframe> */}
                 <div className="bg-dark text-light container-fluid goal-list">
@@ -35,17 +60,20 @@ export function Goals(props) {
                         <form id="goalnew_form" method="post">
                             <div>
                                 <h3><label for="goal_input">Edit here:</label></h3>
-                                <input id="goal_input" name="goal1name" type="text" placeholder="Name"></input>
+                                <input id="goal_input" name="goal1name" type="text" placeholder="Name"
+                                 onChange={(e) => setNewGoalName(e.target.value)}></input>
                                 <br />
-                                <textarea wrap="hard" id="goal_input" name="goalnew" form="goalnew_form">Describe your goal here </textarea>
+                                <textarea wrap="hard" id="goal_input" name="goalnew" form="goalnew_form"
+                                 onChange={(e) => setNewGoalText(e.target.value)}>Describe your goal here </textarea>
                             </div>
                             <div>
                                 <label for="publicbox">Public?</label>
-                                <input type="checkbox" id="publicbox" name="goalnewpublic"/>
+                                <input type="checkbox" id="publicbox" name="goalnewpublic" onClick={() => setNewGoalPublic(!newGoalPublic)}/>
                             </div>
                             <div>
-                                <button className="btn btn-warning" type="submit">Save</button>
-                                <button className="btn btn-warning" type="reset">Cancel</button>
+                                {/* May need to change save button type later */}
+                                <button className="btn btn-warning" type="button" onClick={saveGoal}>Save</button>
+                                <button className="btn btn-warning" type="reset" onClick={toggleNewGoal}>Cancel</button>
                                 <button className="btn btn-warning" type="button">Nest/Unnest Goal</button>
                             </div>
                         </form>
