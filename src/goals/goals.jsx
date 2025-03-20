@@ -7,7 +7,7 @@ import '/src/goals/feed.css';
 export function Goals(props) {
     return (
         <>
-            <h2>{props.userName}\'s Goals</h2>
+            <h2>{props.userName}'s Goals</h2>
             <div>
                 {/* <iframe src="/src/goals/goal_list.html" title="My Goals" width="68.1%" height="600"></iframe> */}
                 <div className="bg-dark text-light container-fluid goal-list">

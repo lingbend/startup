@@ -9,14 +9,14 @@ export function Login(props) {
     const [tempPass, setTempPass] = React.useState('');
 
     function login() {
-        
+
         localStorage.setItem('userName', tempUserName);
-        props.setUserName(tempPass);
+        props.setUserName(tempUserName);
     }
 
     function createUser() {
         localStorage.setItem('userName', tempUserName);
-        props.setUserName(tempPass);
+        props.setUserName(tempUserName);
     }
 
 
