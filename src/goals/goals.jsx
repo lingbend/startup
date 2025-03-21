@@ -44,10 +44,6 @@ function Testing() {
                     <p>This goal has these details. <br hidden={!detailsToggle}/><a className="link-info" onClick={onToggle}>{toggleText}</a></p>
                 </div>
                 <div>
-                    <h4>Nested Goals</h4>
-                    <ul>
-                        <li>Goal 3 Name</li>
-                    </ul>
                     <a className="link-info" href="">Edit</a>
                 </div>
                 <div hidden>
@@ -65,7 +61,6 @@ function Testing() {
                         <div>
                             <button className="btn btn-warning" type="submit">Save</button>
                             <button className="btn btn-warning" type="reset">Cancel</button>
-                            <button className="btn btn-warning" type="button">Nest/Unnest Goal</button>
                             <button className="btn btn-warning" type="button">Delete</button>
                         </div>
                     </form>
@@ -160,7 +155,6 @@ export function Goals(props) {
                                 {/* May need to change save button type later */}
                                 <button className="btn btn-warning" type="button" onClick={saveGoal}>Save</button>
                                 <button className="btn btn-warning" type="reset" onClick={toggleNewGoal}>Cancel</button>
-                                <button className="btn btn-warning" type="button">Nest/Unnest Goal</button>
                             </div>
                         </form>
                         <div>
@@ -204,10 +198,6 @@ export function Goals(props) {
                                     <p>This goal has these details <a className="link-info" href="">more details</a></p>
                                 </div>
                                 <div hidden>
-                                    <h4>Nested Goals</h4>
-                                    <ul>
-                                        <li>Goal 5</li>
-                                    </ul>
                                     <a className="link-info" href="">Edit</a>
                                 </div>
                                 <div hidden>
@@ -225,7 +215,6 @@ export function Goals(props) {
                                         <div>
                                             <button className="btn btn-warning" type="submit">Save</button>
                                             <button className="btn btn-warning" type="reset">Cancel</button>
-                                            <button className="btn btn-warning" type="button">Nest/Unnest Goal</button>
                                             <button className="btn btn-warning" type="button">Delete</button>
                                         </div>
                                     </form>
@@ -263,10 +252,6 @@ export function Goals(props) {
                                     <p>This goal has these details <a className="link-info" href="">more details</a></p>
                                 </div>
                                 <div hidden>
-                                    <h4>Nested Goals</h4>
-                                    <ul>
-                                        <li>None</li>
-                                    </ul>
                                     <a className="link-info" href="">Edit</a>
                                 </div>
                                 <div>
@@ -284,7 +269,6 @@ export function Goals(props) {
                                         <div>
                                             <button className="btn btn-warning" type="submit">Save</button>
                                             <button className="btn btn-warning" type="reset">Cancel</button>
-                                            <button className="btn btn-warning" type="button">Nest/Unnest Goal</button>
                                             <button className="btn btn-warning" type="button">Delete</button>
                                         </div>
                                     </form>
