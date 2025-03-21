@@ -44,8 +44,9 @@ export function Goals(props) {
 
     async function saveGoal() {
         let newGoal = JSON.stringify(new Goal(newGoalName, newGoalText, newGoalPublic));
-        let oldGoals = localStorage.getItem('goals') || [];
-        oldGoals.push(newGoal)
+        let oldGoals = [localStorage.getItem('goals')] || [];
+        console.log(oldGoals);
+        oldGoals.push(newGoal);
         localStorage.setItem('goals', oldGoals);
         toggleNewGoal();
 
