@@ -6,9 +6,10 @@ import '/src/goals/feed.css';
 function Testing() {
     const [detailsToggle, setDetailsToggle] = React.useState(false);
     const [toggleText, setToggleText] = React.useState('more details');
+    const [editToggle, setEditToggle] = React.useState(false);
 
     
-    function onToggle(e) {
+    function onDetailsToggle(e) {
         if (toggleText == 'more details') {
             setToggleText('less details');
         }
@@ -17,6 +18,10 @@ function Testing() {
         }
 
         setDetailsToggle((state) => !state);
+    }
+
+    function onEditToggle() {
+        setEditToggle((state) => !state);
     }
 
 
@@ -41,12 +46,12 @@ function Testing() {
             <td>
                 <div>
                     <h3>Goal 1 Name</h3>
-                    <p>This goal has these details. <br hidden={!detailsToggle}/><a className="link-info" onClick={onToggle}>{toggleText}</a></p>
+                    <p>This goal has these details. <br hidden={!detailsToggle}/><a className="link-info" onClick={onDetailsToggle}>{toggleText}</a></p>
+                    <div hidden={!detailsToggle}>
+                        <a className="link-info" onClick={onEditToggle}>Edit</a>
+                    </div>
                 </div>
-                <div>
-                    <a className="link-info" href="">Edit</a>
-                </div>
-                <div hidden>
+                <div hidden={(!editToggle || !detailsToggle)}>
                     <form id="goal1_form" method="post">
                         <div>
                             <h3><label for="goal_input">Edit here:</label></h3>
