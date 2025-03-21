@@ -3,6 +3,85 @@ import '/src/main.css';
 import '/src/goals/list.css';
 import '/src/goals/feed.css';
 
+function Testing() {
+    const [detailsToggle, setDetailsToggle] = React.useState(false);
+    const [toggleText, setToggleText] = React.useState('more details');
+
+    
+    function onToggle(e) {
+        if (toggleText == 'more details') {
+            setToggleText('less details');
+        }
+        else {
+            setToggleText('more details');
+        }
+
+        setDetailsToggle((state) => !state);
+    }
+
+
+
+    return (
+        <tr>
+            <td>
+                <form id="goal1check" method="post">
+                    <input name="goal1check" id="checkoff" type="checkbox" aria-label="Checkoff Goal 1"/>
+                </form>
+            </td>
+            <td>
+                <div className="progress" style={{height:"5px"}}>
+                    <div className="progress-bar bg-info" style={{width:"50%"}}></div>
+                </div>
+            </td>
+            <td>
+                <svg width="32" height="32">
+                    <path d="M29 16 A13 13 0 1 1 29 15" stroke="orange" fill="none" stroke-width="5">progress</path>
+                </svg>
+            </td>
+            <td>
+                <div>
+                    <h3>Goal 1 Name</h3>
+                    <p>This goal has these details. <br hidden={!detailsToggle}/><a className="link-info" onClick={onToggle}>{toggleText}</a></p>
+                </div>
+                <div>
+                    <h4>Nested Goals</h4>
+                    <ul>
+                        <li>Goal 3 Name</li>
+                    </ul>
+                    <a className="link-info" href="">Edit</a>
+                </div>
+                <div hidden>
+                    <form id="goal1_form" method="post">
+                        <div>
+                            <h3><label for="goal_input">Edit here:</label></h3>
+                            <input id="goal_input" name="goal1name" type="text" placeholder="Goal 1 Name"></input>
+                            <br />
+                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form">This goal has these details. </textarea>
+                        </div>
+                        <div>
+                            <label for="publicbox">Public?</label>
+                            <input type="checkbox" id="publicbox" name="goal1public"/>
+                        </div>
+                        <div>
+                            <button className="btn btn-warning" type="submit">Save</button>
+                            <button className="btn btn-warning" type="reset">Cancel</button>
+                            <button className="btn btn-warning" type="button">Nest/Unnest Goal</button>
+                            <button className="btn btn-warning" type="button">Delete</button>
+                        </div>
+                    </form>
+                    <div>
+                        <h4>Goal Suggestions</h4>
+                        <ul>
+                            <li>Eat your cat</li>
+                            <li>Eat your hair</li>
+                            <li>Invent a new language</li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+)
+}
 
 export function Goals(props) {
 
@@ -49,7 +128,6 @@ export function Goals(props) {
         oldGoals.push(newGoal);
         localStorage.setItem('goals', oldGoals);
         toggleNewGoal();
-
     }
 
 
@@ -95,6 +173,7 @@ export function Goals(props) {
                         </div>
                     </div>
                     <br />
+
                     <table className="goal_list">
                         <tr>
                             <th scope="col">Daily Check</th>
@@ -102,64 +181,7 @@ export function Goals(props) {
                             <th scope="col">Progress</th>
                             <th scope="col">Goal</th>
                         </tr>
-                        <tr>
-                            <td>
-                                <form id="goal1check" method="post">
-                                    <input name="goal1check" id="checkoff" type="checkbox" aria-label="Checkoff Goal 1"/>
-                                </form>
-                            </td>
-                            <td>
-                                <div className="progress" style={{height:"5px"}}>
-                                    <div className="progress-bar bg-info" style={{width:"50%"}}></div>
-                                </div>
-                            </td>
-                            <td>
-                                <svg width="32" height="32">
-                                    <path d="M29 16 A13 13 0 1 1 29 15" stroke="orange" fill="none" stroke-width="5">progress</path>
-                                </svg>
-                            </td>
-                            <td>
-                                <div>
-                                    <h3>Goal 1 Name</h3>
-                                    <p>This goal has these details. <br/><a className="link-info" href="">less details</a></p>
-                                </div>
-                                <div>
-                                    <h4>Nested Goals</h4>
-                                    <ul>
-                                        <li>Goal 3 Name</li>
-                                    </ul>
-                                    <a className="link-info" href="">Edit</a>
-                                </div>
-                                <div hidden>
-                                    <form id="goal1_form" method="post">
-                                        <div>
-                                            <h3><label for="goal_input">Edit here:</label></h3>
-                                            <input id="goal_input" name="goal1name" type="text" placeholder="Goal 1 Name"></input>
-                                            <br />
-                                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form">This goal has these details. </textarea>
-                                        </div>
-                                        <div>
-                                            <label for="publicbox">Public?</label>
-                                            <input type="checkbox" id="publicbox" name="goal1public"/>
-                                        </div>
-                                        <div>
-                                            <button className="btn btn-warning" type="submit">Save</button>
-                                            <button className="btn btn-warning" type="reset">Cancel</button>
-                                            <button className="btn btn-warning" type="button">Nest/Unnest Goal</button>
-                                            <button className="btn btn-warning" type="button">Delete</button>
-                                        </div>
-                                    </form>
-                                    <div>
-                                        <h4>Goal Suggestions</h4>
-                                        <ul>
-                                            <li>Eat your cat</li>
-                                            <li>Eat your hair</li>
-                                            <li>Invent a new language</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                        <Testing/>
                         <tr>
                             <td>
                                 <form id="goal2check" method="post">
@@ -218,6 +240,7 @@ export function Goals(props) {
                                 </div>
                             </td>
                         </tr>
+
                         <tr>
                             <td>
                                 <form id="goal3check" method="post">
