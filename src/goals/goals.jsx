@@ -26,6 +26,11 @@ export function Goals(props) {
         return objGoals;
     }
     
+    function Goal(name, text, publicVar) {
+        this.name = name;
+        this.text = text;
+        this.public = publicVar;
+    }
 
     
     function toggleNewGoal(){
@@ -38,10 +43,12 @@ export function Goals(props) {
     }
 
     async function saveGoal() {
-        let newGoal = JSON.stringify({name:{newGoalName}, text:{newGoalText}, public:{newGoalPublic}});
+        let newGoal = JSON.stringify(new Goal(newGoalName, newGoalText, newGoalPublic));
         let oldGoals = localStorage.getItem('goals') || [];
         oldGoals.push(newGoal)
         localStorage.setItem('goals', oldGoals);
+        toggleNewGoal();
+
     }
 
 
