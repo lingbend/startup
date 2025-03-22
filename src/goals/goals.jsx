@@ -3,10 +3,22 @@ import '/src/main.css';
 import '/src/goals/list.css';
 import '/src/goals/feed.css';
 
-function Testing() {
+function Testing(nameVar, text, publicVar, creationDate, prog, streak) {
+
     const [detailsToggle, setDetailsToggle] = React.useState(false);
     const [toggleText, setToggleText] = React.useState('more details');
     const [editToggle, setEditToggle] = React.useState(false);
+
+    // const [currGoalName, setCurrGoalName] = React.useState(props.goalObj[nameVar] || '');
+    // const [currGoalText, setCurrGoalText] = React.useState(props.goalObj[text] || '');
+    // const [currGoalPublic, setCurrGoalPublic] = React.useState(props.goalObj[publicVar] || false);
+    // const [currGoalID, setCurrGoalID] = React.useState(props.goalObj[goalID] || '');
+    // const [currGoalProg, setCurrGoalProg] = React.useState(props.goalObj[prog] || 0);
+    // const [currGoalStreak, setCurrGoalStreak] = React.useState(props.goalObj[streak] || []);
+
+    // const [newGoalName, setNewGoalName] = React.useState(props.goalObj[nameVar]);
+    // const [newGoalText, setNewGoalText] = React.useState(props.goalObj[text]);
+    // const [newGoalPublic, setNewGoalPublic] = React.useState(props.goalObj[publicVar]);
 
     
     function onDetailsToggle(e) {
@@ -22,6 +34,33 @@ function Testing() {
 
     function onEditToggle() {
         setEditToggle((state) => !state);
+        if (editToggle == false) {
+            setNewGoalName(currGoalName);
+            setNewGoalText(currGoalText);
+            setNewGoalPublic(currGoalPublic);
+        }
+    }
+
+
+
+    function saveGoal() {
+        setCurrGoalName(newGoalName);
+        setCurrGoalText(newGoalText);
+        setCurrGoalPublic(newGoalPublic);
+
+        updateGoal();
+
+        onEditToggle();
+    } 
+
+
+    function updateGoal() {
+        newGoalObj.nameVar = currGoalName;
+        newGoalObj.text = currGoalText;
+        newGoalObj.publicVar = currGoalPublic;
+        newGoalObj.prog = currGoalProg;
+        newGoalObj.streak = currGoalStreak;
+        localStorage.setItem(newGoalObj.goalID, JSON.stringify(newGoalObj));
     }
 
 
@@ -40,7 +79,7 @@ function Testing() {
             </td>
             <td>
                 <svg width="32" height="32">
-                    <path d="M29 16 A13 13 0 1 1 29 15" stroke="orange" fill="none" stroke-width="5">progress</path>
+                    <path d="M29 16 A13 13 0 1 1 29 15" stroke="orange" fill="none" strokeWidth="5">progress</path>
                 </svg>
             </td>
             <td>
@@ -55,17 +94,17 @@ function Testing() {
                     <form id="goal1_form" method="post">
                         <div>
                             <h3><label for="goal_input">Edit here:</label></h3>
-                            <input id="goal_input" name="goal1name" type="text" placeholder="Goal 1 Name"></input>
+                            <input id="goal_input" name="goal1name" type="text" placeholder="Goal 1 Name" onChange={(e) => setNewGoalName(e.target.value)}></input>
                             <br />
-                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form">This goal has these details. </textarea>
+                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form" onChange={(e) => setNewGoalText(e.target.value)}>This goal has these details. </textarea>
                         </div>
                         <div>
-                            <label for="publicbox">Public?</label>
-                            <input type="checkbox" id="publicbox" name="goal1public"/>
+                            <label for="publicbox" >Public?</label>
+                            <input type="checkbox" id="publicbox" name="goal1public" onClick={() => setNewGoalPublic(!newGoalPublic)}/>
                         </div>
                         <div>
-                            <button className="btn btn-warning" type="submit">Save</button>
-                            <button className="btn btn-warning" type="reset">Cancel</button>
+                            <button className="btn btn-warning" type="submit" onClick={saveGoal}>Save</button>
+                            <button className="btn btn-warning" type="reset" onClick={onEditToggle}>Cancel</button>
                             <button className="btn btn-warning" type="button">Delete</button>
                         </div>
                     </form>
@@ -80,7 +119,7 @@ function Testing() {
                 </div>
             </td>
         </tr>
-)
+    )
 }
 
 export function Goals(props) {
@@ -90,25 +129,73 @@ export function Goals(props) {
     const [newGoalText, setNewGoalText] = React.useState('');
     const [newGoalPublic, setNewGoalPublic] = React.useState(false);
     const [numGoals, setNumGoals] = React.useState(0);
-    const [goals, setGoals] = React.useState(localStorage.getItem('goals'));
+    const [goalindex, setGoalIndex] = React.useState(JSON.parse(localStorage.getItem('goalindex')) || null);
+    const [goalsInsert, setGoalsInsert] = React.useState('');
+    const [newGoalTrigger, setNewGoalTrigger] = React.useState(false);
 
-    React.useEffect(() => {if (localStorage.getItem('goals')) {
-        setNumGoals(localStorage.getItem('goals').length)};}, []);
-
-    React.useEffect(() => {setGoals(localStorage.getItem('goals'));}, [localStorage.getItem('goals')]);
-
-    function stringsToGoals(goalsArray) {
-        let objGoals = [];
-        for (let i = 0; i < goalsArray.length; i++) {
-            objGoals.push(JSON.parse(goalsArray[i]));
+    React.useEffect(() => {if (localStorage.getItem('goalindex') && localStorage.getItem('goalindex') != 'null' ) {
+        setNumGoals(JSON.parse(localStorage.getItem('goalindex')).length)};
+        if (!localStorage.getItem('nextGoalID')) {
+            localStorage.setItem('nextGoalID', 1);
         }
-        return objGoals;
+    }, []);
+
+    React.useEffect(() => {
+        GoalsInsertFunc();
+    }, [goalindex, numGoals, newGoalTrigger]);
+
+
+
+
+    function GoalsInsertFunc() {
+        let temp = [];
+        let promises = [];
+        new Promise ((resolve) => {
+            for (let i = 0; i < numGoals; i++) {
+                let id = String(goalindex[i]);
+                const getData = new Promise ((resolve) => {
+                    let val = localStorage.getItem(id);
+                    let val2 = JSON.parse(val);
+                    console.log(val2);
+                    resolve(val2);
+                })
+                promises.push(getData);
+            }
+            Promise.allSettled(promises).then((results) => {            
+                for (let i in results) {
+                temp.push(results[i].value);
+            }}).then(()=> resolve(temp));
+        }
+        ).then((temp2) => {
+            console.log(temp2);
+            console.log(temp2.length);
+
+            let resultArr = [];
+
+            for (let i in temp2) {
+                if (temp2[i] == null) {
+                    continue;
+                }
+                console.log('inside');
+                console.log(temp2[i].goalID);
+                resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])}/>);
+            }
+            
+            setGoalsInsert(<>{resultArr}</>);
+        }
+        )
     }
+
     
-    function Goal(name, text, publicVar) {
-        this.name = name;
+    function Goal(name, text, publicVar) {        
+        this.nameVar = name;
         this.text = text;
-        this.public = publicVar;
+        this.publicVar = publicVar;
+        this.creationDate = today();
+        this.goalID = localStorage.getItem('nextGoalID');
+        this.prog = 0;
+        this.streak = [];
+        localStorage.setItem('nextGoalID', parseInt(this.goalID) + 1);
     }
 
     
@@ -122,12 +209,28 @@ export function Goals(props) {
     }
 
     async function saveGoal() {
-        let newGoal = JSON.stringify(new Goal(newGoalName, newGoalText, newGoalPublic));
-        let oldGoals = [localStorage.getItem('goals')] || [];
-        console.log(oldGoals);
-        oldGoals.push(newGoal);
-        localStorage.setItem('goals', oldGoals);
-        toggleNewGoal();
+        let newGoal = new Goal(newGoalName, newGoalText, newGoalPublic);
+        localStorage.setItem(newGoal.goalID, JSON.stringify(newGoal));
+        const prom = new Promise((resolve) => {
+            let temp = goalindex;
+            if (temp == null || (temp.length == 1 && temp[0] == null)) {
+                temp = [newGoal.goalID];
+            }
+            else {
+                temp.push(newGoal.goalID);
+            }
+            setGoalIndex(temp);
+            resolve('true');
+        });
+        prom.then(() => localStorage.setItem('goalindex', JSON.stringify(goalindex)))
+        .then(toggleNewGoal());
+        setNewGoalTrigger((state) => !state);
+    }
+
+    function today() {
+        const day = new Date();
+        let todayString = day.toDateString();
+        return todayString;
     }
 
 
@@ -136,11 +239,9 @@ export function Goals(props) {
     return (
         <>
             <h2>{props.userName}'s Goals</h2>
-            <p>{goals}</p>
+            <p>{goalindex}</p>
             <div>
-                {/* <iframe src="/src/goals/goal_list.html" title="My Goals" width="68.1%" height="600"></iframe> */}
                 <div className="bg-dark text-light container-fluid goal-list">
-                    {/* <div> */}
                     <button className="btn btn-warning" type="button" onClick={toggleNewGoal}>New Goal</button>
                     <div hidden={displayNewGoal}>
                         <form id="goalnew_form" method="post">
@@ -174,13 +275,16 @@ export function Goals(props) {
                     <br />
 
                     <table className="goal_list">
+                        <thead>
                         <tr>
                             <th scope="col">Daily Check</th>
                             <th scope="col">Streak</th>
                             <th scope="col">Progress</th>
                             <th scope="col">Goal</th>
                         </tr>
-                        <Testing/>
+                        </thead>
+                        <tbody>
+                        {goalsInsert}
                         <tr>
                             <td>
                                 <form id="goal2check" method="post">
@@ -194,7 +298,7 @@ export function Goals(props) {
                             </td>
                             <td>
                                 <svg width="32" height="32">
-                                    <path d="M29 16 A13 13 0 0 1 16 29" stroke="orange" fill="none" stroke-width="5">progress</path>
+                                    <path d="M29 16 A13 13 0 0 1 16 29" stroke="orange" fill="none" strokeWidth="5">progress</path>
                                 </svg>
                             </td>
                             <td>
@@ -248,7 +352,7 @@ export function Goals(props) {
                             </td>
                             <td>
                                 <svg width="32" height="32">
-                                    <path d="M29 16 A13 13 0 0 1 3 16" stroke="orange" fill="none" stroke-width="5">progress</path>
+                                    <path d="M29 16 A13 13 0 0 1 3 16" stroke="orange" fill="none" strokeWidth="5">progress</path>
                                 </svg>
                             </td>
                             <td>
@@ -288,18 +392,18 @@ export function Goals(props) {
                                 </div>
                             </td>
                         </tr>
+                        </tbody>
                     </table>
-                    {/* </div> */}
                 </div>
             </div>
             <br />
             <br />
             <h2>Feed</h2>
             <div>
-                {/* <iframe src="/src/goals/goal_feed.html" title="Goal Feed" width="68.1%" height="300"></iframe> */}
                 <div className="feed">
                     <div>
                     <table>
+                        <tbody>
                         <tr>
                             <td>
                                 <i className="bi bi-hand-thumbs-up"></i>
@@ -324,6 +428,7 @@ export function Goals(props) {
                                 Mr. Potatohead started a pizza company.
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                     </div>
                 </div>

@@ -8,6 +8,13 @@ import {Routes, Route, BrowserRouter, NavLink} from 'react-router-dom';
 export default function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
     const [authToken, setAuthToken] = React.useState(localStorage.getItem('authToken') || '');
+
+    React.useEffect(() => {
+        if (!localStorage.getItem('nextGoalID')) {
+            localStorage.setItem('nextGoalID', 0);
+        }
+    }, []);
+
     return (
         <BrowserRouter>
         <div className="bg-dark text-light container-fluid m-12" style={{"padding":"0px"}}>
@@ -17,8 +24,8 @@ export default function App() {
             </h1>
             <nav>
                 <menu className="btn-group">
-                    <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/">Login page</NavLink>
-                    {userName && <NavLink className="btn btn-outline-light m-4" style={{"min-width":"110px"}} to="/goals">My Goals</NavLink>}
+                    <NavLink className="btn btn-outline-light m-4" style={{"minWidth":"110px"}} to="/">Login page</NavLink>
+                    {userName && <NavLink className="btn btn-outline-light m-4" style={{"minWidth":"110px"}} to="/goals">My Goals</NavLink>}
                 </menu>
             </nav>
         </header>
