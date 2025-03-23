@@ -3,18 +3,30 @@ import '/src/main.css';
 import '/src/goals/list.css';
 import '/src/goals/feed.css';
 
-function Testing(nameVar, text, publicVar, creationDate, prog, streak) {
+function Testing(props) {
 
     const [detailsToggle, setDetailsToggle] = React.useState(false);
     const [toggleText, setToggleText] = React.useState('more details');
     const [editToggle, setEditToggle] = React.useState(false);
 
-    // const [currGoalName, setCurrGoalName] = React.useState(props.goalObj[nameVar] || '');
-    // const [currGoalText, setCurrGoalText] = React.useState(props.goalObj[text] || '');
-    // const [currGoalPublic, setCurrGoalPublic] = React.useState(props.goalObj[publicVar] || false);
-    // const [currGoalID, setCurrGoalID] = React.useState(props.goalObj[goalID] || '');
-    // const [currGoalProg, setCurrGoalProg] = React.useState(props.goalObj[prog] || 0);
-    // const [currGoalStreak, setCurrGoalStreak] = React.useState(props.goalObj[streak] || []);
+    const [currGoalName, setCurrGoalName] = React.useState(props.goalObj.nameVar || '');
+    const [currGoalText, setCurrGoalText] = React.useState(props.goalObj.text || '');
+    const [currGoalPublic, setCurrGoalPublic] = React.useState(props.goalObj.publicVar || false);
+    const [currGoalID, setCurrGoalID] = React.useState(props.goalObj.goalID || '');
+    const [currGoalProg, setCurrGoalProg] = React.useState(props.goalObj.prog || 0);
+    const [currGoalStreak, setCurrGoalStreak] = React.useState(props.goalObj.streak || []);
+
+
+    React.useEffect(() => {
+        if (props.goalObj) {
+            setCurrGoalName(props.goalObj.nameVar);
+            setCurrGoalText(props.goalObj.text);
+            setCurrGoalPublic(props.goalObj.publicVar);
+            setCurrGoalID(props.goalObj.goalID);
+            setCurrGoalProg(props.goalObj.prog);
+            setCurrGoalStreak(props.goalObj.streak);
+        }
+    }, [props.goalObj]);
 
     // const [newGoalName, setNewGoalName] = React.useState(props.goalObj[nameVar]);
     // const [newGoalText, setNewGoalText] = React.useState(props.goalObj[text]);
@@ -53,6 +65,8 @@ function Testing(nameVar, text, publicVar, creationDate, prog, streak) {
         onEditToggle();
     } 
 
+    
+
 
     function updateGoal() {
         newGoalObj.nameVar = currGoalName;
@@ -84,8 +98,8 @@ function Testing(nameVar, text, publicVar, creationDate, prog, streak) {
             </td>
             <td>
                 <div>
-                    <h3>Goal 1 Name</h3>
-                    <p>This goal has these details. <br hidden={!detailsToggle}/><a className="link-info" onClick={onDetailsToggle}>{toggleText}</a></p>
+                    <h3>{currGoalName}</h3>
+                    <p>{currGoalText} <br hidden={!detailsToggle}/><a className="link-info" onClick={onDetailsToggle}>{toggleText}</a></p>
                     <div hidden={!detailsToggle}>
                         <a className="link-info" onClick={onEditToggle}>Edit</a>
                     </div>
@@ -94,13 +108,13 @@ function Testing(nameVar, text, publicVar, creationDate, prog, streak) {
                     <form id="goal1_form" method="post">
                         <div>
                             <h3><label for="goal_input">Edit here:</label></h3>
-                            <input id="goal_input" name="goal1name" type="text" placeholder="Goal 1 Name" onChange={(e) => setNewGoalName(e.target.value)}></input>
+                            <input id="goal_input" name="goal1name" type="text" placeholder={currGoalName} onChange={(e) => setNewGoalName(e.target.value)}></input>
                             <br />
-                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form" onChange={(e) => setNewGoalText(e.target.value)}>This goal has these details. </textarea>
+                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form" onChange={(e) => setNewGoalText(e.target.value)}>{currGoalText}</textarea>
                         </div>
                         <div>
                             <label for="publicbox" >Public?</label>
-                            <input type="checkbox" id="publicbox" name="goal1public" onClick={() => setNewGoalPublic(!newGoalPublic)}/>
+                            <input type="checkbox" id="publicbox" name="goal1public" onClick={() => setNewGoalPublic(!newGoalPublic)} checked={currGoalPublic}/>
                         </div>
                         <div>
                             <button className="btn btn-warning" type="submit" onClick={saveGoal}>Save</button>
