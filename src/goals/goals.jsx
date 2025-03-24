@@ -15,6 +15,8 @@ function Testing(props) {
     const [currGoalID, setCurrGoalID] = React.useState(props.goalObj.goalID || '');
     const [currGoalProg, setCurrGoalProg] = React.useState(props.goalObj.prog || 0);
     const [currGoalStreak, setCurrGoalStreak] = React.useState(props.goalObj.streak || []);
+    const [currGoalCreation, setCurrGoalCreation] = React.useState(props.goalObj.creationDate || null);
+
 
 
     React.useEffect(() => {
@@ -28,9 +30,80 @@ function Testing(props) {
         }
     }, [props.goalObj]);
 
+    React.useEffect(() => {
+        setStreakPer(() => {
+            if (currGoalCreation && currGoalStreak) {
+                let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
+                if (currGoalCreation && daysPast < 7) {
+                    console.log("if");
+                    return {width:(String((currGoalStreak.length / 7)*100) + "%")};
+                }
+                else {
+                    return {width:(String(((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100) + "%")};
+                }
+            }
+            else {
+                return {width:"0%"};
+            }
+    
+        });
+        setStreakToday(() => {
+            if (currGoalStreak) {
+                return checkForToday(currGoalStreak);
+            }
+            else {
+                return false;
+            }
+        })
+    }, [currGoalStreak])
+
     const [newGoalName, setNewGoalName] = React.useState(props.goalObj.nameVar);
     const [newGoalText, setNewGoalText] = React.useState(props.goalObj.text);
     const [newGoalPublic, setNewGoalPublic] = React.useState(props.goalObj.publicVar);
+    const [streakPer, setStreakPer] = React.useState(() => {
+        if (currGoalCreation && currGoalStreak) {
+            let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
+            if (currGoalCreation && daysPast < 7) {
+                return {width:(String((currGoalStreak.length / 7)*100) + "%")};
+            }
+            else {
+                return {width:(String(((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100) + "%")};
+            }
+        }
+        else {
+            return {width:"0%"};
+        }
+
+    });
+    const [streakToday, setStreakToday] = React.useState(() => {
+        if (currGoalStreak) {
+            return checkForToday(currGoalStreak);
+        }
+        else {
+            return false;
+        }
+    })
+
+    function findFarthestDateInWeek(streak) {
+        let i = 0;
+        while (Date.parse(streak[i]) < Date(Date.now() - (7 * 86400000)) && i < streak.length) {
+            i++;
+        }
+        return i;
+    }
+
+    function checkForToday(streak) {
+        for (let i = 0; i < streak.length; i++) {
+            if (streak[i] == new Date().toDateString()) {
+                console.log(streak[i] + props.goalObj.nameVar);
+                return true;
+            }
+        }
+        console.log(false);
+        return false;
+    }
+
+
 
     
     function onDetailsToggle(e) {
@@ -51,6 +124,23 @@ function Testing(props) {
             setNewGoalText(currGoalText);
             setNewGoalPublic(currGoalPublic);
         }
+    }
+
+    function onStreakToggle() {
+        let tempStreak = currGoalStreak;
+        new Promise((resolve) => {
+            if (streakToday == false) {
+                tempStreak.push(props.today());
+            }
+            else if (streakToday == true) {
+                tempStreak.pop();
+            }
+        resolve(tempStreak)})
+        .then(() => {
+            setStreakToday((state) => (!state))
+        })
+        .then(setCurrGoalStreak(tempStreak))
+        .then(updateGoal);
     }
 
 
@@ -102,12 +192,12 @@ function Testing(props) {
         <tr>
             <td>
                 <form id="goal1check" method="post">
-                    <input name="goal1check" id="checkoff" type="checkbox" aria-label="Checkoff Goal 1"/>
+                    <input name="goal1check" id="checkoff" type="checkbox" aria-label="Checkoff Goal 1" onChange={onStreakToggle} checked={streakToday}/>
                 </form>
             </td>
             <td>
                 <div className="progress" style={{height:"5px"}}>
-                    <div className="progress-bar bg-info" style={{width:"50%"}}></div>
+                    <div className="progress-bar bg-info" style={streakPer}></div>
                 </div>
             </td>
             <td>
@@ -175,7 +265,7 @@ export function Goals(props) {
 
     React.useEffect(() => {
         GoalsInsertFunc();
-    }, [goalindex, numGoals]);
+    }, [goalindex, numGoals, newGoalTrigger]);
 
     React.useEffect(() => {
         localStorage.setItem('goalindex', JSON.stringify(goalindex));
@@ -216,7 +306,7 @@ export function Goals(props) {
                 console.log('inside');
                 console.log(temp2[i].goalID);
                 resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])} setNewGoalTrigger={setNewGoalTrigger}
-                setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger}/>);
+                setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
             }
             
             setGoalsInsert(() => <>{resultArr}</>);
@@ -229,7 +319,7 @@ export function Goals(props) {
         this.nameVar = name;
         this.text = text;
         this.publicVar = publicVar;
-        this.creationDate = today();
+        this.creationDate = new Date();
         this.goalID = localStorage.getItem('nextGoalID');
         this.prog = 0;
         this.streak = [];
@@ -263,7 +353,7 @@ export function Goals(props) {
             setGoalIndex(temp)
             let temp2 = goalsInsert.props.children;
             temp2.push(<Testing key={newGoal.goalID} goalObj={newGoal} setNewGoalTrigger={setNewGoalTrigger}
-            setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger}/>);
+            setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
             resolve(setGoalsInsert(<>{temp2}</>));
         }).then(() => localStorage.setItem('goalindex', JSON.stringify(tempIndex)))
         .then(() => toggleNewGoal())
