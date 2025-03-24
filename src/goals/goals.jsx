@@ -78,7 +78,15 @@ function Testing(props) {
         newGoalObj.streak = currGoalStreak;
         console.log(newGoalObj.goalID + "goalID");
         console.log(JSON.stringify(newGoalObj));
-        localStorage.setItem(newGoalObj.goalID, JSON.stringify(newGoalObj));
+        return localStorage.setItem(newGoalObj.goalID, JSON.stringify(newGoalObj));
+    }
+
+    function deleteGoal() {
+        return new Promise((resolve) => {
+            localStorage.removeItem(currGoalID);
+            resolve(localStorage.getItem(currGoalID));
+        })
+        .then(onEditToggle());
     }
 
 
@@ -114,16 +122,16 @@ function Testing(props) {
                             <h3><label for="goal_input">Edit here:</label></h3>
                             <input id="goal_input" name="goal1name" type="text" placeholder={currGoalName} onChange={(e) => setNewGoalName(e.target.value)}></input>
                             <br />
-                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form" onChange={(e) => setNewGoalText(e.target.value)}>{currGoalText}</textarea>
+                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form" onChange={(e) => setNewGoalText(e.target.value)} defaultValue={currGoalText}></textarea>
                         </div>
                         <div>
                             <label for="publicbox" >Public?</label>
-                            <input type="checkbox" id="publicbox" name="goal1public" onClick={() => setNewGoalPublic(!newGoalPublic)} checked={currGoalPublic}/>
+                            <input type="checkbox" id="publicbox" name="goal1public" onChange={() => setNewGoalPublic(!newGoalPublic)} checked={newGoalPublic}/>
                         </div>
                         <div>
                             <button className="btn btn-warning" type="button" onClick={saveGoal}>Save</button>
                             <button className="btn btn-warning" type="reset" onClick={onEditToggle}>Cancel</button>
-                            <button className="btn btn-warning" type="button">Delete</button>
+                            <button className="btn btn-warning" type="button" onClick={deleteGoal}>Delete</button>
                         </div>
                     </form>
                     <div>
