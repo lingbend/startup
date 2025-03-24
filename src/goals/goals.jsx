@@ -178,7 +178,7 @@ export function Goals(props) {
     }, [goalindex, numGoals, newGoalTrigger]);
 
     React.useEffect(() => {
-        localStorage.setItem('goalindex', goalindex);
+        localStorage.setItem('goalindex', JSON.stringify(goalindex));
     }, [goalindex]);
 
 
