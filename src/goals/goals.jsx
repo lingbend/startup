@@ -55,7 +55,7 @@ function Testing(props) {
                 return false;
             }
         })
-    }, [currGoalStreak])
+    }, [currGoalStreak]);
 
     const [newGoalName, setNewGoalName] = React.useState(props.goalObj.nameVar);
     const [newGoalText, setNewGoalText] = React.useState(props.goalObj.text);
@@ -83,6 +83,12 @@ function Testing(props) {
             return false;
         }
     })
+    const [newGoalProg, setNewGoalProg] = React.useState(props.goalObj.prog || 0);
+    const [progLoop, setProgLoop] = React.useState(getLoop(newGoalProg));
+
+    React.useEffect(() => {
+        setProgLoop(getLoop(newGoalProg));
+    }, [newGoalProg]);
 
     function findFarthestDateInWeek(streak) {
         let i = 0;
@@ -126,6 +132,40 @@ function Testing(props) {
         }
     }
 
+    function percentToAngle(percent) {
+        return (2 * Math.PI) * (percent / 100);
+    }
+
+    function angleToCoords(angle, radius, centerx, centery) {
+        let x = (radius * Math.cos(angle)) + centerx;
+        let y = radius * Math.sin(angle) + centery;
+        return [x, y];
+    }
+
+    function assembleProgressLoop(endx, endy, percent) {
+        if (percent <= 50) {
+            return "M29 16 A13 13 0 0 1 " + String(endx) + " " + String(endy);
+        }
+        else {
+            return "M29 16 A13 13 0 1 1 " + String(endx) + " " + String(endy);
+        }
+
+    }
+
+    function getLoop(percent) {
+        let angle = percentToAngle(percent);
+        let endCoords = angleToCoords(angle, 13, 16.5, 16.5);
+        let loop = assembleProgressLoop(endCoords[0], endCoords[1], percent);
+        return loop;
+    }
+
+    function onProgressSlider(e) {
+        let progress = e.target.value;
+        setNewGoalProg(progress);
+        let loop = getLoop(progress);
+        setProgLoop(loop);
+    }
+
     function onStreakToggle() {
         let tempStreak = currGoalStreak;
         new Promise((resolve) => {
@@ -164,7 +204,7 @@ function Testing(props) {
         newGoalObj.nameVar = newGoalName;
         newGoalObj.text = newGoalText;
         newGoalObj.publicVar = newGoalPublic;
-        newGoalObj.prog = currGoalProg;
+        newGoalObj.prog = newGoalProg;
         newGoalObj.streak = currGoalStreak;
         console.log(newGoalObj.goalID + "goalID");
         console.log(JSON.stringify(newGoalObj));
@@ -202,7 +242,8 @@ function Testing(props) {
             </td>
             <td>
                 <svg width="32" height="32">
-                    <path d="M29 16 A13 13 0 1 1 29 15" stroke="orange" fill="none" strokeWidth="5">progress</path>
+                    {newGoalProg < 95 && <path d={progLoop} stroke="orange" fill="none" strokeWidth="5">progress</path>}
+                    {newGoalProg >= 95 && <circle cx="16.5" cy="16.5" r="13" stroke="orange" strokeWidth="5"/>}
                 </svg>
             </td>
             <td>
@@ -224,6 +265,10 @@ function Testing(props) {
                         <div>
                             <label for="publicbox" >Public?</label>
                             <input type="checkbox" id="publicbox" name="goal1public" onChange={() => setNewGoalPublic(!newGoalPublic)} checked={newGoalPublic}/>
+                        </div>
+                        <div>
+                            <label for="progressSlider">Progress: {newGoalProg}%</label>
+                            <input type="range" min="0" max="100" defaultValue={newGoalProg} id="progressSlider" onChange={onProgressSlider}/>
                         </div>
                         <div>
                             <button className="btn btn-warning" type="button" onClick={saveGoal}>Save</button>
