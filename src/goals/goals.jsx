@@ -311,7 +311,7 @@ export function Goals(props) {
                         </thead>
                         <tbody>
                         {goalsInsert}
-                        <tr>
+                        {/* <tr>
                             <td>
                                 <form id="goal2check" method="post">
                                     <input name="goal2check" id="checkoff" type="checkbox" aria-label="Checkoff Goal 2"/>
@@ -417,7 +417,7 @@ export function Goals(props) {
                                     </div>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> */}
                         </tbody>
                     </table>
                 </div>
