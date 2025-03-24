@@ -85,6 +85,7 @@ function Testing(props) {
     })
     const [newGoalProg, setNewGoalProg] = React.useState(props.goalObj.prog || 0);
     const [progLoop, setProgLoop] = React.useState(getLoop(newGoalProg));
+    const [detailsStyling, setDetailsStyling] = React.useState({maxHeight:"9ex", textOverflow:"ellipsis", overflow:"hidden"})
 
     React.useEffect(() => {
         setProgLoop(getLoop(newGoalProg));
@@ -115,9 +116,11 @@ function Testing(props) {
     function onDetailsToggle(e) {
         if (toggleText == 'more details') {
             setToggleText('less details');
+            setDetailsStyling({});
         }
         else {
             setToggleText('more details');
+            setDetailsStyling({maxHeight:"9ex", textOverflow:"ellipsis", overflow:"hidden"})
         }
 
         setDetailsToggle((state) => !state);
@@ -249,7 +252,8 @@ function Testing(props) {
             <td>
                 <div>
                     <h3>{currGoalName}</h3>
-                    <p>{currGoalText} <br hidden={!detailsToggle}/><a className="link-info" onClick={onDetailsToggle}>{toggleText}</a></p>
+                    <p style={detailsStyling}>{currGoalText}</p>
+                    <a className="link-info" onClick={onDetailsToggle}>{toggleText}</a>
                     <div hidden={!detailsToggle}>
                         <a className="link-info" onClick={onEditToggle}>Edit</a>
                     </div>
