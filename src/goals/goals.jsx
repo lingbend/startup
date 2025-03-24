@@ -62,8 +62,8 @@ function Testing(props) {
             setCurrGoalText(newGoalText);
             setCurrGoalPublic(newGoalPublic);
             resolve(newGoalName, newGoalText, newGoalPublic);
-        }).then(updateGoal)
-        .then(onEditToggle);
+        }).then(updateGoal())
+        .then(onEditToggle());
     }
 
     
@@ -175,7 +175,7 @@ export function Goals(props) {
 
     React.useEffect(() => {
         GoalsInsertFunc();
-    }, [goalindex, numGoals, newGoalTrigger]);
+    }, [goalindex, numGoals]);
 
     React.useEffect(() => {
         localStorage.setItem('goalindex', JSON.stringify(goalindex));
@@ -216,10 +216,10 @@ export function Goals(props) {
                 console.log('inside');
                 console.log(temp2[i].goalID);
                 resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])} setNewGoalTrigger={setNewGoalTrigger}
-                setNumGoals={setNumGoals} setGoalIndex={setGoalIndex}/>);
+                setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger}/>);
             }
             
-            setGoalsInsert(<>{resultArr}</>);
+            setGoalsInsert(() => <>{resultArr}</>);
         }
         )
     }
@@ -244,13 +244,14 @@ export function Goals(props) {
             setNewGoalText('');
             setNewGoalPublic(false);
         }
+        return true;
     }
 
     function saveGoal() {
         let newGoal = new Goal(newGoalName, newGoalText, newGoalPublic);
         let tempIndex;
         localStorage.setItem(newGoal.goalID, JSON.stringify(newGoal));
-        const prom = new Promise((resolve) => {
+        new Promise((resolve) => {
             let temp = goalindex;
             if (temp == null || (temp.length == 1 && temp[0] == null)) {
                 temp = [newGoal.goalID];
@@ -259,10 +260,15 @@ export function Goals(props) {
                 temp.push(newGoal.goalID);
             }
             tempIndex = temp;
-            resolve(setGoalIndex(temp));
+            setGoalIndex(temp)
+            let temp2 = goalsInsert.props.children;
+            temp2.push(<Testing key={newGoal.goalID} goalObj={newGoal} setNewGoalTrigger={setNewGoalTrigger}
+            setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger}/>);
+            resolve(setGoalsInsert(<>{temp2}</>));
         }).then(() => localStorage.setItem('goalindex', JSON.stringify(tempIndex)))
-        .then(toggleNewGoal())
-        .then(setNewGoalTrigger((state) => !state));
+        .then(() => toggleNewGoal())
+        .then(() => setNewGoalTrigger((state) => (!state)))
+        .then(console.log(newGoalTrigger + "triggered"));
     }
 
     function today() {
