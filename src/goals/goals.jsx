@@ -86,7 +86,14 @@ function Testing(props) {
             localStorage.removeItem(currGoalID);
             resolve(localStorage.getItem(currGoalID));
         })
-        .then(onEditToggle());
+        .then(() => onEditToggle())
+        .then(props.setGoalIndex(() => {
+            let currIndex = JSON.parse(localStorage.getItem('goalindex'));
+            currIndex = currIndex.filter((val) => val != currGoalID);
+            return currIndex;
+        }))
+        .then(props.setNumGoals(() => JSON.parse(localStorage.getItem('goalindex')).length))
+        .then(props.setNewGoalTrigger((state) => (!state)));
     }
 
 
@@ -170,6 +177,10 @@ export function Goals(props) {
         GoalsInsertFunc();
     }, [goalindex, numGoals, newGoalTrigger]);
 
+    React.useEffect(() => {
+        localStorage.setItem('goalindex', goalindex);
+    }, [goalindex]);
+
 
 
 
@@ -204,7 +215,8 @@ export function Goals(props) {
                 }
                 console.log('inside');
                 console.log(temp2[i].goalID);
-                resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])}/>);
+                resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])} setNewGoalTrigger={setNewGoalTrigger}
+                setNumGoals={setNumGoals} setGoalIndex={setGoalIndex}/>);
             }
             
             setGoalsInsert(<>{resultArr}</>);
@@ -234,8 +246,9 @@ export function Goals(props) {
         }
     }
 
-    async function saveGoal() {
+    function saveGoal() {
         let newGoal = new Goal(newGoalName, newGoalText, newGoalPublic);
+        let tempIndex;
         localStorage.setItem(newGoal.goalID, JSON.stringify(newGoal));
         const prom = new Promise((resolve) => {
             let temp = goalindex;
@@ -245,12 +258,11 @@ export function Goals(props) {
             else {
                 temp.push(newGoal.goalID);
             }
-            setGoalIndex(temp);
-            resolve('true');
-        });
-        prom.then(() => localStorage.setItem('goalindex', JSON.stringify(goalindex)))
-        .then(toggleNewGoal());
-        setNewGoalTrigger((state) => !state);
+            tempIndex = temp;
+            resolve(setGoalIndex(temp));
+        }).then(() => localStorage.setItem('goalindex', JSON.stringify(tempIndex)))
+        .then(toggleNewGoal())
+        .then(setNewGoalTrigger((state) => !state));
     }
 
     function today() {
