@@ -28,9 +28,9 @@ function Testing(props) {
         }
     }, [props.goalObj]);
 
-    // const [newGoalName, setNewGoalName] = React.useState(props.goalObj[nameVar]);
-    // const [newGoalText, setNewGoalText] = React.useState(props.goalObj[text]);
-    // const [newGoalPublic, setNewGoalPublic] = React.useState(props.goalObj[publicVar]);
+    const [newGoalName, setNewGoalName] = React.useState(props.goalObj.nameVar);
+    const [newGoalText, setNewGoalText] = React.useState(props.goalObj.text);
+    const [newGoalPublic, setNewGoalPublic] = React.useState(props.goalObj.publicVar);
 
     
     function onDetailsToggle(e) {
@@ -56,24 +56,28 @@ function Testing(props) {
 
 
     function saveGoal() {
-        setCurrGoalName(newGoalName);
-        setCurrGoalText(newGoalText);
-        setCurrGoalPublic(newGoalPublic);
-
-        updateGoal();
-
-        onEditToggle();
-    } 
+        new Promise((resolve) => {
+            setCurrGoalName(newGoalName);
+            console.log(currGoalName + "new goal name");
+            setCurrGoalText(newGoalText);
+            setCurrGoalPublic(newGoalPublic);
+            resolve(newGoalName, newGoalText, newGoalPublic);
+        }).then(updateGoal)
+        .then(onEditToggle);
+    }
 
     
 
 
     function updateGoal() {
-        newGoalObj.nameVar = currGoalName;
-        newGoalObj.text = currGoalText;
-        newGoalObj.publicVar = currGoalPublic;
+        let newGoalObj = props.goalObj;
+        newGoalObj.nameVar = newGoalName;
+        newGoalObj.text = newGoalText;
+        newGoalObj.publicVar = newGoalPublic;
         newGoalObj.prog = currGoalProg;
         newGoalObj.streak = currGoalStreak;
+        console.log(newGoalObj.goalID + "goalID");
+        console.log(JSON.stringify(newGoalObj));
         localStorage.setItem(newGoalObj.goalID, JSON.stringify(newGoalObj));
     }
 
@@ -117,7 +121,7 @@ function Testing(props) {
                             <input type="checkbox" id="publicbox" name="goal1public" onClick={() => setNewGoalPublic(!newGoalPublic)} checked={currGoalPublic}/>
                         </div>
                         <div>
-                            <button className="btn btn-warning" type="submit" onClick={saveGoal}>Save</button>
+                            <button className="btn btn-warning" type="button" onClick={saveGoal}>Save</button>
                             <button className="btn btn-warning" type="reset" onClick={onEditToggle}>Cancel</button>
                             <button className="btn btn-warning" type="button">Delete</button>
                         </div>
