@@ -265,7 +265,6 @@ export function Goals(props) {
     return (
         <>
             <h2>{props.userName}'s Goals</h2>
-            <p>{goalindex}</p>
             <div>
                 <div className="bg-dark text-light container-fluid goal-list">
                     <button className="btn btn-warning" type="button" onClick={toggleNewGoal}>New Goal</button>
@@ -311,113 +310,6 @@ export function Goals(props) {
                         </thead>
                         <tbody>
                         {goalsInsert}
-                        {/* <tr>
-                            <td>
-                                <form id="goal2check" method="post">
-                                    <input name="goal2check" id="checkoff" type="checkbox" aria-label="Checkoff Goal 2"/>
-                                </form>
-                            </td>
-                            <td>
-                                <div className="progress" style={{height:"5px"}}>
-                                    <div className="progress-bar bg-info" style={{width:"50%"}}></div>
-                                </div>
-                            </td>
-                            <td>
-                                <svg width="32" height="32">
-                                    <path d="M29 16 A13 13 0 0 1 16 29" stroke="orange" fill="none" strokeWidth="5">progress</path>
-                                </svg>
-                            </td>
-                            <td>
-                                <div>
-                                    <h3>Goal 2 Name</h3>
-                                    <p>This goal has these details <a className="link-info" href="">more details</a></p>
-                                </div>
-                                <div hidden>
-                                    <a className="link-info" href="">Edit</a>
-                                </div>
-                                <div hidden>
-                                    <form id="goal2_form" method="post">
-                                        <div>
-                                            <h3><label for="goal_input">Edit here:</label></h3>
-                                            <input id="goal_input" name="goal2name" type="text" placeholder="Goal 2 Name"></input>
-                                            <br />
-                                            <textarea wrap="hard" id="goal_input" name="goal2" form="goal2_form">This goal has these details. </textarea>
-                                        </div>
-                                        <div>
-                                            <label for="publicbox">Public?</label>
-                                            <input type="checkbox" id="publicbox" name="goal2public"/>
-                                        </div>
-                                        <div>
-                                            <button className="btn btn-warning" type="submit">Save</button>
-                                            <button className="btn btn-warning" type="reset">Cancel</button>
-                                            <button className="btn btn-warning" type="button">Delete</button>
-                                        </div>
-                                    </form>
-                                    <div>
-                                        <h4>Goal Suggestions</h4>
-                                        <ul>
-                                            <li>Eat your cat</li>
-                                            <li>Eat your hair</li>
-                                            <li>Invent a new language</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <form id="goal3check" method="post">
-                                    <input name="goal3check" id="checkoff" type="checkbox" aria-label="Checkoff Goal 3"/>
-                                </form>
-                            </td>
-                            <td>
-                                <div className="progress" style={{height:"5px"}}>
-                                    <div className="progress-bar bg-info" style={{width:"50%"}}></div>
-                                </div>
-                            </td>
-                            <td>
-                                <svg width="32" height="32">
-                                    <path d="M29 16 A13 13 0 0 1 3 16" stroke="orange" fill="none" strokeWidth="5">progress</path>
-                                </svg>
-                            </td>
-                            <td>
-                                <div hidden>
-                                    <h3>Goal 3 Name</h3>
-                                    <p>This goal has these details <a className="link-info" href="">more details</a></p>
-                                </div>
-                                <div hidden>
-                                    <a className="link-info" href="">Edit</a>
-                                </div>
-                                <div>
-                                    <form id="goal3_form" method="post">
-                                        <div>
-                                            <h3><label for="goal_input">Edit here:</label></h3>
-                                            <input id="goal_input" name="goal3name" type="text" placeholder="Goal 3 Name"></input>
-                                            <br />
-                                            <textarea wrap="hard" id="goal_input" name="goal3" form="goal3_form">This goal has these details. </textarea>
-                                        </div>
-                                        <div>
-                                            <label for="publicbox">Public?</label>
-                                            <input type="checkbox" id="publicbox" name="goal3public"/>
-                                        </div>
-                                        <div>
-                                            <button className="btn btn-warning" type="submit">Save</button>
-                                            <button className="btn btn-warning" type="reset">Cancel</button>
-                                            <button className="btn btn-warning" type="button">Delete</button>
-                                        </div>
-                                    </form>
-                                    <div>
-                                        <h4>Goal Suggestions</h4>
-                                        <ul>
-                                            <li>Eat your cat</li>
-                                            <li>Eat your hair</li>
-                                            <li>Invent a new language</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr> */}
                         </tbody>
                     </table>
                 </div>
