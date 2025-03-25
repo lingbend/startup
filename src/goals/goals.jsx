@@ -6,7 +6,7 @@ import '/src/goals/feed.css';
 function Testing(props) {
 
     const [detailsToggle, setDetailsToggle] = React.useState(false);
-    const [toggleText, setToggleText] = React.useState('more details');
+    const [toggleText, setToggleText] = React.useState('...more');
     const [editToggle, setEditToggle] = React.useState(false);
 
     const [currGoalName, setCurrGoalName] = React.useState(props.goalObj.nameVar || '');
@@ -114,12 +114,12 @@ function Testing(props) {
 
     
     function onDetailsToggle(e) {
-        if (toggleText == 'more details') {
-            setToggleText('less details');
+        if (toggleText == '...more') {
+            setToggleText('less...');
             setDetailsStyling({});
         }
         else {
-            setToggleText('more details');
+            setToggleText('...more');
             setDetailsStyling({maxHeight:"9ex", textOverflow:"ellipsis", overflow:"hidden"})
         }
 
@@ -314,7 +314,7 @@ export function Goals(props) {
 
     React.useEffect(() => {
         GoalsInsertFunc();
-    }, [goalindex, numGoals, newGoalTrigger]);
+    }, [goalindex, numGoals, newGoalTrigger, localStorage.getItem('goalindex')]);
 
     React.useEffect(() => {
         localStorage.setItem('goalindex', JSON.stringify(goalindex));
