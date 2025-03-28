@@ -31,23 +31,6 @@ function Testing(props) {
         }
     }, [props.goalObj]);
 
-    // React.useEffect(() => {
-    //     setStreakPer(() => {
-    //         if (currGoalCreation && currGoalStreak) {
-    //             let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
-    //             if (currGoalCreation && daysPast < 7) {
-    //                 console.log("if");
-    //                 return {width:(String((currGoalStreak.length / 7)*100) + "%")};
-    //             }
-    //             else {
-    //                 return {width:(String(((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100) + "%")};
-    //             }
-    //         }
-    //         else {
-    //             return {width:"0%"};
-    //         }
-    
-    //     });
     React.useEffect(() => {
         setStreakPer(() => {
             if (currGoalCreation && currGoalStreak) {
@@ -78,21 +61,6 @@ function Testing(props) {
     const [newGoalName, setNewGoalName] = React.useState(props.goalObj.nameVar);
     const [newGoalText, setNewGoalText] = React.useState(props.goalObj.text);
     const [newGoalPublic, setNewGoalPublic] = React.useState(props.goalObj.publicVar);
-    // const [streakPer, setStreakPer] = React.useState(() => {
-    //     if (currGoalCreation && currGoalStreak) {
-    //         let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
-    //         if (currGoalCreation && daysPast < 7) {
-    //             return {width:(String((currGoalStreak.length / 7)*100) + "%")};
-    //         }
-    //         else {
-    //             return {width:(String(((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100) + "%")};
-    //         }
-    //     }
-    //     else {
-    //         return {width:"0%"};
-    //     }
-
-    // });
     const [streakPer, setStreakPer] = React.useState(() => {
         if (currGoalCreation && currGoalStreak) {
             let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
@@ -347,10 +315,10 @@ export function Goals(props) {
     const [newGoalName, setNewGoalName] = React.useState('');
     const [newGoalText, setNewGoalText] = React.useState('');
     const [newGoalPublic, setNewGoalPublic] = React.useState(false);
-    const [numGoals, setNumGoals] = React.useState(0);
     const [goalindex, setGoalIndex] = React.useState(JSON.parse(localStorage.getItem('goalindex')) || null);
     const [goalsInsert, setGoalsInsert] = React.useState('');
     const [newGoalTrigger, setNewGoalTrigger] = React.useState(false);
+    const [numGoals, setNumGoals] = React.useState(goalindex.length || 0);
 
     React.useEffect(() => {if (localStorage.getItem('goalindex') && localStorage.getItem('goalindex') != 'null' ) {
         setNumGoals(JSON.parse(localStorage.getItem('goalindex')).length)};
@@ -360,20 +328,45 @@ export function Goals(props) {
     }, []);
 
     React.useEffect(() => {
-        GoalsInsertFunc();
+        setGoalsInsert(GoalsInsertFunc());
     }, [goalindex, numGoals, newGoalTrigger, localStorage.getItem('goalindex')]);
 
     React.useEffect(() => {
         localStorage.setItem('goalindex', JSON.stringify(goalindex));
     }, [goalindex]);
 
+    function Goal(name, text, publicVar) {        
+        this.nameVar = name;
+        this.text = text;
+        this.publicVar = publicVar;
+        this.creationDate = new Date();
+        this.goalID = localStorage.getItem('nextGoalID');
+        this.prog = 0;
+        this.streak = [];
+        localStorage.setItem('nextGoalID', parseInt(this.goalID) + 1);
+    }
 
+    function Wrapper(props){
+        if (typeof props == typeof undefined ) {
+            return <></>;
+        }
+        const [wrap, setWrap] = React.useState(props.resultArr);
+        React.useEffect(() => {
+            setWrap(props.resultArr);
+            console.log("insidewrapper");
+            // return wrap;
+        },[props])
+        console.log("outsidewrapper");
+        console.log(wrap);
+        console.log(props.resultArr.value);
+        console.log("wrapend");
+        return(<tbody>{wrap}</tbody>);
+    }
 
-
-    function GoalsInsertFunc() {
+    async function GoalsInsertFunc() {
         let temp = [];
         let promises = [];
-        new Promise ((resolve) => {
+        return await new Promise ((resolve) => {
             for (let i = 0; i < numGoals; i++) {
                 let id = String(goalindex[i]);
                 const getData = new Promise ((resolve) => {
@@ -389,7 +382,8 @@ export function Goals(props) {
                 temp.push(results[i].value);
             }}).then(()=> resolve(temp));
         }
-        ).then((temp2) => {
+        )
+        .then((temp2) => {
             console.log(temp2);
             console.log(temp2.length);
 
@@ -404,21 +398,9 @@ export function Goals(props) {
                 resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])} setNewGoalTrigger={setNewGoalTrigger} setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
             }
             
-            setGoalsInsert(() => <tbody>{resultArr}</tbody>);
+            return (<>{resultArr}</>);
         }
         )
-    }
-
-    
-    function Goal(name, text, publicVar) {        
-        this.nameVar = name;
-        this.text = text;
-        this.publicVar = publicVar;
-        this.creationDate = new Date();
-        this.goalID = localStorage.getItem('nextGoalID');
-        this.prog = 0;
-        this.streak = [];
-        localStorage.setItem('nextGoalID', parseInt(this.goalID) + 1);
     }
 
     
@@ -449,11 +431,11 @@ export function Goals(props) {
             let temp2 = goalsInsert.props.children;
             temp2.push(<Testing key={newGoal.goalID} goalObj={newGoal} setNewGoalTrigger={setNewGoalTrigger}
             setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
-            resolve(setGoalsInsert(<div>{temp2}</div>));
-        }).then(() => localStorage.setItem('goalindex', JSON.stringify(tempIndex)))
-        .then(() => toggleNewGoal())
-        .then(() => setNewGoalTrigger((state) => (!state)))
-        .then(console.log(newGoalTrigger + "triggered"));
+            resolve(setGoalsInsert({temp2}));
+        }).then(localStorage.setItem('goalindex', JSON.stringify(tempIndex)))
+        .then(toggleNewGoal())
+        .then(setNewGoalTrigger((state) => (!state)))
+        .then(console.log(newGoalTrigger + "triggered" + newGoalName));
     }
 
     function today() {
@@ -509,7 +491,7 @@ export function Goals(props) {
                                 <th scope="col">Goal</th>
                             </tr>
                         </thead>
-                        {goalsInsert}
+                        <Wrapper resultArr={goalsInsert}/>
                     </table>
                 </div>
             </div>
