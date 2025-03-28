@@ -60,11 +60,11 @@
 
     .progress {
         transform: rotate(270deg);
-        width: 90%;
-        max-width: 55px;
-        margin-top: 50%;
-        margin-bottom: 50%;
+        width: 100%;
+        max-width: 45px;
+        margin-bottom: 120%;
         margin-left:20%;
-        margin-right:80%;
+        margin-right:10%;
+        max-height: 10px;
     }
 }
