@@ -2,6 +2,7 @@ import React from 'react';
 import '/src/main.css';
 import '/src/goals/list.css';
 import '/src/goals/feed.css';
+import { ProgressBar } from 'react-bootstrap';
 
 function Testing(props) {
 
@@ -30,20 +31,37 @@ function Testing(props) {
         }
     }, [props.goalObj]);
 
+    // React.useEffect(() => {
+    //     setStreakPer(() => {
+    //         if (currGoalCreation && currGoalStreak) {
+    //             let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
+    //             if (currGoalCreation && daysPast < 7) {
+    //                 console.log("if");
+    //                 return {width:(String((currGoalStreak.length / 7)*100) + "%")};
+    //             }
+    //             else {
+    //                 return {width:(String(((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100) + "%")};
+    //             }
+    //         }
+    //         else {
+    //             return {width:"0%"};
+    //         }
+    
+    //     });
     React.useEffect(() => {
         setStreakPer(() => {
             if (currGoalCreation && currGoalStreak) {
                 let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
                 if (currGoalCreation && daysPast < 7) {
                     console.log("if");
-                    return {width:(String((currGoalStreak.length / 7)*100) + "%")};
+                    return ((currGoalStreak.length / 7)*100);
                 }
                 else {
-                    return {width:(String(((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100) + "%")};
+                    return (((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100);
                 }
             }
             else {
-                return {width:"0%"};
+                return 0;
             }
     
         });
@@ -60,18 +78,33 @@ function Testing(props) {
     const [newGoalName, setNewGoalName] = React.useState(props.goalObj.nameVar);
     const [newGoalText, setNewGoalText] = React.useState(props.goalObj.text);
     const [newGoalPublic, setNewGoalPublic] = React.useState(props.goalObj.publicVar);
+    // const [streakPer, setStreakPer] = React.useState(() => {
+    //     if (currGoalCreation && currGoalStreak) {
+    //         let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
+    //         if (currGoalCreation && daysPast < 7) {
+    //             return {width:(String((currGoalStreak.length / 7)*100) + "%")};
+    //         }
+    //         else {
+    //             return {width:(String(((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100) + "%")};
+    //         }
+    //     }
+    //     else {
+    //         return {width:"0%"};
+    //     }
+
+    // });
     const [streakPer, setStreakPer] = React.useState(() => {
         if (currGoalCreation && currGoalStreak) {
             let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
             if (currGoalCreation && daysPast < 7) {
-                return {width:(String((currGoalStreak.length / 7)*100) + "%")};
+                return ((currGoalStreak.length / 7)*100);
             }
             else {
-                return {width:(String(((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100) + "%")};
+                return (((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100);
             }
         }
         else {
-            return {width:"0%"};
+            return 0;
         }
 
     });
@@ -86,6 +119,22 @@ function Testing(props) {
     const [newGoalProg, setNewGoalProg] = React.useState(props.goalObj.prog || 0);
     const [progLoop, setProgLoop] = React.useState(getLoop(newGoalProg));
     const [detailsStyling, setDetailsStyling] = React.useState({maxHeight:"9ex", textOverflow:"ellipsis", overflow:"hidden"})
+
+    function setStreakPercentage() {
+        if (currGoalCreation && currGoalStreak) {
+            let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
+            if (currGoalCreation && daysPast < 7) {
+                setStreakPer((currGoalStreak.length / 7)*100);
+            }
+            else {
+                setStreakPer(((currGoalStreak.length - (findFarthestDateInWeek(currGoalStreak))) / 7)*100);
+            }
+        }
+        else {
+            setStreakPer(0);
+        }
+    };
+
 
     React.useEffect(() => {
         setProgLoop(getLoop(newGoalProg));
@@ -183,7 +232,8 @@ function Testing(props) {
             setStreakToday((state) => (!state))
         })
         .then(setCurrGoalStreak(tempStreak))
-        .then(updateGoal);
+        .then(updateGoal)
+        .then(setStreakPercentage);
     }
 
 
@@ -231,22 +281,20 @@ function Testing(props) {
 
 
 
-    return (
-        <tr>
+    return (<tr>
             <td>
                 <form id="goal1check" method="post">
                     <input name="goal1check" id="checkoff" type="checkbox" aria-label="Checkoff Goal 1" onChange={onStreakToggle} checked={streakToday}/>
                 </form>
             </td>
             <td>
-                <div className="progress" style={{height:"5px"}}>
-                    <div className="progress-bar bg-info" style={streakPer}></div>
+                <div style={{height:"5px"}}>
+                    <ProgressBar now={streakPer}/>
                 </div>
             </td>
             <td>
                 <svg width="32" height="32">
-                    {newGoalProg < 95 && <path d={progLoop} stroke="orange" fill="none" strokeWidth="5">progress</path>}
-                    {newGoalProg >= 95 && <circle cx="16.5" cy="16.5" r="13" stroke="orange" strokeWidth="5"/>}
+                    {newGoalProg < 95 && <path d={progLoop} stroke="orange" fill="none" strokeWidth="5">progress</path>}{newGoalProg >= 95 && <circle cx="16.5" cy="16.5" r="13" stroke="orange" strokeWidth="5"/>}
                 </svg>
             </td>
             <td>
@@ -261,17 +309,17 @@ function Testing(props) {
                 <div hidden={(!editToggle || !detailsToggle)}>
                     <form id="goal1_form" method="post">
                         <div>
-                            <h3><label for="goal_input">Edit here:</label></h3>
+                            <h3><label htmlFor="goal_input">Edit here:</label></h3>
                             <input id="goal_input" name="goal1name" type="text" placeholder={currGoalName} onChange={(e) => setNewGoalName(e.target.value)}></input>
                             <br />
-                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form" onChange={(e) => setNewGoalText(e.target.value)} defaultValue={currGoalText}></textarea>
+                            <textarea wrap="hard" id="goal_input" name="goal1" form="goal1_form" onChange={(e) => setNewGoalText(e.target.value)} defaultValue={currGoalText}/>
                         </div>
                         <div>
-                            <label for="publicbox" >Public?</label>
+                            <label htmlFor="publicbox" >Public?</label>
                             <input type="checkbox" id="publicbox" name="goal1public" onChange={() => setNewGoalPublic(!newGoalPublic)} checked={newGoalPublic}/>
                         </div>
                         <div>
-                            <label for="progressSlider">Progress: {newGoalProg}%</label>
+                            <label htmlFor="progressSlider">Progress: {newGoalProg}%</label>
                             <input type="range" min="0" max="100" defaultValue={newGoalProg} id="progressSlider" onChange={onProgressSlider}/>
                         </div>
                         <div>
@@ -290,8 +338,7 @@ function Testing(props) {
                     </div>
                 </div>
             </td>
-        </tr>
-    )
+        </tr>)
 }
 
 export function Goals(props) {
@@ -354,11 +401,10 @@ export function Goals(props) {
                 }
                 console.log('inside');
                 console.log(temp2[i].goalID);
-                resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])} setNewGoalTrigger={setNewGoalTrigger}
-                setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
+                resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])} setNewGoalTrigger={setNewGoalTrigger} setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
             }
             
-            setGoalsInsert(() => <>{resultArr}</>);
+            setGoalsInsert(() => <tbody>{resultArr}</tbody>);
         }
         )
     }
@@ -403,7 +449,7 @@ export function Goals(props) {
             let temp2 = goalsInsert.props.children;
             temp2.push(<Testing key={newGoal.goalID} goalObj={newGoal} setNewGoalTrigger={setNewGoalTrigger}
             setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
-            resolve(setGoalsInsert(<>{temp2}</>));
+            resolve(setGoalsInsert(<div>{temp2}</div>));
         }).then(() => localStorage.setItem('goalindex', JSON.stringify(tempIndex)))
         .then(() => toggleNewGoal())
         .then(() => setNewGoalTrigger((state) => (!state)))
@@ -428,19 +474,18 @@ export function Goals(props) {
                     <div hidden={displayNewGoal}>
                         <form id="goalnew_form" method="post">
                             <div>
-                                <h3><label for="goal_input">Edit here:</label></h3>
+                                <h3><label htmlFor="goal_input">Edit here:</label></h3>
                                 <input id="goal_input" name="goal1name" type="text" placeholder="Name"
                                  onChange={(e) => setNewGoalName(e.target.value)}></input>
                                 <br />
                                 <textarea wrap="hard" id="goal_input" name="goalnew" form="goalnew_form"
-                                 onChange={(e) => setNewGoalText(e.target.value)}>Describe your goal here </textarea>
+                                 onChange={(e) => setNewGoalText(e.target.value)} defaultValue="Describe your goal here"/>
                             </div>
                             <div>
-                                <label for="publicbox">Public?</label>
+                                <label htmlFor="publicbox">Public?</label>
                                 <input type="checkbox" id="publicbox" name="goalnewpublic" onClick={() => setNewGoalPublic(!newGoalPublic)}/>
                             </div>
                             <div>
-                                {/* May need to change save button type later */}
                                 <button className="btn btn-warning" type="button" onClick={saveGoal}>Save</button>
                                 <button className="btn btn-warning" type="reset" onClick={toggleNewGoal}>Cancel</button>
                             </div>
@@ -455,19 +500,16 @@ export function Goals(props) {
                         </div>
                     </div>
                     <br />
-
                     <table className="goal_list">
                         <thead>
-                        <tr>
-                            <th scope="col">Daily Check</th>
-                            <th scope="col">Streak</th>
-                            <th scope="col">Progress</th>
-                            <th scope="col">Goal</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">Daily Check</th>
+                                <th scope="col">Streak</th>
+                                <th scope="col">Progress</th>
+                                <th scope="col">Goal</th>
+                            </tr>
                         </thead>
-                        <tbody>
                         {goalsInsert}
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -479,30 +521,24 @@ export function Goals(props) {
                     <div>
                     <table>
                         <tbody>
-                        <tr>
-                            <td>
-                                <i className="bi bi-hand-thumbs-up"></i>
-                            </td>
-                            <td>
-                                Suzie made a goal to eat more Styrofoam!
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <i className="bi bi-check2-circle"></i>
-                            </td>
-                            <td>
-                                Johnnie climbed Mt. Everest!
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <i className="bi bi-check2-circle"></i>
-                            </td>
-                            <td>
-                                Mr. Potatohead started a pizza company.
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <i className="bi bi-hand-thumbs-up"></i>
+                                </td>
+                                <td>Suzie made a goal to eat more Styrofoam!</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i className="bi bi-check2-circle"></i>
+                                </td>
+                                <td>Johnnie climbed Mt. Everest!</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i className="bi bi-check2-circle"></i>
+                                </td>
+                                <td>Mr. Potatohead started a pizza company.</td>
+                            </tr>
                         </tbody>
                     </table>
                     </div>
