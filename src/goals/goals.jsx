@@ -1,4 +1,5 @@
 import React from 'react';
+import {Fragment} from 'react';
 import '/src/main.css';
 import '/src/goals/list.css';
 import '/src/goals/feed.css';
@@ -169,7 +170,6 @@ function Testing(props) {
         else {
             return "M29 16 A13 13 0 1 1 " + String(endx) + " " + String(endy);
         }
-
     }
 
     function getLoop(percent) {
@@ -204,8 +204,6 @@ function Testing(props) {
         .then(setStreakPercentage);
     }
 
-
-
     function saveGoal() {
         new Promise((resolve) => {
             setCurrGoalName(newGoalName);
@@ -216,9 +214,6 @@ function Testing(props) {
         }).then(updateGoal())
         .then(onEditToggle());
     }
-
-    
-
 
     function updateGoal() {
         let newGoalObj = props.goalObj;
@@ -309,16 +304,34 @@ function Testing(props) {
         </tr>)
 }
 
+
+function Wrapper(props){
+    if (typeof props == typeof undefined ) {
+        return <Fragment></Fragment>;
+    }
+    const [wrap, setWrap] = React.useState(props.resultArr);
+    React.useEffect(() => {
+        setWrap(props.resultArr);
+        console.log("insidewrapper");
+        // return wrap;
+    },[props])
+    console.log("outsidewrapper");
+    console.log(wrap);
+    console.log(props.resultArr.value);
+    console.log("wrapend");
+    return(<tbody>{wrap}</tbody>);
+}
+
 export function Goals(props) {
 
     const [displayNewGoal, setDisplayNewGoal] = React.useState(true);
-    const [newGoalName, setNewGoalName] = React.useState('');
-    const [newGoalText, setNewGoalText] = React.useState('');
+    const [newGoalName, setNewGoalName] = React.useState('Name');
+    const [newGoalText, setNewGoalText] = React.useState('Insert text here');
     const [newGoalPublic, setNewGoalPublic] = React.useState(false);
     const [goalindex, setGoalIndex] = React.useState(JSON.parse(localStorage.getItem('goalindex')) || null);
-    const [goalsInsert, setGoalsInsert] = React.useState('');
+    const [goalsInsert, setGoalsInsert] = React.useState(<Fragment></Fragment>);
     const [newGoalTrigger, setNewGoalTrigger] = React.useState(false);
-    const [numGoals, setNumGoals] = React.useState(goalindex.length || 0);
+    const [numGoals, setNumGoals] = React.useState(goalindex ? goalindex.length : 0);
 
     React.useEffect(() => {if (localStorage.getItem('goalindex') && localStorage.getItem('goalindex') != 'null' ) {
         setNumGoals(JSON.parse(localStorage.getItem('goalindex')).length)};
@@ -328,8 +341,13 @@ export function Goals(props) {
     }, []);
 
     React.useEffect(() => {
-        setGoalsInsert(GoalsInsertFunc());
-    }, [goalindex, numGoals, newGoalTrigger, localStorage.getItem('goalindex')]);
+;       resetGoalsDom();
+    }, [goalindex]);
+
+    async function resetGoalsDom(){
+        let insert = <Fragment>{((await GoalsInsertFunc()).props.children)}</Fragment>;
+        setGoalsInsert(insert);
+    }
 
     React.useEffect(() => {
         localStorage.setItem('goalindex', JSON.stringify(goalindex));
@@ -344,23 +362,6 @@ export function Goals(props) {
         this.prog = 0;
         this.streak = [];
         localStorage.setItem('nextGoalID', parseInt(this.goalID) + 1);
-    }
-
-    function Wrapper(props){
-        if (typeof props == typeof undefined ) {
-            return <></>;
-        }
-        const [wrap, setWrap] = React.useState(props.resultArr);
-        React.useEffect(() => {
-            setWrap(props.resultArr);
-            console.log("insidewrapper");
-            // return wrap;
-        },[props])
-        console.log("outsidewrapper");
-        console.log(wrap);
-        console.log(props.resultArr.value);
-        console.log("wrapend");
-        return(<tbody>{wrap}</tbody>);
     }
 
     async function GoalsInsertFunc() {
@@ -398,7 +399,7 @@ export function Goals(props) {
                 resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])} setNewGoalTrigger={setNewGoalTrigger} setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
             }
             
-            return (<>{resultArr}</>);
+            return (<Fragment>{resultArr}</Fragment>);
         }
         )
     }
@@ -414,28 +415,33 @@ export function Goals(props) {
         return true;
     }
 
-    function saveGoal() {
+    function saveGoalWrapper() {
         let newGoal = new Goal(newGoalName, newGoalText, newGoalPublic);
+
+        setDisplayNewGoal(state => !state);
+
         let tempIndex;
-        localStorage.setItem(newGoal.goalID, JSON.stringify(newGoal));
-        new Promise((resolve) => {
-            let temp = goalindex;
-            if (temp == null || (temp.length == 1 && temp[0] == null)) {
-                temp = [newGoal.goalID];
-            }
-            else {
-                temp.push(newGoal.goalID);
-            }
-            tempIndex = temp;
-            setGoalIndex(temp)
-            let temp2 = goalsInsert.props.children;
-            temp2.push(<Testing key={newGoal.goalID} goalObj={newGoal} setNewGoalTrigger={setNewGoalTrigger}
-            setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
-            resolve(setGoalsInsert({temp2}));
-        }).then(localStorage.setItem('goalindex', JSON.stringify(tempIndex)))
-        .then(toggleNewGoal())
-        .then(setNewGoalTrigger((state) => (!state)))
-        .then(console.log(newGoalTrigger + "triggered" + newGoalName));
+        let temp = goalindex;
+        if (temp == null || (temp.length == 1 && temp[0] == null)) {
+            temp = [newGoal.goalID];
+        }
+        else {
+            temp.push(newGoal.goalID);
+        }
+        saveGoal(newGoal, temp);
+    }
+
+    async function saveGoal(newGoal, tempIndex) {
+        await new Promise(() => {localStorage.setItem(newGoal.goalID, JSON.stringify(newGoal));
+        localStorage.setItem('goalindex', JSON.stringify(tempIndex));
+        let temp2 = goalsInsert.props.children;
+        temp2.push(<Testing key={newGoal.goalID} goalObj={newGoal} setNewGoalTrigger={setNewGoalTrigger}
+        setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
+        setGoalsInsert(<Fragment>{temp2}</Fragment>);});
+        setNewGoalName('');
+        setNewGoalText('');
+        setNewGoalPublic(false);
+        setGoalIndex(tempIndex);
     }
 
     function today() {
@@ -457,18 +463,18 @@ export function Goals(props) {
                         <form id="goalnew_form" method="post">
                             <div>
                                 <h3><label htmlFor="goal_input">Edit here:</label></h3>
-                                <input id="goal_input" name="goal1name" type="text" placeholder="Name"
+                                <input id="goal_input" name="goal1name" type="text" placeholder={newGoalName}
                                  onChange={(e) => setNewGoalName(e.target.value)}></input>
                                 <br />
                                 <textarea wrap="hard" id="goal_input" name="goalnew" form="goalnew_form"
-                                 onChange={(e) => setNewGoalText(e.target.value)} defaultValue="Describe your goal here"/>
+                                 onChange={(e) => setNewGoalText(e.target.value)} defaultValue={newGoalText}/>
                             </div>
                             <div>
                                 <label htmlFor="publicbox">Public?</label>
-                                <input type="checkbox" id="publicbox" name="goalnewpublic" onClick={() => setNewGoalPublic(!newGoalPublic)}/>
+                                <input type="checkbox" id="publicbox" name="goalnewpublic" checked={newGoalPublic} onClick={() => setNewGoalPublic(!newGoalPublic)}/>
                             </div>
                             <div>
-                                <button className="btn btn-warning" type="button" onClick={saveGoal}>Save</button>
+                                <button className="btn btn-warning" type="button" onClick={saveGoalWrapper}>Save</button>
                                 <button className="btn btn-warning" type="reset" onClick={toggleNewGoal}>Cancel</button>
                             </div>
                         </form>
