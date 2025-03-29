@@ -18,6 +18,48 @@ function Testing(props) {
     const [currGoalProg, setCurrGoalProg] = React.useState(props.goalObj.prog || 0);
     const [currGoalStreak, setCurrGoalStreak] = React.useState(props.goalObj.streak || []);
     const [currGoalCreation, setCurrGoalCreation] = React.useState(props.goalObj.creationDate || null);
+    const [goalSuggestion, setGoalSuggestion] = React.useState("placeholder")
+    const [suggestionGetter, setSuggestionGetter] = React.useState();
+
+
+
+
+    React.useEffect(()=> {
+        setSuggestionGetter(() => new getGoalSuggestion());
+    },[])
+
+    class getGoalSuggestion {
+        constructor(){
+            this.suggestionTimer;
+        }
+        timer(){
+            if (this.suggestionTimer) {
+                clearInterval(this.suggestionTimer);
+                setSuggestionGetter(() => new getGoalSuggestion());
+            }
+            else {
+
+                async function innerGetSuggestion(){
+                    let answer = await new Promise((resolve)=>{
+                        let randomGoals = ["Eat your cat.", "Lick a mountain.", "Burn some sugar.", "Bruh", "(Cringy) Hoppy Birthday Party"];
+                        let goal = randomGoals.at(Math.floor(Math.random()*randomGoals.length));
+                        resolve(goal);
+                    })
+                    return answer;
+                }
+                let suggestion = innerGetSuggestion();
+            
+                setGoalSuggestion(suggestion)
+
+                this.suggestionTimer = setInterval(()=>{
+            
+                    let suggestion = innerGetSuggestion();
+            
+                    setGoalSuggestion(suggestion);}, 60000)
+            }
+        }
+
+    }
 
 
 
@@ -37,7 +79,6 @@ function Testing(props) {
             if (currGoalCreation && currGoalStreak) {
                 let daysPast = (Date.now() - currGoalCreation.valueOf()) / 86400000;
                 if (currGoalCreation && daysPast < 7) {
-                    console.log("if");
                     return ((currGoalStreak.length / 7)*100);
                 }
                 else {
@@ -120,11 +161,9 @@ function Testing(props) {
     function checkForToday(streak) {
         for (let i = 0; i < streak.length; i++) {
             if (streak[i] == new Date().toDateString()) {
-                console.log(streak[i] + props.goalObj.nameVar);
                 return true;
             }
         }
-        console.log(false);
         return false;
     }
 
@@ -151,6 +190,7 @@ function Testing(props) {
             setNewGoalText(currGoalText);
             setNewGoalPublic(currGoalPublic);
         }
+        suggestionGetter.timer();
     }
 
     function percentToAngle(percent) {
@@ -207,7 +247,6 @@ function Testing(props) {
     function saveGoal() {
         new Promise((resolve) => {
             setCurrGoalName(newGoalName);
-            console.log(currGoalName + "new goal name");
             setCurrGoalText(newGoalText);
             setCurrGoalPublic(newGoalPublic);
             resolve(newGoalName, newGoalText, newGoalPublic);
@@ -222,8 +261,6 @@ function Testing(props) {
         newGoalObj.publicVar = newGoalPublic;
         newGoalObj.prog = newGoalProg;
         newGoalObj.streak = currGoalStreak;
-        console.log(newGoalObj.goalID + "goalID");
-        console.log(JSON.stringify(newGoalObj));
         return localStorage.setItem(newGoalObj.goalID, JSON.stringify(newGoalObj));
     }
 
@@ -292,11 +329,9 @@ function Testing(props) {
                         </div>
                     </form>
                     <div>
-                        <h4>Goal Suggestions</h4>
+                        <h4>Goal Suggestion</h4>
                         <ul>
-                            <li>Eat your cat</li>
-                            <li>Eat your hair</li>
-                            <li>Invent a new language</li>
+                            <li>{goalSuggestion}</li>
                         </ul>
                     </div>
                 </div>
@@ -318,26 +353,16 @@ function FeedWrapper(){
             ];
             let temp = fillerList.at(Math.floor(Math.random()*2));
             setFeedList((feedList) => {
-                console.log("fish"); 
-                console.log(feedList);
-                console.log("fish");
-
                 if (feedList == undefined || feedList == null) {
                     return [temp];
                 }
                 if (feedList.length > 5) {
                     feedList.shift();
                 }
-                console.log("fish"); 
-                console.log(feedList);
-                console.log("fish");
                 let newFeedList = (structuredClone(feedList))
                 newFeedList.push(temp);
                 return newFeedList;
             });
-            console.log("Interval Fired");
-            console.log(feedList);
-            console.log("feedlist");
         }, 2000);
     },[])
     return (<Fragment>
@@ -358,12 +383,6 @@ function FeedItem(props) {
 
     const [thisNum, setThisNum] = React.useState(props.num);
 
-    console.log(props?.feedList);
-    console.log(JSON.stringify(props?.feedList) + "props");
-    console.log(JSON.stringify(props?.feedList[thisNum]?.visible));
-    console.log(JSON.stringify(props?.feedList[thisNum]?.icon));
-    console.log(JSON.stringify(props?.feedList[thisNum]?.text));
-
     return (
     <tr hidden={props?.feedList?.[thisNum]?.visible}>
         <td>
@@ -383,13 +402,8 @@ function Wrapper(props){
     const [wrap, setWrap] = React.useState(props.resultArr);
     React.useEffect(() => {
         setWrap(props.resultArr);
-        console.log("insidewrapper");
-        // return wrap;
     },[props])
-    console.log("outsidewrapper");
-    console.log(wrap);
-    console.log(props.resultArr.value);
-    console.log("wrapend");
+
     return(<tbody>{wrap}</tbody>);
 }
 
@@ -444,7 +458,6 @@ export function Goals(props) {
                 const getData = new Promise ((resolve) => {
                     let val = localStorage.getItem(id);
                     let val2 = JSON.parse(val);
-                    console.log(val2);
                     resolve(val2);
                 })
                 promises.push(getData);
@@ -456,8 +469,6 @@ export function Goals(props) {
         }
         )
         .then((temp2) => {
-            console.log(temp2);
-            console.log(temp2.length);
 
             let resultArr = [];
 
@@ -465,8 +476,6 @@ export function Goals(props) {
                 if (temp2[i] == null) {
                     continue;
                 }
-                console.log('inside');
-                console.log(temp2[i].goalID);
                 resultArr.push(<Testing key={(temp2[i]).goalID} goalObj={(temp2[i])} setNewGoalTrigger={setNewGoalTrigger} setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
             }
             
@@ -550,7 +559,7 @@ export function Goals(props) {
                             </div>
                         </form>
                         <div>
-                            <h4>Goal Suggestions</h4>
+                            <h4>Goal Suggestion</h4>
                             <ul>
                                 <li>Eat your cat</li>
                                 <li>Eat your hair</li>
