@@ -305,6 +305,86 @@ function Testing(props) {
 }
 
 
+function FeedWrapper(){
+    const [feedList, setFeedList] = React.useState(null);
+    React.useEffect(() => {
+
+        if (feedList == null) {
+            setFeedList(() => [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:false}]);
+        }
+        setInterval(() => {
+            let fillerList = [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:false}, 
+                {icon:"bi bi-check2-circle", text:"Johnny planted an appleseed!", visible:false}
+            ];
+            let temp = fillerList.at(Math.floor(Math.random()*2));
+            setFeedList((feedList) => {
+                console.log("fish"); 
+                console.log(feedList);
+                console.log("fish");
+
+                if (feedList == undefined || feedList == null) {
+                    return [temp];
+                }
+                if (feedList.length > 5) {
+                    feedList.shift();
+                }
+                console.log("fish"); 
+                console.log(feedList);
+                console.log("fish");
+                let newFeedList = (structuredClone(feedList))
+                newFeedList.push(temp);
+                return newFeedList;
+            });
+            console.log("Interval Fired");
+            console.log(feedList);
+            console.log("feedlist");
+        }, 2000);
+    },[])
+    return (<Fragment>
+            <FeedItem num={0} feedList={feedList}/>
+            <FeedItem num={1} feedList={feedList}/>
+            <FeedItem num={2} feedList={feedList}/>
+            <FeedItem num={3} feedList={feedList}/>
+            <FeedItem num={4} feedList={feedList}/>
+            </Fragment>)
+}
+
+function FeedItem(props) {
+
+    if (props.feedList == null) {
+        return;
+    }
+
+
+    const [thisNum, setThisNum] = React.useState(props.num);
+    // const [listObj, setListObj] = React.useState(feedList.at(thisNum) || {icon:"", text:"", visible:false});
+
+    // React.useEffect(() => {
+    //     if (feedList.at(thisNum) != undefined)  {
+    //         setListObj(feedList.at(thisNum));
+    //         setThisNum(props.num);
+    //     }
+    // }, [feedList]);
+
+    console.log(props?.feedList);
+    console.log(JSON.stringify(props?.feedList) + "props");
+    console.log(JSON.stringify(props?.feedList[thisNum]?.visible));
+    console.log(JSON.stringify(props?.feedList[thisNum]?.icon));
+    console.log(JSON.stringify(props?.feedList[thisNum]?.text));
+
+    // if (listObj.)
+    return (
+    <tr hidden={props?.feedList?.[thisNum]?.visible}>
+        <td>
+            <i className={props?.feedList?.[thisNum]?.icon}></i>
+        </td>
+        <td>{props?.feedList?.[thisNum]?.text}</td>
+    </tr>)
+
+
+}
+
+
 function Wrapper(props){
     if (typeof props == typeof undefined ) {
         return <Fragment></Fragment>;
@@ -509,24 +589,7 @@ export function Goals(props) {
                     <div>
                     <table>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <i className="bi bi-hand-thumbs-up"></i>
-                                </td>
-                                <td>Suzie made a goal to eat more Styrofoam!</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i className="bi bi-check2-circle"></i>
-                                </td>
-                                <td>Johnnie climbed Mt. Everest!</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i className="bi bi-check2-circle"></i>
-                                </td>
-                                <td>Mr. Potatohead started a pizza company.</td>
-                            </tr>
+                            <FeedWrapper/>
                         </tbody>
                     </table>
                     </div>
