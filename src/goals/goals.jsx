@@ -431,7 +431,6 @@ export function Goals(props) {
         saveGoal(newGoal, temp);
     }
 
-    //Fix bug with second goal getting overwritten for some reason in goal index
     async function saveGoal(newGoal, tempIndex) {
         await new Promise((resolve) => {localStorage.setItem(newGoal.goalID, JSON.stringify(newGoal));
         localStorage.setItem('goalindex', JSON.stringify(tempIndex));
