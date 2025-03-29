@@ -13,12 +13,14 @@ export function Login(props) {
         localStorage.setItem('userName', tempUserName);
         props.setUserName(tempUserName);
         localStorage.setItem('authToken', 'chicken');
+        props.setAuthToken("chicken");
     }
 
     function createUser() {
         localStorage.setItem('userName', tempUserName);
         props.setUserName(tempUserName);
         localStorage.setItem('authToken', 'chicken');
+        props.setAuthToken("chicken");
     }
 
 

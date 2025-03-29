@@ -31,7 +31,7 @@ export default function App() {
         </header>
         <main>
             <Routes>
-                <Route path="/" element={<Login setUserName={(userName) => setUserName(userName)}/>}/>
+                <Route path="/" element={<Login setUserName={(userName) => setUserName(userName)} setAuthToken={setAuthToken}/>}/>
                 <Route path="/goals" element={<Goals userName={userName}/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
