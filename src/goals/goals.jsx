@@ -540,7 +540,6 @@ export function Goals(props) {
 
         setDisplayNewGoal(state => !state);
 
-        let tempIndex;
         let temp = goalindex;
         if (temp == null || (temp.length == 1 && temp[0] == -1)) {
             temp = [newGoal.goalID];
@@ -608,7 +607,7 @@ export function Goals(props) {
                     <br />
                     <table className="goal_list">
                         <thead>
-                            <tr>
+                            <tr hidden={goalindex.at(0) == -1 || goalindex.length < 1}>
                                 <th scope="col">Daily Check</th>
                                 <th scope="col">Streak</th>
                                 <th scope="col">Progress</th>
