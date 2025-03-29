@@ -145,8 +145,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out** - Yes. Functionality implemented/mocked out includes, ChatGPT goal suggestions, storage, deletion, and editing of goals. Streak tracking. Feed for other's goal milestones. Login functionality. Dynamically hiding and showing goal editors. 
+- [x] **Hooks** - I used useState to keep track of goal metadata, update goals dynamically, keep track of goal suggestions, and keep track of feed data.
+I used useEffect to dynamically update goals, feed, goal suggestions, and goal metadata.
 
 ## 🚀 Service deliverable
 
