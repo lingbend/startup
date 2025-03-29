@@ -357,14 +357,6 @@ function FeedItem(props) {
 
 
     const [thisNum, setThisNum] = React.useState(props.num);
-    // const [listObj, setListObj] = React.useState(feedList.at(thisNum) || {icon:"", text:"", visible:false});
-
-    // React.useEffect(() => {
-    //     if (feedList.at(thisNum) != undefined)  {
-    //         setListObj(feedList.at(thisNum));
-    //         setThisNum(props.num);
-    //     }
-    // }, [feedList]);
 
     console.log(props?.feedList);
     console.log(JSON.stringify(props?.feedList) + "props");
@@ -372,7 +364,6 @@ function FeedItem(props) {
     console.log(JSON.stringify(props?.feedList[thisNum]?.icon));
     console.log(JSON.stringify(props?.feedList[thisNum]?.text));
 
-    // if (listObj.)
     return (
     <tr hidden={props?.feedList?.[thisNum]?.visible}>
         <td>
