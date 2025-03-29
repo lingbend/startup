@@ -328,7 +328,7 @@ export function Goals(props) {
     const [newGoalName, setNewGoalName] = React.useState('Name');
     const [newGoalText, setNewGoalText] = React.useState('Insert text here');
     const [newGoalPublic, setNewGoalPublic] = React.useState(false);
-    const [goalindex, setGoalIndex] = React.useState(JSON.parse(localStorage.getItem('goalindex')) || null);
+    const [goalindex, setGoalIndex] = React.useState(JSON.parse(localStorage.getItem('goalindex')) || [-1]);
     const [goalsInsert, setGoalsInsert] = React.useState(<Fragment></Fragment>);
     const [newGoalTrigger, setNewGoalTrigger] = React.useState(false);
     const [numGoals, setNumGoals] = React.useState(goalindex ? goalindex.length : 0);
@@ -422,7 +422,7 @@ export function Goals(props) {
 
         let tempIndex;
         let temp = goalindex;
-        if (temp == null || (temp.length == 1 && temp[0] == null)) {
+        if (temp == null || (temp.length == 1 && temp[0] == -1)) {
             temp = [newGoal.goalID];
         }
         else {
@@ -431,13 +431,14 @@ export function Goals(props) {
         saveGoal(newGoal, temp);
     }
 
+    //Fix bug with second goal getting overwritten for some reason in goal index
     async function saveGoal(newGoal, tempIndex) {
-        await new Promise(() => {localStorage.setItem(newGoal.goalID, JSON.stringify(newGoal));
+        await new Promise((resolve) => {localStorage.setItem(newGoal.goalID, JSON.stringify(newGoal));
         localStorage.setItem('goalindex', JSON.stringify(tempIndex));
         let temp2 = goalsInsert.props.children;
         temp2.push(<Testing key={newGoal.goalID} goalObj={newGoal} setNewGoalTrigger={setNewGoalTrigger}
         setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} newGoalTrigger={newGoalTrigger} today={today}/>);
-        setGoalsInsert(<Fragment>{temp2}</Fragment>);});
+        resolve(setGoalsInsert(<Fragment>{temp2}</Fragment>));});
         setNewGoalName('');
         setNewGoalText('');
         setNewGoalPublic(false);
