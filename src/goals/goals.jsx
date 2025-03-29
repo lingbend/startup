@@ -417,6 +417,8 @@ export function Goals(props) {
     const [goalsInsert, setGoalsInsert] = React.useState(<Fragment></Fragment>);
     const [newGoalTrigger, setNewGoalTrigger] = React.useState(false);
     const [numGoals, setNumGoals] = React.useState(goalindex ? goalindex.length : 0);
+    const [goalSuggestion, setGoalSuggestion] = React.useState("placeholder")
+    const [suggestionGetter, setSuggestionGetter] = React.useState();
 
     React.useEffect(() => {if (localStorage.getItem('goalindex') && localStorage.getItem('goalindex') != 'null' ) {
         setNumGoals(JSON.parse(localStorage.getItem('goalindex')).length)};
@@ -484,6 +486,43 @@ export function Goals(props) {
         )
     }
 
+    React.useEffect(()=> {
+        setSuggestionGetter(() => new getGoalSuggestion());
+    },[])
+
+    class getGoalSuggestion {
+        constructor(){
+            this.suggestionTimer;
+        }
+        timer(){
+            if (this.suggestionTimer) {
+                clearInterval(this.suggestionTimer);
+                setSuggestionGetter(() => new getGoalSuggestion());
+            }
+            else {
+
+                async function innerGetSuggestion(){
+                    let answer = await new Promise((resolve)=>{
+                        let randomGoals = ["Eat your cat.", "Lick a mountain.", "Burn some sugar.", "Bruh", "(Cringy) Hoppy Birthday Party"];
+                        let goal = randomGoals.at(Math.floor(Math.random()*randomGoals.length));
+                        resolve(goal);
+                    })
+                    return answer;
+                }
+                let suggestion = innerGetSuggestion();
+            
+                setGoalSuggestion(suggestion)
+
+                this.suggestionTimer = setInterval(()=>{
+            
+                    let suggestion = innerGetSuggestion();
+            
+                    setGoalSuggestion(suggestion);}, 60000)
+            }
+        }
+
+    }
+
     
     function toggleNewGoal(){
         setDisplayNewGoal(state => !state);
@@ -492,6 +531,7 @@ export function Goals(props) {
             setNewGoalText('');
             setNewGoalPublic(false);
         }
+        suggestionGetter.timer();
         return true;
     }
 
@@ -561,9 +601,7 @@ export function Goals(props) {
                         <div>
                             <h4>Goal Suggestion</h4>
                             <ul>
-                                <li>Eat your cat</li>
-                                <li>Eat your hair</li>
-                                <li>Invent a new language</li>
+                                <li>{goalSuggestion}</li>
                             </ul>
                         </div>
                     </div>
