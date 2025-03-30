@@ -16,16 +16,20 @@ app.use(express.json());
 // update goal, delete goal, create goal, get goals
 // get goal index, get next goal id
 
-
-app.use('*', ((req, res) => {
-    res.send({chicken: 'nuggets'});
-}))
-
 let router = express.Router();
 
 app.use('/api', router);
 
-router.post('/register');
+router.post('/register', async (req, res) => {
+    if (await findUser(req.username)) {
+        res.status(409).send({username: req.username});
+    }
+    else {
+        await addAuth(req.username);
+        await addUser(req.username, req.password);
+        res.send({username: req.username});
+    }
+});
 
 router.put('/login');
 
@@ -51,5 +55,25 @@ goals.put('/:id');
 
 //create goal
 goals.post('/:id')
+
+async function findUser(username) {
+    for (i of users) {
+        if (username == users.username) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+//need to encrypt here
+async function addUser(username, password) {
+    users.push({username:{username}, password:{password}});
+}
+
+async function addAuth(username) {
+
+
+}
 
 app.listen(8080);
