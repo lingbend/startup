@@ -62,21 +62,55 @@ let goals = express.Router();
 router.use('/goals', goals);
 
 //get goals index
-goals.get('/index');
+goals.get('/index', authenticateRequest, async (req, res) => {
+    let username = await getUserFromAuth(req.cookies?.['session']);
+    let user = await getUser(username);
+    res.send({goalindex: user.goalList.keys().foreach((value) => parseInt(value))});
+});
 
 //get next goal id
-goals.get('/id');
+goals.get('/id', authenticateRequest, async (req, res) => {
+    let username = await getUserFromAuth(req.cookies?.['session']);
+    let user = await getUser(username);
+    res.send({nextGoalID: user.nextGoalID});
+});
 
 //get all goals
-goals.get('*');
+goals.get('*', authenticateRequest, async (req, res) => {
+    let username = await getUserFromAuth(req.cookies?.['session']);
+    let user = await getUser(username);
+    res.send({goalList: user.goalList});
+});
 
-goals.delete('/:id');
+goals.delete('/:id', authenticateRequest, async (req, res) => {
+    let username = await getUserFromAuth(req.cookies?.['session'])
+    let user = await getUser(username);
+    if (user.goalList[req.params.id]) {
+        delete user.goalList[req.params.id];
+        res.send({goalindex: user.goalList.keys().foreach((value) => parseInt(value)), goalList: user.goalList});
+    }
+    else {
+        res.status(404).send({goalindex: user.goalList.keys().foreach((value) => parseInt(value)), goalList: user.goalList});
+    }
+});
 
 //update goal
-goals.put('/:id');
+goals.put('/:id', authenticateRequest, async (req, res) => {
+    
+});
 
 //create goal
 goals.post('/:id')
+
+async function authenticateRequest(req, res, next) {
+    let authToken = req.cookies?.['session'];
+    if (await findAuth(authToken)) {
+        next();
+    }
+    else {
+        res.status(401).send({message: "Unauthorized"});
+    }
+}
 
 async function findUser(username) {
     for (let user of users) {
@@ -89,7 +123,7 @@ async function findUser(username) {
 
 async function addUser(username, password) {
     let hashedPassword = await bcrypt.hash(password, 10);
-    users.push({username, password:hashedPassword.valueOf()});
+    users.push({username, password:hashedPassword.valueOf(), goalList: {}, nextGoalID: 1});
 }
 
 async function getUser(username) {
@@ -100,10 +134,17 @@ async function getUser(username) {
     }
 }
 
+async function getUserFromAuth(authToken) {
+    for (let auth of auths) {
+        if (auth.authToken == authToken) {
+            return auth.username;
+        }
+    }
+}
+
 async function addAuth(username) {
     let authToken = uuid.v4();
     auths.push({authToken, username});
-    console.log(auths);
     return authToken;
 }
 
@@ -111,7 +152,15 @@ async function deleteAuth (authToken) {
     auths.filter((auth) => {
         auth.authToken != authToken;
     })
-    console.log(auths);
+}
+
+async function findAuth (authToken) {
+    for (let auth in auths) {
+        if (auth.authToken == authToken) {
+            return true;
+        }
+    return false;
+    }
 }
 
 async function sendAuthCookie(res, cookie) {
