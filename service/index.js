@@ -32,7 +32,21 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.put('/login');
+router.put('/login', async (req, res) => {
+    if (!await findUser(req.body.username)) {
+        res.status(401).send({username: req.body.username});
+    }
+    else {
+        let user = getUser(req.body.username);
+        let hashedPassword = user.password;
+        if (bcrypt.compare(req.body.password, hashedPassword)) {
+            res.send({username: req.body.username});
+        }
+        else {
+            res.status(401).send({username: req.body.username});
+        }
+    }
+});
 
 router.delete('/login');
 
@@ -69,6 +83,14 @@ async function findUser(username) {
 async function addUser(username, password) {
     let hashedPassword = bcrypt.hash(password, 10);
     users.push({username, password:hashedPassword.valueOf()});
+}
+
+async function getUser(username) {
+    for (let user of users) {
+        if (username == user.username) {
+            return user;
+        }
+    }
 }
 
 async function addAuth(username) {
