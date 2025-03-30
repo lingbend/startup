@@ -8,7 +8,7 @@ let app = express();
 let goalIndex = [];
 let goalList = [];
 let users = [];
-let auth = [];
+let auths = [];
 
 
 app.use(express.json());
@@ -48,7 +48,14 @@ router.put('/login', async (req, res) => {
     }
 });
 
-router.delete('/login');
+router.delete('/login', (req, res) => {
+    let authToken = req.cookies?.['session'];
+    if (authToken) {
+        deleteAuth(authToken);
+    }
+    res.clearCookie(authToken)
+    res.send({});
+});
 
 let goals = express.Router();
 
@@ -95,8 +102,16 @@ async function getUser(username) {
 
 async function addAuth(username) {
     let authToken = uuid.v4();
-    auth.push({authToken:{authToken}, username:{username}});
+    auths.push({authToken, username});
+    console.log(auths);
     return authToken;
+}
+
+async function deleteAuth (authToken) {
+    auths.filter((auth) => {
+        auth.authToken != authToken;
+    })
+    console.log(auths);
 }
 
 async function sendAuthCookie(res, cookie) {
