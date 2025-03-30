@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
     else {
         let authToken = await addAuth(req.body.username);
         await addUser(req.body.username, req.body.password);
-        sendAuthCookie(res, authToken);
+        await sendAuthCookie(res, authToken);
         res.send({username: req.body.username});
     }
 });
@@ -37,9 +37,9 @@ router.put('/login', async (req, res) => {
         res.status(401).send({username: req.body.username});
     }
     else {
-        let user = getUser(req.body.username);
+        let user = await getUser(req.body.username);
         let hashedPassword = user.password;
-        if (bcrypt.compare(req.body.password, hashedPassword)) {
+        if (await bcrypt.compare(req.body.password, hashedPassword)) {
             res.send({username: req.body.username});
         }
         else {
@@ -48,10 +48,10 @@ router.put('/login', async (req, res) => {
     }
 });
 
-router.delete('/login', (req, res) => {
+router.delete('/login', async (req, res) => {
     let authToken = req.cookies?.['session'];
     if (authToken) {
-        deleteAuth(authToken);
+        await deleteAuth(authToken);
     }
     res.clearCookie(authToken)
     res.send({});
@@ -88,7 +88,7 @@ async function findUser(username) {
 }
 
 async function addUser(username, password) {
-    let hashedPassword = bcrypt.hash(password, 10);
+    let hashedPassword = await bcrypt.hash(password, 10);
     users.push({username, password:hashedPassword.valueOf()});
 }
 
