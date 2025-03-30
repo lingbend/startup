@@ -21,13 +21,14 @@ let router = express.Router();
 app.use('/api', router);
 
 router.post('/register', async (req, res) => {
-    if (await findUser(req.username)) {
-        res.status(409).send({username: req.username});
+    if (await findUser(req.body.username)) {
+        res.status(409).send({username: req.body.username});
     }
     else {
-        await addAuth(req.username);
-        await addUser(req.username, req.password);
-        res.send({username: req.username});
+        let authToken = await addAuth(req.body.username);
+        await addUser(req.body.username, req.body.password);
+        sendAuthCookie(res, authToken);
+        res.send({username: req.body.username});
     }
 });
 
@@ -57,24 +58,31 @@ goals.put('/:id');
 goals.post('/:id')
 
 async function findUser(username) {
-    for (i of users) {
-        if (username == users.username) {
+    for (let user of users) {
+        if (username == user.username) {
             return true;
         }
     }
     return false;
 }
 
-
-//need to encrypt here
 async function addUser(username, password) {
     let hashedPassword = bcrypt.hash(password, 10);
-    users.push({username:{username}, password:{hashedPassword}});
+    users.push({username, password:hashedPassword.valueOf()});
 }
 
 async function addAuth(username) {
     let authToken = uuid.v4();
     auth.push({authToken:{authToken}, username:{username}});
+    return authToken;
+}
+
+async function sendAuthCookie(res, cookie) {
+    res.cookie('session', cookie, {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'strict'
+    });
 }
 
 app.listen(8080);
