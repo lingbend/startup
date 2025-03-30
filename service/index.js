@@ -68,12 +68,13 @@ async function findUser(username) {
 
 //need to encrypt here
 async function addUser(username, password) {
-    users.push({username:{username}, password:{password}});
+    let hashedPassword = bcrypt.hash(password, 10);
+    users.push({username:{username}, password:{hashedPassword}});
 }
 
 async function addAuth(username) {
-
-
+    let authToken = uuid.v4();
+    auth.push({authToken:{authToken}, username:{username}});
 }
 
 app.listen(8080);
