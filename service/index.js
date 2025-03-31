@@ -4,9 +4,6 @@ let bcrypt = require('bcryptjs');
 let uuid = require('uuid');
 let app = express();
 
-
-let goalIndex = [];
-let goalList = [];
 let users = [];
 let auths = [];
 
@@ -15,8 +12,8 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(express.static('public'));
-app.use(express.static('C:/Users/lingb/OneDrive/Desktop/startup/startup'));
+app.use(express.static('public'));
+// app.use(express.static('C:/Users/lingb/OneDrive/Desktop/startup/startup'));
 //later change to 'public'
 
 // endpoints needed login, logout, register
@@ -129,7 +126,7 @@ goals.post('/:id', authenticateRequest, async (req, res) => {
 })
 
 app.use((req, res) => {
-    res.sendFile('index.jsx', {root:'C:/Users/lingb/OneDrive/Desktop/startup/startup'});
+    res.sendFile('index.jsx', {root:'public'});
 })
 //need to change to 'public' amd 'index.html' later
 
@@ -208,4 +205,6 @@ async function sendAuthCookie(res, cookie) {
     });
 }
 
-app.listen(port);
+app.listen(port, ()=> {
+    console.log(port);
+});

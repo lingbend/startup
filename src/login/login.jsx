@@ -1,6 +1,7 @@
 import React from 'react';
 import '/src/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
 export function Login(props) {
 
@@ -8,25 +9,55 @@ export function Login(props) {
 
     const [tempPass, setTempPass] = React.useState('');
 
-    function login() {
-
-        localStorage.setItem('userName', tempUserName);
-        props.setUserName(tempUserName);
-        localStorage.setItem('authToken', 'chicken');
-        props.setAuthToken("chicken");
+    async function login() {
+        fetch('/api/login', {
+            method: 'PUT', 
+            body: JSON.stringify({
+                username: tempUserName,
+                password: tempPass
+            }),
+            headers: {
+                'Content-type':'application/json'
+            }})
+            .then((response) => {
+                if (response?.status == 200) {
+                    console.log(response);
+                    localStorage.setItem('userName', tempUserName);
+                    props.setUserName(tempUserName);
+                }
+                else {
+                    console.log("error")
+                }
+            })
     }
 
     function createUser() {
-        localStorage.setItem('userName', tempUserName);
-        props.setUserName(tempUserName);
-        localStorage.setItem('authToken', 'chicken');
-        props.setAuthToken("chicken");
+        console.log('creating...');
+        fetch('/api/register', {
+            method: 'POST', 
+            body: JSON.stringify({
+                username: tempUserName,
+                password: tempPass
+            }),
+            headers: {
+                'Content-type':'application/json'
+            }})
+            .then((response) => {
+                if (response?.status == 200) {
+                    console.log(response);
+                    localStorage.setItem('userName', tempUserName);
+                    props.setUserName(tempUserName);
+                }
+                else {
+                    console.log("error")
+                }
+            })
     }
 
 
 
     return (
-        <form className="login" action="/goals" method="get">
+        <form className="login" method="get">
             <div>
                 <label for="username">Username</label>
                 <input id="username" name="username" type="text" onChange={(e) => setTempUserName(e.target.value)}/>
@@ -37,10 +68,10 @@ export function Login(props) {
             </div>
             <br/>
             <div>
-                <button className="btn btn-warning" type="submit" onClick={login}>Login</button>
+                <button className="btn btn-warning" type="button" onClick={login}>Login</button>
             </div>
             <div>
-                <button className="btn btn-warning" type="submit" onClick={createUser}>Create Account</button>
+                <button className="btn btn-warning" type="button" onClick={createUser}>Create Account</button>
             </div>
         </form>
     );
