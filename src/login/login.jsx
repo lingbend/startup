@@ -9,6 +9,7 @@ export function Login(props) {
 
     const [tempPass, setTempPass] = React.useState('');
 
+
     async function login() {
         fetch('/api/login', {
             method: 'PUT', 
@@ -24,6 +25,7 @@ export function Login(props) {
                     console.log(response);
                     localStorage.setItem('userName', tempUserName);
                     props.setUserName(tempUserName);
+                    props.setLoginState("LoggedIn");
                 }
                 else {
                     console.log("error")
@@ -31,7 +33,26 @@ export function Login(props) {
             })
     }
 
-    function createUser() {
+    async function logout() {
+        fetch('/api/login', {
+            method: 'DELETE', 
+            headers: {
+                'Content-type':'application/json'
+            }})
+            .then((response) => {
+                if (response?.status == 200) {
+                    console.log(response);
+                    localStorage.setItem('userName', '');
+                    props.setUserName('');
+                    props.setLoginState("LoggedOut");
+                }
+                else {
+                    console.log("error")
+                }
+            })
+    }
+
+    async function createUser() {
         console.log('creating...');
         fetch('/api/register', {
             method: 'POST', 
@@ -47,6 +68,7 @@ export function Login(props) {
                     console.log(response);
                     localStorage.setItem('userName', tempUserName);
                     props.setUserName(tempUserName);
+                    props.setLoginState("LoggedIn");
                 }
                 else {
                     console.log("error")
@@ -68,10 +90,11 @@ export function Login(props) {
             </div>
             <br/>
             <div>
-                <button className="btn btn-warning" type="button" onClick={login}>Login</button>
+                {props.loginState == "LoggedOut" && <button className="btn btn-warning" type="button" onClick={login}>Login</button>}
+                {props.loginState == "LoggedIn" && <button className="btn btn-warning" type="button" onClick={logout}>Logout</button>}
             </div>
             <div>
-                <button className="btn btn-warning" type="button" onClick={createUser}>Create Account</button>
+                {props.loginState == "LoggedOut" && <button className="btn btn-warning" type="button" onClick={createUser}>Create Account</button>}
             </div>
         </form>
     );

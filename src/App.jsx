@@ -8,6 +8,8 @@ import {Routes, Route, BrowserRouter, NavLink} from 'react-router-dom';
 export default function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
     const [authToken, setAuthToken] = React.useState(localStorage.getItem('authToken') || '');
+    const [loginState, setLoginState] = React.useState('LoggedOut');
+
 
     React.useEffect(() => {
         if (!localStorage.getItem('nextGoalID')) {
@@ -31,8 +33,8 @@ export default function App() {
         </header>
         <main>
             <Routes>
-                <Route path="/" element={<Login setUserName={(userName) => setUserName(userName)} setAuthToken={setAuthToken}/>}/>
-                <Route path="/goals" element={<Goals userName={userName}/>}/>
+                <Route path="/" element={<Login setUserName={(userName) => setUserName(userName)} setAuthToken={setAuthToken} loginState={loginState} setLoginState={setLoginState}/>}/>
+                {loginState == "LoggedIn" && <Route path="/goals" element={<Goals userName={userName}/>}/>}
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </main>
