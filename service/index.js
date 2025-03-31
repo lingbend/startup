@@ -2,6 +2,7 @@ let express = require('express');
 let cookieMonster = require('cookie-parser');
 let bcrypt = require('bcryptjs');
 let uuid = require('uuid');
+const cookieParser = require('cookie-parser');
 let app = express();
 
 
@@ -12,6 +13,7 @@ let auths = [];
 
 
 app.use(express.json());
+app.use(cookieParser());
 // endpoints needed login, logout, register
 // update goal, delete goal, create goal, get goals
 // get goal index, get next goal id
@@ -40,6 +42,8 @@ router.put('/login', async (req, res) => {
         let user = await getUser(req.body.username);
         let hashedPassword = user.password;
         if (await bcrypt.compare(req.body.password, hashedPassword)) {
+            let authToken = await addAuth(req.body.username);
+            await sendAuthCookie(res, authToken);
             res.send({username: req.body.username});
         }
         else {
@@ -64,7 +68,7 @@ router.use('/goals', goals);
 //get goals index
 goals.get('/index', authenticateRequest, async (req, res) => {
     let user = await getUserFromAuth(req.cookies?.['session']);
-    res.send({goalindex: user.goalList.keys().foreach((value) => parseInt(value))});
+    res.send({goalindex: Object.keys(user.goalList)});
 });
 
 //get next goal id
@@ -81,35 +85,38 @@ goals.get('*', authenticateRequest, async (req, res) => {
 
 goals.delete('/:id', authenticateRequest, async (req, res) => {
     let user = await getUserFromAuth(req.cookies?.['session']);
-    if (user.goalList[req.params.id]) {
-        delete user.goalList[req.params.id];
+    let reqID = parseInt(req.params.id);
+    if (user.goalList[reqID]) {
+        delete user.goalList[reqID];
     }
     else {
         res.status(404);
     }
-    res.send({goalindex: user.goalList.keys().foreach((value) => parseInt(value)), goalList: user.goalList});
+    res.send({goalindex: Object.keys(user.goalList), goalList: user.goalList});
 });
 
 //update goal
 goals.put('/:id', authenticateRequest, async (req, res) => {
     let user = await getUserFromAuth(req.cookies?.['session']);
-    if (user.goalList[req.params.id]) {
-        user.goalList[req.params.id] = req.body.goal;
+    let reqID = parseInt(req.params.id);
+    if (user.goalList[reqID]) {
+        user.goalList[reqID] = req.body.goal;
     }
     else {
         res.status(404);
     }
-    res.send({goalindex: user.goalList.keys().foreach((value) => parseInt(value)), goalList: user.goalList});
+    res.send({goalindex: Object.keys(user.goalList), goalList: user.goalList});
 });
 
 //create goal
 goals.post('/:id', authenticateRequest, async (req, res) => {
     let user = await getUserFromAuth(req.cookies?.['session']);
-    if (user.nextGoalID === req.params.id) {
-        user.goalList[req.params.id] = req.body.goal;
+    let reqID = parseInt(req.params.id);
+    if (user.nextGoalID === reqID) {
+        user.goalList[reqID] = req.body.goal;
         user.nextGoalID++;
-        res.send({goalindex: user.goalList.keys().foreach((value) => parseInt(value)), goalList: user.goalList, nextGoalID:
-            user.nextGoalID, currentGoalID: req.params.id});
+        res.send({goalindex: Object.keys(user.goalList), goalList: user.goalList, nextGoalID:
+            user.nextGoalID, currentGoalID: reqID});
     }
     else {
         res.status(400).send({message: "Wrong GoalID", nextGoalID: user.nextGoalID});
@@ -157,7 +164,7 @@ async function getUserNameFromAuth(authToken) {
 }
 
 async function getUserFromAuth(authToken) {
-    let username = await getUserNameFromAuth(req.cookies?.['session'])
+    let username = await getUserNameFromAuth(authToken);
     let user = await getUser(username);
     return user;
 }
@@ -169,13 +176,13 @@ async function addAuth(username) {
 }
 
 async function deleteAuth (authToken) {
-    auths.filter((auth) => {
+    auths = auths.filter((auth) => {
         auth.authToken != authToken;
     })
 }
 
 async function findAuth (authToken) {
-    for (let auth in auths) {
+    for (let auth of auths) {
         if (auth.authToken == authToken) {
             return true;
         }
