@@ -1,8 +1,7 @@
 let express = require('express');
-let cookieMonster = require('cookie-parser');
+let cookieParser = require('cookie-parser');
 let bcrypt = require('bcryptjs');
 let uuid = require('uuid');
-const cookieParser = require('cookie-parser');
 let app = express();
 
 
@@ -14,6 +13,10 @@ let auths = [];
 
 app.use(express.json());
 app.use(cookieParser());
+// app.use(express.static('public'));
+app.use(express.static('C:/Users/lingb/OneDrive/Desktop/startup/startup'));
+//later change to 'public'
+
 // endpoints needed login, logout, register
 // update goal, delete goal, create goal, get goals
 // get goal index, get next goal id
@@ -121,6 +124,10 @@ goals.post('/:id', authenticateRequest, async (req, res) => {
     else {
         res.status(400).send({message: "Wrong GoalID", nextGoalID: user.nextGoalID});
     }
+})
+
+app.use((req, res) => {
+    res.sendFile('index.jsx', {root:'C:/Users/lingb/OneDrive/Desktop/startup/startup'});
 })
 
 async function authenticateRequest(req, res, next) {
