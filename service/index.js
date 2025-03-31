@@ -10,6 +10,8 @@ let goalList = [];
 let users = [];
 let auths = [];
 
+const port = process.argv.length > 2 ? process.argv[2] : 4000;
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -129,6 +131,7 @@ goals.post('/:id', authenticateRequest, async (req, res) => {
 app.use((req, res) => {
     res.sendFile('index.jsx', {root:'C:/Users/lingb/OneDrive/Desktop/startup/startup'});
 })
+//need to change to 'public' amd 'index.html' later
 
 async function authenticateRequest(req, res, next) {
     let authToken = req.cookies?.['session'];
@@ -205,4 +208,4 @@ async function sendAuthCookie(res, cookie) {
     });
 }
 
-app.listen(8080);
+app.listen(port);
