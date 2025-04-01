@@ -213,28 +213,91 @@ export function GoalItem(props) {
         .then(onEditToggle());
     }
 
-    function updateGoal() {
+    async function updateGoal() {
         let newGoalObj = structuredClone(props.goalObj);
         newGoalObj.nameVar = newGoalName;
         newGoalObj.text = newGoalText;
         newGoalObj.publicVar = newGoalPublic;
         newGoalObj.prog = newGoalProg;
         newGoalObj.streak = currGoalStreak;
-        return localStorage.setItem(newGoalObj.goalID, JSON.stringify(newGoalObj));
+        let response = await fetch('/api/goals/' + newGoalObj.goalID, {
+            method: 'PUT',
+            body: JSON.stringify({
+                goal: {
+                    nameVar: newGoalObj.nameVar,
+                    text: newGoalObj.text,
+                    publicVar: newGoalObj.publicVar,
+                    date: newGoalObj.creationDate,
+                    goalID: newGoalObj.goalID,
+                    prog: newGoalObj.prog,
+                    streak: newGoalObj.streak
+                }
+            }),
+            headers: {
+                'Content-type':'application/json'
+            }})
+            if (response?.status == 200) {
+                console.log(response);
+            }
+            else {
+                console.log('error');
+                return;
+            }
+
+            let jsonResponse = await response.json();
+
+            props.setNumGoals(jsonResponse.goalindex.length);
+            props.setGoalIndex(jsonResponse.goalindex);
+            localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
+
+            return jsonResponse;
     }
 
     function deleteGoal() {
-        return new Promise((resolve) => {
-            localStorage.removeItem(currGoalID);
-            resolve(localStorage.getItem(currGoalID));
-        })
-        .then(() => onEditToggle())
-        .then(props.setGoalIndex(() => {
-            let currIndex = JSON.parse(localStorage.getItem('goalindex'));
-            currIndex = currIndex.filter((val) => val != currGoalID);
-            return currIndex;
-        }))
-        .then(props.setNumGoals(() => JSON.parse(localStorage.getItem('goalindex')).length))
+        deleteGoalFromServer(currGoalID);
+        onEditToggle();
+
+        // return new Promise((resolve) => {
+        //     localStorage.removeItem(currGoalID);
+        //     resolve(localStorage.getItem(currGoalID));
+        // })
+        // .then(() => )
+        // .then(props.setGoalIndex(() => {
+        //     let currIndex = JSON.parse(localStorage.getItem('goalindex'));
+        //     currIndex = currIndex.filter((val) => val != currGoalID);
+        //     return currIndex;
+        // }))
+        // .then(props.setNumGoals(() => JSON.parse(localStorage.getItem('goalindex')).length))
+    }
+
+
+    async function deleteGoalFromServer(ID){
+        await fetch('/api/goals/' + ID, {
+            method: 'DELETE',
+            headers: {
+                'Content-type':'application/json'
+            }}).then(response => {
+                if (response?.status == 200) {
+                    console.log(response);
+                    return response;
+                }
+                else {
+                    console.log('error');
+                }
+            }).then((response) => response.json())
+            .then((jsonResponse) => {
+                console.log(jsonResponse.goalindex)
+                if (jsonResponse.goalindex.length != 0) {
+                    localStorage.setItem('goalindex', jsonResponse.goalindex);
+                    props.setNumGoals(jsonResponse.goalindex.length);
+                    props.setGoalIndex(jsonResponse.goalindex);
+                }
+                else {
+                    localStorage.setItem('goalindex', ["-1"]);
+                    props.setNumGoals(0);
+                    props.setGoalIndex([]);
+                }
+            }).catch((response) => console.log(response));
     }
 
 

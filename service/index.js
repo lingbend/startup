@@ -70,7 +70,7 @@ router.use('/goals', goals);
 //get goals index
 goals.get('/index', authenticateRequest, async (req, res) => {
     let user = await getUserFromAuth(req.cookies?.['session']);
-    res.send({goalindex: Object.keys(user.goalList)});
+    res.send({goalindex: Object.keys(user.goalList), nextGoalID: user.nextGoalID});
 });
 
 //get next goal id
@@ -80,7 +80,7 @@ goals.get('/id', authenticateRequest, async (req, res) => {
 });
 
 //get all goals
-goals.get('*', authenticateRequest, async (req, res) => {
+goals.get('', authenticateRequest, async (req, res) => {
     let user = await getUserFromAuth(req.cookies?.['session']);
     res.send({goalList: user.goalList});
 });
@@ -117,7 +117,7 @@ goals.post('/:id', authenticateRequest, async (req, res) => {
     if (user.nextGoalID === reqID) {
         user.goalList[reqID] = req.body.goal;
         user.nextGoalID++;
-        res.send({goalindex: Object.keys(user.goalList), goalList: user.goalList, nextGoalID:
+        res.status(200).send({goalindex: Object.keys(user.goalList), goalList: user.goalList, nextGoalID:
             user.nextGoalID, currentGoalID: reqID});
     }
     else {
@@ -193,8 +193,8 @@ async function findAuth (authToken) {
         if (auth.authToken == authToken) {
             return true;
         }
-    return false;
     }
+    return false;
 }
 
 async function sendAuthCookie(res, cookie) {
