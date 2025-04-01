@@ -240,6 +240,7 @@ export function Goals(props) {
             resolve(setGoalsInsert(<Fragment>{tempInsert}</Fragment>));});
         setNewGoalName('');
         setNewGoalText('');
+        //////////////////////////////////////////////////////////hard coded
         setNewGoalPublic(false);
         if (response?.status == 200) {
             localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
@@ -257,7 +258,7 @@ export function Goals(props) {
                     nameVar: newGoal.nameVar,
                     text: newGoal.text,
                     publicVar: newGoal.publicVar,
-                    date: newGoal.creationDate,
+                    creationDate: newGoal.creationDate,
                     goalID: newGoal.goalID,
                     prog: newGoal.prog,
                     streak: newGoal.streak,

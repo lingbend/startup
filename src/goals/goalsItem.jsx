@@ -227,7 +227,7 @@ export function GoalItem(props) {
                     nameVar: newGoalObj.nameVar,
                     text: newGoalObj.text,
                     publicVar: newGoalObj.publicVar,
-                    date: newGoalObj.creationDate,
+                    creationDate: newGoalObj.creationDate,
                     goalID: newGoalObj.goalID,
                     prog: newGoalObj.prog,
                     streak: newGoalObj.streak
