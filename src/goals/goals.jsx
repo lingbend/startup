@@ -242,6 +242,7 @@ export function Goals(props) {
         setNewGoalText('');
         setNewGoalPublic(false);
         if (response?.status == 200) {
+            localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
             setNumGoals(tempIndex?.length);
             setGoalIndex(tempIndex);
         }
