@@ -315,7 +315,7 @@ export function GoalItem(props) {
             </td>
             <td>
                 <svg width="32" height="32">
-                    {newGoalProg < 95 && <path d={progLoop} stroke="orange" fill="none" strokeWidth="5">progress</path>}{newGoalProg >= 95 && <circle cx="16.5" cy="16.5" r="13" stroke="orange" strokeWidth="5"/>}
+                    {newGoalProg < 95 && <path d={progLoop} stroke="orange" fill="none" strokeWidth="5">progress</path>}{newGoalProg >= 95 && <circle cx="16.5" cy="16.5" r="13" fill="none" stroke="orange" strokeWidth="5"/>}
                 </svg>
             </td>
             <td>

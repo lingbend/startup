@@ -107,7 +107,8 @@ goals.put('/:id', authenticateRequest, async (req, res) => {
     else {
         res.status(404);
     }
-    res.send({goalindex: Object.keys(user.goalList), goalList: user.goalList});
+    res.send({goalindex: Object.keys(user.goalList), goalList: user.goalList, nextGoalID:
+        user.nextGoalID});
 });
 
 //create goal

@@ -51,6 +51,7 @@ export function Goals(props) {
             .then((jsonResponse) => {
                 setNumGoals(jsonResponse.goalindex.length);
                 setGoalIndex(jsonResponse.goalindex);
+                localStorage.setItem('goalindex', jsonResponse.goalindex);
                 localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
             }).catch((response) => console.log(response));
     }, []);
@@ -240,8 +241,10 @@ export function Goals(props) {
         setNewGoalName('');
         setNewGoalText('');
         setNewGoalPublic(false);
-        setNumGoals(tempIndex.length);
-        setGoalIndex(tempIndex);
+        if (response?.status == 200) {
+            setNumGoals(tempIndex?.length);
+            setGoalIndex(tempIndex);
+        }
     }
 
     async function saveGoalToServer(newGoal) {
@@ -277,7 +280,7 @@ export function Goals(props) {
                 // console.log(jsonResponse);
                 // console.log(JSON.stringify(jsonResponse));
                 console.log('json');
-                new Promise((resolve) => resolve(jsonResponse)).then( (jsonResponse) => {
+                return await new Promise((resolve) => resolve(jsonResponse)).then( (jsonResponse) => {
                     localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
                     newGoal.goalID = jsonResponse.nextGoalID;
                     return saveGoalToServer(newGoal)});
