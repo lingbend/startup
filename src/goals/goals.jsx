@@ -204,7 +204,6 @@ export function Goals(props) {
             resolve(setGoalsInsert(<Fragment>{tempInsert}</Fragment>));});
         setNewGoalName('');
         setNewGoalText('');
-        //////////////////////////////////////////////////////////hard coded
         setNewGoalPublic(false);
         if (response?.status == 200) {
             localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
@@ -214,7 +213,6 @@ export function Goals(props) {
     }
 
     async function saveGoalToServer(newGoal) {
-        //need to handle wrong goal id here
         let response = await fetch('/api/goals/'+newGoal.goalID, {
             method: 'POST', 
             body: JSON.stringify({
