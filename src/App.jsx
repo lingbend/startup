@@ -10,11 +10,32 @@ export default function App() {
     const [authToken, setAuthToken] = React.useState(localStorage.getItem('authToken') || '');
     const [loginState, setLoginState] = React.useState('LoggedOut');
 
+    function checkLogin() {
+        return checkLoginServer();
+    }
+
+    async function checkLoginServer() {
+        let response = await fetch('/api/login', {
+            method: 'GET',
+            headers: {
+                'Content-type':'application/json'
+            }});
+        if (response?.status == 200) {
+            console.log("loggedIn");
+            return 'LoggedIn';
+        }
+        else {
+            console.log('loggedout');
+            return 'LoggedOut';
+        }
+    }
+
 
     React.useEffect(() => {
         if (!localStorage.getItem('nextGoalID')) {
             localStorage.setItem('nextGoalID', 0);
         }
+        checkLogin();
     }, []);
 
     return (

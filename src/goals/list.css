@@ -1,12 +1,22 @@
 .goal-list{
     all:unset;
-    width:68.1vw;
     margin-top:2vh;
     margin-bottom: 2vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+
+
+    .new-goal{
+        width:30vw;
+    }
+
+    .goal_list{
+        width:68.1vw;
+
+    }
+
 
     button {
         margin:4px;
@@ -20,7 +30,7 @@
     }
 
     table {
-        width:100%;
+        width:68.1vw;
         text-align: center;
         th {
             font-size:10pt;
@@ -34,6 +44,7 @@
             * {
                 margin-top:3px;
                 margin-bottom: 3px;
+                max-width: 85%;
             }
             h1, h2, h3, h4 {
                 margin-bottom: 5px;
@@ -44,7 +55,10 @@
             input {
                 align-items: left;
             }
-
+            li {
+                max-width: 85%;
+                text-wrap: pretty;
+            }
         }
         td {
             width:6.66%;
@@ -66,5 +80,9 @@
         margin-left:20%;
         margin-right:10%;
         max-height: 10px;
+    }
+    
+    li {
+        
     }
 }

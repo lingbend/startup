@@ -59,9 +59,19 @@ router.delete('/login', async (req, res) => {
     if (authToken) {
         await deleteAuth(authToken);
     }
-    res.clearCookie(authToken)
+    res.clearCookie(authToken);
     res.send({});
 });
+
+router.get('/login', async (req, res) => {
+    let authToken = req.cookies?.['session'];
+    if (await findAuth(authToken)) {
+        res.send({});
+    }
+    else {
+        res.status(401).send({});
+    }
+})
 
 let goals = express.Router();
 

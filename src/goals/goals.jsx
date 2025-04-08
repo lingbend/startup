@@ -183,9 +183,25 @@ export function Goals(props) {
             else {
 
                 async function innerGetSuggestion(){
+
+                    let formattedQuotes = [];
+                    let quotesResponse = await fetch("https://thequoteshub.com/api/");
+                    console.log(quotesResponse);
+                    let jsonQuotes = await quotesResponse.json();
+                    let author = jsonQuotes?.["author"];
+                    let quote = jsonQuotes?.["text"];
+
+                    formattedQuotes.push(quote + " - " + author);
+
+                    // for (let i = 0; i < 5; i++) {
+
+                    // }
+      
                     let answer = await new Promise((resolve)=>{
                         let randomGoals = ["Eat your cat.", "Lick a mountain.", "Burn some sugar.", "Bruh", "(Cringy) Hoppy Birthday Party"];
-                        let goal = randomGoals.at(Math.floor(Math.random()*randomGoals.length));
+                        // let goal = randomGoals.at(Math.floor(Math.random()*randomGoals.length));
+                        // let goal = formattedQuotes.at(Math.floor(Math.random()*randomGoals.length));
+                        let goal = formattedQuotes[0];
                         resolve(goal);
                     })
                     return answer;
@@ -314,7 +330,7 @@ export function Goals(props) {
             <div>
                 <div className="bg-dark text-light container-fluid goal-list">
                     <button className="btn btn-warning" type="button" onClick={toggleNewGoal}>New Goal</button>
-                    <div hidden={displayNewGoal}>
+                    <div hidden={displayNewGoal} className="new-goal">
                         <form id="goalnew_form" method="post">
                             <div>
                                 <h3><label htmlFor="goal_input">Edit here:</label></h3>
@@ -334,7 +350,7 @@ export function Goals(props) {
                             </div>
                         </form>
                         <div>
-                            <h4>Goal Suggestion</h4>
+                            <h4>Inspiration</h4>
                             <ul>
                                 <li>{goalSuggestion}</li>
                             </ul>
@@ -343,7 +359,7 @@ export function Goals(props) {
                     <br />
                     <table className="goal_list">
                         <thead>
-                            <tr hidden={goalindex.at(0) == -1 || goalindex.length < 1}>
+                            <tr>
                                 <th scope="col">Daily Check</th>
                                 <th scope="col">Streak</th>
                                 <th scope="col">Progress</th>

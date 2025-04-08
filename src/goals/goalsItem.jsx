@@ -27,6 +27,8 @@ export function GoalItem(props) {
         setSuggestionGetter(() => new getGoalSuggestion());
     },[])
 
+
+    //need to add inspirational quote api call here
     class getGoalSuggestion {
         constructor(){
             this.suggestionTimer;
@@ -39,12 +41,28 @@ export function GoalItem(props) {
             else {
 
                 async function innerGetSuggestion(){
-                    let suggestion = await new Promise((resolve)=>{
+
+                    let formattedQuotes = [];
+                    let quotesResponse = await fetch("https://thequoteshub.com/api/");
+                    console.log(quotesResponse);
+                    let jsonQuotes = await quotesResponse.json();
+                    let author = jsonQuotes?.["author"];
+                    let quote = jsonQuotes?.["text"];
+
+                    formattedQuotes.push(quote + " - " + author);
+
+                    // for (let i = 0; i < 5; i++) {
+
+                    // }
+      
+                    let answer = await new Promise((resolve)=>{
                         let randomGoals = ["Eat your cat.", "Lick a mountain.", "Burn some sugar.", "Bruh", "(Cringy) Hoppy Birthday Party"];
-                        let goal = randomGoals.at(Math.floor(Math.random()*randomGoals.length));
+                        // let goal = randomGoals.at(Math.floor(Math.random()*randomGoals.length));
+                        // let goal = formattedQuotes.at(Math.floor(Math.random()*randomGoals.length));
+                        let goal = formattedQuotes[0];
                         resolve(goal);
                     })
-                    return suggestion;
+                    return answer;
                 }
                 let suggestion = innerGetSuggestion();
             
@@ -350,7 +368,7 @@ export function GoalItem(props) {
                         </div>
                     </form>
                     <div>
-                        <h4>Goal Suggestion</h4>
+                        <h4>Inspiration</h4>
                         <ul>
                             <li>{goalSuggestion}</li>
                         </ul>

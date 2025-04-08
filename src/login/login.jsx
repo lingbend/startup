@@ -9,6 +9,7 @@ export function Login(props) {
 
     const [tempPass, setTempPass] = React.useState('');
 
+    //Add login error messages and make auto login checking actually work
 
     async function login() {
         fetch('/api/login', {
@@ -90,11 +91,11 @@ export function Login(props) {
             </div>
             <br/>
             <div>
-                {props.loginState == "LoggedOut" && <button className="btn btn-warning" type="button" onClick={login}>Login</button>}
-                {props.loginState == "LoggedIn" && <button className="btn btn-warning" type="button" onClick={logout}>Logout</button>}
+                <button hidden={props.loginState != "LoggedOut"} className="btn btn-warning" type="button" onClick={login}>Login</button>
+                <button hidden={props.loginState != "LoggedIn"} className="btn btn-warning" type="button" onClick={logout}>Logout</button>
             </div>
             <div>
-                {props.loginState == "LoggedOut" && <button className="btn btn-warning" type="button" onClick={createUser}>Create Account</button>}
+                <button hidden={props.loginState != "LoggedOut"} className="btn btn-warning" type="button" onClick={createUser}>Create Account</button>
             </div>
         </form>
     );
