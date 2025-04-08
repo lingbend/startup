@@ -9,6 +9,8 @@ export function Login(props) {
 
     const [tempPass, setTempPass] = React.useState('');
 
+    const [errorMessage, setErrorMessage] = React.useState('');
+
     //Add login error messages and make auto login checking actually work
 
     async function login() {
@@ -27,8 +29,11 @@ export function Login(props) {
                     localStorage.setItem('userName', tempUserName);
                     props.setUserName(tempUserName);
                     props.setLoginState("LoggedIn");
+                    setErrorMessage('');
                 }
                 else {
+                    console.log(response);
+                    setErrorMessage("Error: " + response.statusText);
                     console.log("error")
                 }
             })
@@ -46,8 +51,10 @@ export function Login(props) {
                     localStorage.setItem('userName', '');
                     props.setUserName('');
                     props.setLoginState("LoggedOut");
+                    setErrorMessage('');
                 }
                 else {
+                    setErrorMessage("Error: " + response.statusText);
                     console.log("error")
                 }
             })
@@ -70,8 +77,10 @@ export function Login(props) {
                     localStorage.setItem('userName', tempUserName);
                     props.setUserName(tempUserName);
                     props.setLoginState("LoggedIn");
+                    setErrorMessage('');
                 }
                 else {
+                    setErrorMessage("Error: " + response.statusText);
                     console.log("error")
                 }
             })
@@ -90,12 +99,14 @@ export function Login(props) {
                 <input id="password" name="password" type="password" onChange={(e) => setTempPass(e.target.value)}/>
             </div>
             <br/>
+            <div>{errorMessage}</div>
+            <br/>
             <div>
-                <button hidden={props.loginState != "LoggedOut"} className="btn btn-warning" type="button" onClick={login}>Login</button>
+                <button hidden={props.loginState != "LoggedOut"} className="btn btn-warning" type="reset" onClick={login}>Login</button>
                 <button hidden={props.loginState != "LoggedIn"} className="btn btn-warning" type="button" onClick={logout}>Logout</button>
             </div>
             <div>
-                <button hidden={props.loginState != "LoggedOut"} className="btn btn-warning" type="button" onClick={createUser}>Create Account</button>
+                <button hidden={props.loginState != "LoggedOut"} className="btn btn-warning" type="reset" onClick={createUser}>Create Account</button>
             </div>
         </form>
     );

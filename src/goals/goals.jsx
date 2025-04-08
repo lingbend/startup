@@ -345,7 +345,7 @@ export function Goals(props) {
                                 <input type="checkbox" id="publicbox" name="goalnewpublic" checked={newGoalPublic} onClick={() => setNewGoalPublic(!newGoalPublic)}/>
                             </div>
                             <div>
-                                <button className="btn btn-warning" type="button" onClick={saveGoalWrapper}>Save</button>
+                                <button className="btn btn-warning" type="reset" onClick={saveGoalWrapper}>Save</button>
                                 <button className="btn btn-warning" type="reset" onClick={toggleNewGoal}>Cancel</button>
                             </div>
                         </form>
