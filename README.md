@@ -153,11 +153,11 @@ I used useEffect to dynamically update goals, feed, goal suggestions, and goal m
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - I created endpoints using node.js, express, cookie-parser, and bcrypt for login, logout, register, and restricted goal access and management endpoints within index.js that accepts http requests.
+- [x] **Static middleware for frontend** - Express serves up the frontend via static middleware.
+- [x] **Calls to third party endpoints** - I created a call to a third party quote api from the frontend instead of a chatGPT call, since I don't want to store my api token in the frontend code.
+- [x] **Backend service endpoints** - I used express and nodejs to create endpoints as described above.
+- [x] **Frontend calls service endpoints** - My frontend calls the backend endpoints for login, logout, registration, goal access, and goal management functions using fetch.
 
 ## 🚀 DB/Login deliverable
 
