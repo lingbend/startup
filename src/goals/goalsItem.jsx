@@ -28,7 +28,6 @@ export function GoalItem(props) {
     },[])
 
 
-    //need to add inspirational quote api call here
     class getGoalSuggestion {
         constructor(){
             this.suggestionTimer;
@@ -44,21 +43,13 @@ export function GoalItem(props) {
 
                     let formattedQuotes = [];
                     let quotesResponse = await fetch("https://thequoteshub.com/api/");
-                    console.log(quotesResponse);
                     let jsonQuotes = await quotesResponse.json();
                     let author = jsonQuotes?.["author"];
                     let quote = jsonQuotes?.["text"];
 
                     formattedQuotes.push(quote + " - " + author);
-
-                    // for (let i = 0; i < 5; i++) {
-
-                    // }
       
                     let answer = await new Promise((resolve)=>{
-                        let randomGoals = ["Eat your cat.", "Lick a mountain.", "Burn some sugar.", "Bruh", "(Cringy) Hoppy Birthday Party"];
-                        // let goal = randomGoals.at(Math.floor(Math.random()*randomGoals.length));
-                        // let goal = formattedQuotes.at(Math.floor(Math.random()*randomGoals.length));
                         let goal = formattedQuotes[0];
                         resolve(goal);
                     })
@@ -255,10 +246,8 @@ export function GoalItem(props) {
                 'Content-type':'application/json'
             }})
             if (response?.status == 200) {
-                console.log(response);
             }
             else {
-                console.log('error');
                 return;
             }
 
@@ -274,18 +263,6 @@ export function GoalItem(props) {
     function deleteGoal() {
         deleteGoalFromServer(currGoalID);
         onEditToggle();
-
-        // return new Promise((resolve) => {
-        //     localStorage.removeItem(currGoalID);
-        //     resolve(localStorage.getItem(currGoalID));
-        // })
-        // .then(() => )
-        // .then(props.setGoalIndex(() => {
-        //     let currIndex = JSON.parse(localStorage.getItem('goalindex'));
-        //     currIndex = currIndex.filter((val) => val != currGoalID);
-        //     return currIndex;
-        // }))
-        // .then(props.setNumGoals(() => JSON.parse(localStorage.getItem('goalindex')).length))
     }
 
 
@@ -296,15 +273,12 @@ export function GoalItem(props) {
                 'Content-type':'application/json'
             }}).then(response => {
                 if (response?.status == 200) {
-                    console.log(response);
                     return response;
                 }
                 else {
-                    console.log('error');
                 }
             }).then((response) => response.json())
             .then((jsonResponse) => {
-                console.log(jsonResponse.goalindex)
                 if (jsonResponse.goalindex.length != 0) {
                     localStorage.setItem('goalindex', jsonResponse.goalindex);
                     props.setNumGoals(jsonResponse.goalindex.length);
@@ -315,7 +289,7 @@ export function GoalItem(props) {
                     props.setNumGoals(0);
                     props.setGoalIndex([]);
                 }
-            }).catch((response) => console.log(response));
+            });
     }
 
 

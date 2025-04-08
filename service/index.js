@@ -13,12 +13,6 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
-// app.use(express.static('C:/Users/lingb/OneDrive/Desktop/startup/startup'));
-//later change to 'public'
-
-// endpoints needed login, logout, register
-// update goal, delete goal, create goal, get goals
-// get goal index, get next goal id
 
 let router = express.Router();
 
@@ -139,7 +133,7 @@ goals.post('/:id', authenticateRequest, async (req, res) => {
 app.use((req, res) => {
     res.sendFile('index.jsx', {root:'public'});
 })
-//need to change to 'public' amd 'index.html' later
+//need to change to 'public' amd 'index.html' later?
 
 async function authenticateRequest(req, res, next) {
     let authToken = req.cookies?.['session'];

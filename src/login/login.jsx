@@ -1,7 +1,6 @@
 import React from 'react';
 import '/src/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
 
 export function Login(props) {
 
@@ -10,8 +9,6 @@ export function Login(props) {
     const [tempPass, setTempPass] = React.useState('');
 
     const [errorMessage, setErrorMessage] = React.useState('');
-
-    //Add login error messages and make auto login checking actually work
 
     async function login() {
         fetch('/api/login', {
@@ -25,16 +22,13 @@ export function Login(props) {
             }})
             .then((response) => {
                 if (response?.status == 200) {
-                    console.log(response);
                     localStorage.setItem('userName', tempUserName);
                     props.setUserName(tempUserName);
                     props.setLoginState("LoggedIn");
                     setErrorMessage('');
                 }
                 else {
-                    console.log(response);
                     setErrorMessage("Error: " + response.statusText);
-                    console.log("error")
                 }
             })
     }
@@ -47,7 +41,6 @@ export function Login(props) {
             }})
             .then((response) => {
                 if (response?.status == 200) {
-                    console.log(response);
                     localStorage.setItem('userName', '');
                     props.setUserName('');
                     props.setLoginState("LoggedOut");
@@ -55,13 +48,11 @@ export function Login(props) {
                 }
                 else {
                     setErrorMessage("Error: " + response.statusText);
-                    console.log("error")
                 }
             })
     }
 
     async function createUser() {
-        console.log('creating...');
         fetch('/api/register', {
             method: 'POST', 
             body: JSON.stringify({
@@ -73,7 +64,6 @@ export function Login(props) {
             }})
             .then((response) => {
                 if (response?.status == 200) {
-                    console.log(response);
                     localStorage.setItem('userName', tempUserName);
                     props.setUserName(tempUserName);
                     props.setLoginState("LoggedIn");
@@ -81,7 +71,6 @@ export function Login(props) {
                 }
                 else {
                     setErrorMessage("Error: " + response.statusText);
-                    console.log("error")
                 }
             })
     }

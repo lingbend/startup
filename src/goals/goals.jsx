@@ -26,14 +26,6 @@ export function Goals(props) {
     const [goalSuggestion, setGoalSuggestion] = React.useState("placeholder")
     const [suggestionGetter, setSuggestionGetter] = React.useState();
 
-    // React.useEffect(() => {
-    //     if (localStorage.getItem('goalindex') && localStorage.getItem('goalindex') != [-1]) {
-    //     setNumGoals(JSON.parse(localStorage.getItem('goalindex')).length)};
-    //     if (!localStorage.getItem('nextGoalID')) {
-    //         localStorage.setItem('nextGoalID', 1);
-    //     }
-    // }, []);
-
     React.useEffect(() => {
         fetch('/api/goals/index', {
             method: 'GET',
@@ -41,11 +33,9 @@ export function Goals(props) {
                 'Content-type':'application/json'
             }}).then(response => {
                 if (response?.status == 200) {
-                    console.log(response);
                     return response;
                 }
                 else {
-                    console.log('error');
                 }
             }).then((response) => response.json())
             .then((jsonResponse) => {
@@ -53,31 +43,8 @@ export function Goals(props) {
                 setGoalIndex(jsonResponse.goalindex);
                 localStorage.setItem('goalindex', jsonResponse.goalindex);
                 localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
-            }).catch((response) => console.log(response));
+            });
     }, []);
-
-    // async function login() {
-    //     fetch('/api/login', {
-    //         method: 'PUT', 
-    //         body: JSON.stringify({
-    //             username: tempUserName,
-    //             password: tempPass
-    //         }),
-    //         headers: {
-    //             'Content-type':'application/json'
-    //         }})
-    //         .then((response) => {
-    //             if (response?.status == 200) {
-    //                 console.log(response);
-    //                 localStorage.setItem('userName', tempUserName);
-    //                 props.setUserName(tempUserName);
-    //                 props.setLoginState("LoggedIn");
-    //             }
-    //             else {
-    //                 console.log("error")
-    //             }
-    //         })
-    // }
 
     
 
@@ -93,7 +60,6 @@ export function Goals(props) {
         this.goalID = localStorage.getItem('nextGoalID');
         this.prog = 0;
         this.streak = [];
-        // localStorage.setItem('nextGoalID', parseInt(this.goalID) + 1);
     }
 
     React.useEffect(() => {
@@ -108,7 +74,6 @@ export function Goals(props) {
     async function GoalsInsertFunc() {
         let temp = [];
         let promises = [];
-        // let goals = ;
         let goals = await getGoalsFromServer();
         
         
@@ -117,7 +82,6 @@ export function Goals(props) {
                 let id = String(goalindex[i]);
                 const getData = new Promise ((resolve) => {
                     let val = goals?.[id];
-                    // let val2 = JSON.parse(val);
                     resolve(val);
                 })
                 promises.push(getData);
@@ -151,19 +115,15 @@ export function Goals(props) {
                 'Content-type':'application/json'
             }})
             .then((response) => {
-                console.log("response goals from server:");
-                console.log(response);
                 if (response?.status == 200) {
-                    console.log(response);
                     return response;
                 }
                 else {
-                    console.log("error")
                 }
             }).then((response) => response.json())
             .then((jsonResponse) => {
                 return jsonResponse.goalList;
-            }).catch((response) => console.log(response));
+            });
         return response;
     }
 
@@ -186,21 +146,14 @@ export function Goals(props) {
 
                     let formattedQuotes = [];
                     let quotesResponse = await fetch("https://thequoteshub.com/api/");
-                    console.log(quotesResponse);
                     let jsonQuotes = await quotesResponse.json();
                     let author = jsonQuotes?.["author"];
                     let quote = jsonQuotes?.["text"];
 
                     formattedQuotes.push(quote + " - " + author);
-
-                    // for (let i = 0; i < 5; i++) {
-
-                    // }
       
                     let answer = await new Promise((resolve)=>{
-                        let randomGoals = ["Eat your cat.", "Lick a mountain.", "Burn some sugar.", "Bruh", "(Cringy) Hoppy Birthday Party"];
-                        // let goal = randomGoals.at(Math.floor(Math.random()*randomGoals.length));
-                        // let goal = formattedQuotes.at(Math.floor(Math.random()*randomGoals.length));
+
                         let goal = formattedQuotes[0];
                         resolve(goal);
                     })
@@ -243,12 +196,7 @@ export function Goals(props) {
     async function saveGoal(newGoal) {
         let response = await saveGoalToServer(newGoal);
         let tempIndex = response?.goalindex;
-        // if (tempIndex == null || (tempIndex.length == 1 && tempIndex[0] == -1 || tempIndex.length == 0)) {
-        //     tempIndex = [newGoal.goalID];
-        // }
-        // else {
-        //     tempIndex.push(newGoal.goalID);
-        // }
+
         await new Promise((resolve) => {
             localStorage.setItem('goalindex', JSON.stringify(tempIndex));
             let tempInsert = goalsInsert.props.children;
@@ -284,32 +232,20 @@ export function Goals(props) {
                 'Content-type':'application/json'
             },})
             if (response?.status == 200) {
-                console.log(response);
-                console.log(response.body);
-                // console.log(getJSON(response));
             }
 
             let jsonResponse = await response.json();
 
             if (response?.status == 400) {
-                console.log("save 400");
-                // new Promise((resolve) => resolve(response.json()));
-                console.log('json');
-                // console.log(jsonResponse);
-                // console.log(JSON.stringify(jsonResponse));
-                console.log('json');
                 return await new Promise((resolve) => resolve(jsonResponse)).then( (jsonResponse) => {
                     localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
                     newGoal.goalID = jsonResponse.nextGoalID;
                     return saveGoalToServer(newGoal)});
             }
             else if (response?.status != 200) {
-                console.log("save other error")
                 return;
             }
 
-            console.log('save returning');
-            console.log(jsonResponse);
         return jsonResponse;
     }
 

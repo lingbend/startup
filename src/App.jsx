@@ -21,11 +21,9 @@ export default function App() {
                 'Content-type':'application/json'
             }});
         if (response?.status == 200) {
-            console.log("loggedIn");
             return 'LoggedIn';
         }
         else {
-            console.log('loggedout');
             return 'LoggedOut';
         }
     }
