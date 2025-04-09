@@ -255,7 +255,7 @@ export function GoalItem(props) {
 
             props.setNumGoals(jsonResponse.goalindex.length);
             props.setGoalIndex(jsonResponse.goalindex);
-            localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
+            sessionStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
 
             return jsonResponse;
     }
@@ -280,12 +280,12 @@ export function GoalItem(props) {
             }).then((response) => response.json())
             .then((jsonResponse) => {
                 if (jsonResponse.goalindex.length != 0) {
-                    localStorage.setItem('goalindex', jsonResponse.goalindex);
+                    sessionStorage.setItem('goalindex', jsonResponse.goalindex);
                     props.setNumGoals(jsonResponse.goalindex.length);
                     props.setGoalIndex(jsonResponse.goalindex);
                 }
                 else {
-                    localStorage.setItem('goalindex', ["-1"]);
+                    sessionStorage.setItem('goalindex', ["-1"]);
                     props.setNumGoals(0);
                     props.setGoalIndex([]);
                 }

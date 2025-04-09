@@ -14,7 +14,7 @@ export function Goals(props) {
     const [newGoalText, setNewGoalText] = React.useState('Insert text here');
     const [newGoalPublic, setNewGoalPublic] = React.useState(false);
     const [goalindex, setGoalIndex] = React.useState(()=>{
-        let localgoalindex = localStorage.getItem('goalindex');
+        let localgoalindex = sessionStorage.getItem('goalindex');
         if (localgoalindex != "undefined" && localgoalindex != "null" && localgoalindex) {
             return JSON.parse(localgoalindex);
         }
@@ -41,15 +41,15 @@ export function Goals(props) {
             .then((jsonResponse) => {
                 setNumGoals(jsonResponse.goalindex.length);
                 setGoalIndex(jsonResponse.goalindex);
-                localStorage.setItem('goalindex', jsonResponse.goalindex);
-                localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
+                sessionStorage.setItem('goalindex', jsonResponse.goalindex);
+                sessionStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
             });
     }, []);
 
     
 
     React.useEffect(() => {
-        localStorage.setItem('goalindex', JSON.stringify(goalindex));
+        sessionStorage.setItem('goalindex', JSON.stringify(goalindex));
     }, [goalindex]);
 
     function Goal(nameVar, text, publicVar) {        
@@ -57,7 +57,7 @@ export function Goals(props) {
         this.text = text;
         this.publicVar = publicVar;
         this.creationDate = new Date();
-        this.goalID = localStorage.getItem('nextGoalID');
+        this.goalID = sessionStorage.getItem('nextGoalID');
         this.prog = 0;
         this.streak = [];
     }
@@ -198,7 +198,7 @@ export function Goals(props) {
         let tempIndex = response?.goalindex;
 
         await new Promise((resolve) => {
-            localStorage.setItem('goalindex', JSON.stringify(tempIndex));
+            sessionStorage.setItem('goalindex', JSON.stringify(tempIndex));
             let tempInsert = goalsInsert.props.children;
             tempInsert.push(<GoalItem key={newGoal.goalID} goalObj={newGoal} setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} today={today}/>);
             resolve(setGoalsInsert(<Fragment>{tempInsert}</Fragment>));});
@@ -206,7 +206,7 @@ export function Goals(props) {
         setNewGoalText('');
         setNewGoalPublic(false);
         if (response?.status == 200) {
-            localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
+            sessionStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
             setNumGoals(tempIndex?.length);
             setGoalIndex(tempIndex);
         }
@@ -236,7 +236,7 @@ export function Goals(props) {
 
             if (response?.status == 400) {
                 return await new Promise((resolve) => resolve(jsonResponse)).then( (jsonResponse) => {
-                    localStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
+                    sessionStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
                     newGoal.goalID = jsonResponse.nextGoalID;
                     return saveGoalToServer(newGoal)});
             }

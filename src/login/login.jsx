@@ -22,7 +22,7 @@ export function Login(props) {
             }})
             .then((response) => {
                 if (response?.status == 200) {
-                    localStorage.setItem('userName', tempUserName);
+                    sessionStorage.setItem('userName', tempUserName);
                     props.setUserName(tempUserName);
                     props.setLoginState("LoggedIn");
                     setErrorMessage('');
@@ -41,7 +41,7 @@ export function Login(props) {
             }})
             .then((response) => {
                 if (response?.status == 200) {
-                    localStorage.setItem('userName', '');
+                    sessionStorage.setItem('userName', '');
                     props.setUserName('');
                     props.setLoginState("LoggedOut");
                     setErrorMessage('');
@@ -64,7 +64,7 @@ export function Login(props) {
             }})
             .then((response) => {
                 if (response?.status == 200) {
-                    localStorage.setItem('userName', tempUserName);
+                    sessionStorage.setItem('userName', tempUserName);
                     props.setUserName(tempUserName);
                     props.setLoginState("LoggedIn");
                     setErrorMessage('');

@@ -6,8 +6,8 @@ import {Goals} from '/src/goals/goals';
 import {Routes, Route, BrowserRouter, NavLink} from 'react-router-dom';
 
 export default function App() {
-    const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
-    const [authToken, setAuthToken] = React.useState(localStorage.getItem('authToken') || '');
+    const [userName, setUserName] = React.useState(sessionStorage.getItem('userName') || '');
+    const [authToken, setAuthToken] = React.useState(sessionStorage.getItem('authToken') || '');
     const [loginState, setLoginState] = React.useState('LoggedOut');
 
     function checkLogin() {
@@ -30,8 +30,8 @@ export default function App() {
 
 
     React.useEffect(() => {
-        if (!localStorage.getItem('nextGoalID')) {
-            localStorage.setItem('nextGoalID', 0);
+        if (!sessionStorage.getItem('nextGoalID')) {
+            sessionStorage.setItem('nextGoalID', 0);
         }
         checkLogin();
     }, []);
