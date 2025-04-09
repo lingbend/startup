@@ -32,9 +32,6 @@ async function addUser(username, password){
 
 async function findUser(username){
 
-    // let result = ;
-    // let arrayResult = await result.toArray();
-
     if (await users.findOne({username})) {
         return true;
     }

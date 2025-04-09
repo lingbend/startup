@@ -6,9 +6,6 @@ let app = express();
 const mongo = require('./database.js');
 const { data } = require('react-router-dom');
 
-// let users = [];
-// let auths = [];
-
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 
@@ -96,7 +93,6 @@ goals.delete('/:id', authenticateRequest, async (req, res) => {
     let reqID = parseInt(req.params.id);
     if (user.goalList[reqID]) {
         mongo.deleteGoal(user.username, reqID);
-        // delete user.goalList[reqID];
     }
     else {
         res.status(404);
@@ -110,7 +106,6 @@ goals.put('/:id', authenticateRequest, async (req, res) => {
     let reqID = parseInt(req.params.id);
     if (user.goalList[reqID]) {
         mongo.updateGoal(user.username, reqID, req.body.goal);
-        // user.goalList[reqID] = req.body.goal;
     }
     else {
         res.status(404);
@@ -125,8 +120,6 @@ goals.post('/:id', authenticateRequest, async (req, res) => {
     let reqID = parseInt(req.params.id);
     if (user.nextGoalID === reqID) {
         mongo.createGoal(user.username, reqID, req.body.goal);
-        // user.goalList[reqID] = req.body.goal;
-        // user.nextGoalID++;
         res.status(200).send({goalindex: Object.keys(user.goalList), goalList: user.goalList, nextGoalID:
             user.nextGoalID, currentGoalID: reqID});
     }
@@ -138,7 +131,6 @@ goals.post('/:id', authenticateRequest, async (req, res) => {
 app.use((req, res) => {
     res.sendFile('index.jsx', {root:'public'});
 })
-//need to change to 'public' amd 'index.html' later?
 
 async function authenticateRequest(req, res, next) {
     let authToken = req.cookies?.['session'];
@@ -157,38 +149,21 @@ async function findUser(username) {
     else {
         return false;
     }
-    // for (let user of users) {
-    //     if (username == user.username) {
-    //         return true;
-    //     }
-    // }
-    // return false;
 }
 
 async function addUser(username, password) {
     let hashedPassword = await bcrypt.hash(password, 10);
     await mongo.addUser(username, hashedPassword);
-    // users.push({username, password:hashedPassword.valueOf(), goalList: {}, nextGoalID: 1});
 }
 
 async function getUser(username) {
     let user = await mongo.getUser(username);
     return user;
-    // for (let user of users) {
-    //     if (username == user.username) {
-    //         return user;
-    //     }
-    // }
 }
 
 async function getUserNameFromAuth(authToken) {
     let username = await mongo.getUserNameFromAuth(authToken);
     return username;
-    // for (let auth of auths) {
-    //     if (auth.authToken == authToken) {
-    //         return auth.username;
-    //     }
-    // }
 }
 
 async function getUserFromAuth(authToken) {
@@ -200,15 +175,11 @@ async function getUserFromAuth(authToken) {
 async function addAuth(username) {
     let authToken = uuid.v4();
     await mongo.addAuth(authToken, username);
-    // auths.push({authToken, username});
     return authToken;
 }
 
 async function deleteAuth (authToken) {
     await mongo.deleteAuth(authToken);
-    // auths = auths.filter((auth) => {
-    //     auth.authToken != authToken;
-    // })
 }
 
 async function findAuth (authToken) {
@@ -218,13 +189,6 @@ async function findAuth (authToken) {
     else {
         return false;
     }
-
-    // for (let auth of auths) {
-    //     if (auth.authToken == authToken) {
-    //         return true;
-    //     }
-    // }
-    // return false;
 }
 
 async function sendAuthCookie(res, cookie) {
