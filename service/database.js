@@ -23,12 +23,12 @@ let auths = database.collection('auths');
 })();
 
 
-async function findUser(username){
+async function addUser(username, password){
+    return await users.insertOne({username, password, goalList: {}, nextGoalID: 1});
 
 }
 
-async function addUser(username, password){
-    return await users.insertOne({username, password, goalList: {}, nextGoalID: 1});
+async function findUser(username){
 
 }
 
@@ -41,7 +41,7 @@ async function getUsernamFromAuth(authToken){
 }
 
 async function addAuth(authToken, username){
-
+    return await auths.insertOne({authToken, username});
 }
 
 async function deleteAuth(authToken){
