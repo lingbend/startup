@@ -32,10 +32,10 @@ async function addUser(username, password){
 
 async function findUser(username){
 
-    let result = await users.find({username});
-    let arrayResult = await result.toArray();
+    // let result = ;
+    // let arrayResult = await result.toArray();
 
-    if (arrayResult.length > 0) {
+    if (await users.findOne({username})) {
         return true;
     }
     else {
@@ -45,7 +45,8 @@ async function findUser(username){
 }
 
 async function getUser(username){
-    let user = await users.find({username})
+    let user = await users.findOne({username})
+    
     if (user) {
         return user;
     }
@@ -56,7 +57,7 @@ async function getUser(username){
 }
 
 async function getUserNameFromAuth(authToken){
-    let auth = await auths.find(authToken);
+    let auth = await auths.findOne(authToken);
     return auth.username;
 }
 
@@ -69,7 +70,7 @@ async function deleteAuth(authToken){
 }
 
 async function findAuth(authToken){
-    if (await auths.find(authToken)) {
+    if (await auths.findOne(authToken)) {
         return true;
     }
     else {
