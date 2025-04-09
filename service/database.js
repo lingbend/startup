@@ -78,17 +78,28 @@ async function findAuth(authToken){
     }
 }
 
-//also increment goalID here
-async function createGoal(username, goal){
+async function getGoalList(username) {
+    let goalList = await users.findOne({username});
+    return goalList;
+}
 
+//also increment goalID here
+async function createGoal(username, goalID, goal){
+    let goalList = await getGoalList(username);
+    goalList[goalID] = goal;
+    return await users.updateOne({username}, {$set: {goalList}, $inc: {"nextGoalID": 1}});
 }
 
 async function updateGoal(username, goalID, goal){
-
+    let goalList = await getGoalList(username);
+    goalList[goalID] = goal;
+    return await users.updateOne({username}, {$set: {goalList}});
 }
 
 async function deleteGoal(username, goalID){
-
+    let goalList = await getGoalList(username);
+    delete goalList[goalID];
+    return await users.updateOne({username}, {$set: {goalList}});
 }
 
 module.exports = {
