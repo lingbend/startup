@@ -29,7 +29,7 @@ async function addUser(username, password){
 }
 
 async function findUser(username){
-    if (users.find({username:username})) {
+    if (users.find({username})) {
         return true;
     }
     else {
@@ -39,6 +39,13 @@ async function findUser(username){
 }
 
 async function getUser(username){
+    let user = await users.find({username})
+    if (user) {
+        return user;
+    }
+    else {
+        return null;
+    }
 
 }
 
