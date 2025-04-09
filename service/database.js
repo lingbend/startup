@@ -59,7 +59,7 @@ async function addAuth(authToken, username){
 }
 
 async function deleteAuth(authToken){
-
+    return await auths.deleteOne({authToken});
 }
 
 async function findAuth(authToken){
@@ -69,5 +69,4 @@ async function findAuth(authToken){
     else {
         return false;
     }
-
 }
