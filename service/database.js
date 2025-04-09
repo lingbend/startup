@@ -57,7 +57,7 @@ async function getUser(username){
 }
 
 async function getUserNameFromAuth(authToken){
-    let auth = await auths.findOne(authToken);
+    let auth = await auths.findOne({authToken});
     return auth.username;
 }
 
@@ -70,7 +70,7 @@ async function deleteAuth(authToken){
 }
 
 async function findAuth(authToken){
-    if (await auths.findOne(authToken)) {
+    if (await auths.findOne({authToken})) {
         return true;
     }
     else {

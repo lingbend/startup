@@ -164,7 +164,7 @@ async function findUser(username) {
 
 async function addUser(username, password) {
     let hashedPassword = await bcrypt.hash(password, 10);
-    await mongo.addUser(username, password);
+    await mongo.addUser(username, hashedPassword);
     // users.push({username, password:hashedPassword.valueOf(), goalList: {}, nextGoalID: 1});
 }
 
