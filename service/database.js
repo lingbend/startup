@@ -28,6 +28,7 @@ async function findUser(username){
 }
 
 async function addUser(username, password){
+    return await users.insertOne({username, password, goalList: {}, nextGoalID: 1});
 
 }
 
