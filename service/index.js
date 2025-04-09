@@ -3,11 +3,11 @@ let cookieParser = require('cookie-parser');
 let bcrypt = require('bcryptjs');
 let uuid = require('uuid');
 let app = express();
-let database = require('./database.js');
+const mongo = require('./database.js');
 const { data } = require('react-router-dom');
 
-let users = [];
-let auths = [];
+// let users = [];
+// let auths = [];
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -148,7 +148,7 @@ async function authenticateRequest(req, res, next) {
 }
 
 async function findUser(username) {
-    if (await database.findUser(username)) {
+    if (await mongo.findUser(username)) {
         return true;
     }
     else {
@@ -164,12 +164,12 @@ async function findUser(username) {
 
 async function addUser(username, password) {
     let hashedPassword = await bcrypt.hash(password, 10);
-    await database.addUser(username, password);
+    await mongo.addUser(username, password);
     // users.push({username, password:hashedPassword.valueOf(), goalList: {}, nextGoalID: 1});
 }
 
 async function getUser(username) {
-    let user = await database.getUser(username);
+    let user = await mongo.getUser(username);
     return user;
     // for (let user of users) {
     //     if (username == user.username) {
@@ -179,7 +179,7 @@ async function getUser(username) {
 }
 
 async function getUserNameFromAuth(authToken) {
-    let username = await database.getUserNameFromAuth(authToken);
+    let username = await mongo.getUserNameFromAuth(authToken);
     return username;
     // for (let auth of auths) {
     //     if (auth.authToken == authToken) {
@@ -196,20 +196,20 @@ async function getUserFromAuth(authToken) {
 
 async function addAuth(username) {
     let authToken = uuid.v4();
-    await database.addAuth(authToken, username);
+    await mongo.addAuth(authToken, username);
     // auths.push({authToken, username});
     return authToken;
 }
 
 async function deleteAuth (authToken) {
-    await database.deleteAuth(authToken);
+    await mongo.deleteAuth(authToken);
     // auths = auths.filter((auth) => {
     //     auth.authToken != authToken;
     // })
 }
 
 async function findAuth (authToken) {
-    if (await database.findAuth(authToken)) {
+    if (await mongo.findAuth(authToken)) {
         return true;
     }
     else {
