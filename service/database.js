@@ -79,8 +79,8 @@ async function findAuth(authToken){
 }
 
 async function getGoalList(username) {
-    let goalList = await users.findOne({username});
-    return goalList;
+    let user = await users.findOne({username});
+    return user.goalList;
 }
 
 //also increment goalID here

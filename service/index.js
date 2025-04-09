@@ -95,7 +95,8 @@ goals.delete('/:id', authenticateRequest, async (req, res) => {
     let user = await getUserFromAuth(req.cookies?.['session']);
     let reqID = parseInt(req.params.id);
     if (user.goalList[reqID]) {
-        delete user.goalList[reqID];
+        mongo.deleteGoal(user.username, reqID);
+        // delete user.goalList[reqID];
     }
     else {
         res.status(404);
@@ -108,7 +109,8 @@ goals.put('/:id', authenticateRequest, async (req, res) => {
     let user = await getUserFromAuth(req.cookies?.['session']);
     let reqID = parseInt(req.params.id);
     if (user.goalList[reqID]) {
-        user.goalList[reqID] = req.body.goal;
+        mongo.updateGoal(user.username, reqID, req.body.goal);
+        // user.goalList[reqID] = req.body.goal;
     }
     else {
         res.status(404);
@@ -122,8 +124,9 @@ goals.post('/:id', authenticateRequest, async (req, res) => {
     let user = await getUserFromAuth(req.cookies?.['session']);
     let reqID = parseInt(req.params.id);
     if (user.nextGoalID === reqID) {
-        user.goalList[reqID] = req.body.goal;
-        user.nextGoalID++;
+        mongo.createGoal(user.username, reqID, req.body.goal);
+        // user.goalList[reqID] = req.body.goal;
+        // user.nextGoalID++;
         res.status(200).send({goalindex: Object.keys(user.goalList), goalList: user.goalList, nextGoalID:
             user.nextGoalID, currentGoalID: reqID});
     }
