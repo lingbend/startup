@@ -78,6 +78,19 @@ async function findAuth(authToken){
     }
 }
 
+//also increment goalID here
+async function createGoal(username, goal){
+
+}
+
+async function updateGoal(username, goalID, goal){
+
+}
+
+async function deleteGoal(username, goalID){
+
+}
+
 module.exports = {
     addUser,
     findUser,
@@ -85,5 +98,8 @@ module.exports = {
     getUserNameFromAuth,
     addAuth,
     deleteAuth,
-    findAuth
+    findAuth,
+    createGoal,
+    updateGoal,
+    deleteGoal
 }
