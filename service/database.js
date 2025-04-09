@@ -23,13 +23,19 @@ let auths = database.collection('auths');
 })();
 
 
-export async function addUser(username, password){
+async function addUser(username, password){
     return await users.insertOne({username, password, goalList: {}, nextGoalID: 1});
 
 }
 
-export async function findUser(username){
-    if (await users.find({username})) {
+ 
+
+async function findUser(username){
+
+    let result = await users.find({username});
+    let arrayResult = await result.toArray();
+
+    if (arrayResult.length > 0) {
         return true;
     }
     else {
@@ -38,7 +44,7 @@ export async function findUser(username){
 
 }
 
-export async function getUser(username){
+async function getUser(username){
     let user = await users.find({username})
     if (user) {
         return user;
@@ -49,24 +55,34 @@ export async function getUser(username){
 
 }
 
-export async function getUsernamFromAuth(authToken){
+async function getUserNameFromAuth(authToken){
     let auth = await auths.find(authToken);
     return auth.username;
 }
 
-export async function addAuth(authToken, username){
+async function addAuth(authToken, username){
     return await auths.insertOne({authToken, username});
 }
 
-export async function deleteAuth(authToken){
+async function deleteAuth(authToken){
     return await auths.deleteOne({authToken});
 }
 
-export async function findAuth(authToken){
+async function findAuth(authToken){
     if (await auths.find(authToken)) {
         return true;
     }
     else {
         return false;
     }
+}
+
+module.exports = {
+    addUser,
+    findUser,
+    getUser,
+    getUserNameFromAuth,
+    addAuth,
+    deleteAuth,
+    findAuth
 }
