@@ -179,11 +179,13 @@ async function getUser(username) {
 }
 
 async function getUserNameFromAuth(authToken) {
-    for (let auth of auths) {
-        if (auth.authToken == authToken) {
-            return auth.username;
-        }
-    }
+    let username = await database.getUserNameFromAuth(authToken);
+    return username;
+    // for (let auth of auths) {
+    //     if (auth.authToken == authToken) {
+    //         return auth.username;
+    //     }
+    // }
 }
 
 async function getUserFromAuth(authToken) {
@@ -194,23 +196,32 @@ async function getUserFromAuth(authToken) {
 
 async function addAuth(username) {
     let authToken = uuid.v4();
-    auths.push({authToken, username});
+    await database.addAuth(authToken, username);
+    // auths.push({authToken, username});
     return authToken;
 }
 
 async function deleteAuth (authToken) {
-    auths = auths.filter((auth) => {
-        auth.authToken != authToken;
-    })
+    await database.deleteAuth(authToken);
+    // auths = auths.filter((auth) => {
+    //     auth.authToken != authToken;
+    // })
 }
 
 async function findAuth (authToken) {
-    for (let auth of auths) {
-        if (auth.authToken == authToken) {
-            return true;
-        }
+    if (await database.findAuth(authToken)) {
+        return true;
     }
-    return false;
+    else {
+        return false;
+    }
+
+    // for (let auth of auths) {
+    //     if (auth.authToken == authToken) {
+    //         return true;
+    //     }
+    // }
+    // return false;
 }
 
 async function sendAuthCookie(res, cookie) {
