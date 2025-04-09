@@ -50,7 +50,8 @@ async function getUser(username){
 }
 
 async function getUsernamFromAuth(authToken){
-
+    let auth = await auths.find(authToken);
+    return auth.username;
 }
 
 async function addAuth(authToken, username){
