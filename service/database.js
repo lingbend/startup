@@ -29,6 +29,12 @@ async function addUser(username, password){
 }
 
 async function findUser(username){
+    if (users.find({username:username})) {
+        return true;
+    }
+    else {
+        return false;
+    }
 
 }
 
