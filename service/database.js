@@ -29,7 +29,7 @@ async function addUser(username, password){
 }
 
 async function findUser(username){
-    if (users.find({username})) {
+    if (await users.find({username})) {
         return true;
     }
     else {
@@ -62,5 +62,11 @@ async function deleteAuth(authToken){
 }
 
 async function findAuth(authToken){
+    if (await auths.find(authToken)) {
+        return true;
+    }
+    else {
+        return false;
+    }
 
 }
