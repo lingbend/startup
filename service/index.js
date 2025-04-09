@@ -3,6 +3,8 @@ let cookieParser = require('cookie-parser');
 let bcrypt = require('bcryptjs');
 let uuid = require('uuid');
 let app = express();
+let database = require('./database.js');
+const { data } = require('react-router-dom');
 
 let users = [];
 let auths = [];
@@ -146,25 +148,34 @@ async function authenticateRequest(req, res, next) {
 }
 
 async function findUser(username) {
-    for (let user of users) {
-        if (username == user.username) {
-            return true;
-        }
+    if (await database.findUser(username)) {
+        return true;
     }
-    return false;
+    else {
+        return false;
+    }
+    // for (let user of users) {
+    //     if (username == user.username) {
+    //         return true;
+    //     }
+    // }
+    // return false;
 }
 
 async function addUser(username, password) {
     let hashedPassword = await bcrypt.hash(password, 10);
-    users.push({username, password:hashedPassword.valueOf(), goalList: {}, nextGoalID: 1});
+    await database.addUser(username, password);
+    // users.push({username, password:hashedPassword.valueOf(), goalList: {}, nextGoalID: 1});
 }
 
 async function getUser(username) {
-    for (let user of users) {
-        if (username == user.username) {
-            return user;
-        }
-    }
+    let user = await database.getUser(username);
+    return user;
+    // for (let user of users) {
+    //     if (username == user.username) {
+    //         return user;
+    //     }
+    // }
 }
 
 async function getUserNameFromAuth(authToken) {
