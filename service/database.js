@@ -16,9 +16,37 @@ let auths = database.collection('auths');
         console.log("connected to DB");
     }
     catch {
-        console.log("failed to connect to DB");
+        console.log("failed t+o connect to DB");
         process.exit(1);
     }
 
 })();
 
+
+async function findUser(username){
+
+}
+
+async function addUser(username, password){
+
+}
+
+async function getUser(username){
+
+}
+
+async function getUsernamFromAuth(authToken){
+
+}
+
+async function addAuth(authToken, username){
+
+}
+
+async function deleteAuth(authToken){
+
+}
+
+async function findAuth(authToken){
+
+}
