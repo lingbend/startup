@@ -200,8 +200,8 @@ async function sendAuthCookie(res, cookie) {
     });
 }
 
-let server = app.listen(port, ()=> {
+let myServer = app.listen(port, ()=> {
     console.log(port);
 });
 
-webSocket.run(server);
+webSocket.run(myServer);
