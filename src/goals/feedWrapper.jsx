@@ -15,7 +15,7 @@ export function FeedWrapper(){
         }
         let protocol = window.location.protocol == "https" ? "wss" : "ws";
         let webSocket = new WebSocket(protocol + "://" + window.location.host + "/ws");
-        webSocket.onmessage(async (message) => {
+        webSocket.onmessage = async (message) => {
             let temp = await JSON.parse(message);
             setFeedList((feedList) => {
                 if (feedList == null) {
@@ -29,7 +29,7 @@ export function FeedWrapper(){
                 return newFeedList;
             })
             
-        })
+        };
 
         // setInterval(() => {
         //     let fillerList = [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:false}, 
