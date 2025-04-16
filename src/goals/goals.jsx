@@ -25,6 +25,7 @@ export function Goals(props) {
     const [numGoals, setNumGoals] = React.useState(goalindex ? goalindex.length : 0);
     const [goalSuggestion, setGoalSuggestion] = React.useState("placeholder")
     const [suggestionGetter, setSuggestionGetter] = React.useState();
+    const [webSocket, setWebSocket] = React.useState();
 
     React.useEffect(() => {
         fetch('/api/goals/index', {
@@ -45,6 +46,31 @@ export function Goals(props) {
                 sessionStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
             });
     }, []);
+
+        const [feedList, setFeedList] = React.useState(null);
+
+    React.useEffect(() => {
+        if (feedList == null) {
+            setFeedList(() => [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}]);
+        }
+        let protocol = window.location.protocol == "https:" ? "wss" : "ws";
+        let newWebSocket = new WebSocket(protocol + "://" + window.location.host + "/ws");
+        newWebSocket.onmessage = async (message) => {
+            let temp = await JSON.parse(message);
+            setFeedList((feedList) => {
+                if (feedList == null) {
+                    return [temp];
+                }
+                if (feedList.length > 5) {
+                    feedList.shift();
+                }
+                let newFeedList = (structuredClone(feedList))
+                newFeedList.push(temp);
+                return newFeedList;
+            })
+        }
+        setWebSocket(newWebSocket);
+    }, [])
 
     
 
@@ -196,9 +222,9 @@ export function Goals(props) {
     }
 
     async function broadcastGoal(newGoal) {
-        let protocol = window.location.protocol == "https" ? "wss" : "ws";
-        let webSocket = new WebSocket(protocol + "://" + window.location.host + "/ws");
-        webSocket.send(JSON.stringify({icon:"bi bi-hand-thumbs-up", text:"username set a new goal: " + newGoal.nameVar, visible:false}));
+        console.log(webSocket);
+        webSocket?.send(JSON.stringify({icon:"bi bi-hand-thumbs-up", text:"username set a new goal: " + newGoal.nameVar, visible:false}));
+
     }
 
 
@@ -321,7 +347,7 @@ export function Goals(props) {
                     <div>
                     <table>
                         <tbody>
-                            <FeedWrapper/>
+                            <FeedWrapper webSocket={webSocket} feedList={feedList}/>
                         </tbody>
                     </table>
                     </div>

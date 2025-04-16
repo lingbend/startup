@@ -1,34 +1,37 @@
-let ws = require('ws');
+let {WebSocketServer} = require('ws');
 
 function run(server) {
-    let webSocket = new ws.WebSocketServer({server: server});
+    let webSocket = new WebSocketServer({server: server});
 
 
-    webSocket.on('connect', (session) => {
+    webSocket.on('connection', (session) => {
         session.isAlive = true;
 
 
-        webSocket.on('message', (message) => {
+        session.on('message', function message(message) {
             webSocket.clients.forEach((client)=>{
-                if (client != session) {
+                if (client != session && client.readyState == WebSocket.OPEN) {
                     client.send(message);
                 }
             })
         })
 
-        webSocket.on('pong', ()=>{
+        session.on('pong', ()=>{
             session.isAlive = true;
         })
-
-        setInterval(()=>{
-            if (session.isAlive == false) {
-                session.terminate();
-            }
-            session.ping();
-            session.isAlive = false;
-        }, 10000)
-
     })
+
+    setInterval(()=>{
+        webSocket.clients.forEach((client)=>{
+            if (client.isAlive == false) {
+                return client.terminate();
+            }
+            client.isAlive = false;
+    
+            client.ping();
+        })
+
+    }, 10000)
 }
 
 module.exports = {run}

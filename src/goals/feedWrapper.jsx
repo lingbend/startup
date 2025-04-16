@@ -6,30 +6,30 @@ import '/src/goals/feed.css';
 import { FeedItem } from '/src/goals/feedItem.jsx';
 
 
-export function FeedWrapper(){
+export function FeedWrapper(props){
     const [feedList, setFeedList] = React.useState(null);
     React.useEffect(() => {
 
-        if (feedList == null) {
-            setFeedList(() => [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}]);
-        }
-        let protocol = window.location.protocol == "https" ? "wss" : "ws";
-        let webSocket = new WebSocket(protocol + "://" + window.location.host + "/ws");
-        webSocket.onmessage = async (message) => {
-            let temp = await JSON.parse(message);
-            setFeedList((feedList) => {
-                if (feedList == null) {
-                    return [temp];
-                }
-                if (feedList.length > 5) {
-                    feedList.shift();
-                }
-                let newFeedList = (structuredClone(feedList))
-                newFeedList.push(temp);
-                return newFeedList;
-            })
-            
-        };
+        setFeedList(() => props.feedList);
+
+        // if (typeof props.webSocket != typeof undefined) {
+        //     props.webSocket.onmessage = async (message) => {
+        //         let temp = await JSON.parse(message);
+        //         setFeedList((feedList) => {
+        //             if (feedList == null) {
+        //                 return [temp];
+        //             }
+        //             if (feedList.length > 5) {
+        //                 feedList.shift();
+        //             }
+        //             let newFeedList = (structuredClone(feedList))
+        //             newFeedList.push(temp);
+        //             return newFeedList;
+        //         })
+                
+        //     };
+        // }
+
 
         // setInterval(() => {
         //     let fillerList = [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:false}, 
