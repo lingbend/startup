@@ -47,34 +47,39 @@ export function Goals(props) {
             });
     }, []);
 
-        const [feedList, setFeedList] = React.useState(null);
+    // const [feedList, setFeedList] = React.useState([{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}]);
 
     React.useEffect(() => {
-        if (feedList == null) {
-            setFeedList(() => [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}]);
-        }
+        // if (feedList == null) {
+        //     setFeedList(() => );
+        // }
         let protocol = window.location.protocol == "https:" ? "wss" : "ws";
         let newWebSocket = new WebSocket(protocol + "://" + window.location.host + "/ws");
-        newWebSocket.onmessage = async (message) => {
-            console.log(message);
-            try {
-                let temp = await JSON.parse(await message.data.text());
-                setFeedList((feedList) => {
-                    if (feedList == null) {
-                        return [temp];
-                    }
-                    if (feedList.length > 5) {
-                        feedList.shift();
-                    }
-                    let newFeedList = (structuredClone(feedList))
-                    newFeedList.push(temp);
-                    return newFeedList;
-                })
-            }
-            catch{};
-        }
+        // newWebSocket.onmessage = async (message) => {
+        //     let temp = await JSON.parse(await message.data.text());
+        //     console.log(temp);
+        //     let newFeedList = await saveMessage(temp, feedList);
+        //     setFeedList(() => newFeedList);
+        // }
         setWebSocket(newWebSocket);
-    }, [])
+        }, []);
+
+    //     React.useEffect(()=>{
+    //         console.log(feedList)
+    //     },[feedList]);
+
+
+    // async function saveMessage(temp, oldFeedList) {
+    //     if (oldFeedList == null) {
+    //         return [temp];
+    //     }
+    //     if (oldFeedList.length > 5) {
+    //         oldFeedList.shift();
+    //     }
+    //     let newFeedList = (structuredClone(oldFeedList));
+    //     newFeedList.push(temp);
+    //     return newFeedList;
+    // }
 
     
 
@@ -351,7 +356,7 @@ export function Goals(props) {
                     <div>
                     <table>
                         <tbody>
-                            <FeedWrapper webSocket={webSocket} feedList={feedList}/>
+                            <FeedWrapper webSocket={webSocket}/>
                         </tbody>
                     </table>
                     </div>

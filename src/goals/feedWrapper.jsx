@@ -7,10 +7,36 @@ import { FeedItem } from '/src/goals/feedItem.jsx';
 
 
 export function FeedWrapper(props){
-    const [feedList, setFeedList] = React.useState(null);
+    const [feedList, setFeedList] = React.useState([{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}]);
+
     React.useEffect(() => {
 
-        setFeedList(() => props.feedList);
+        props.webSocket?.addEventListener("message", async (message) => {
+            let temp = await JSON.parse(await message.data.text());
+            console.log(temp);
+            let newFeedList = await saveMessage(temp, feedList);
+            setFeedList(() => structuredClone(newFeedList));
+        }) 
+        }, [props.webSocket]);
+
+    React.useEffect(()=>{
+        console.log(feedList)
+    },[feedList]);
+
+    async function saveMessage(temp, oldFeedList) {
+        if (oldFeedList == null) {
+            return [temp];
+        }
+        if (oldFeedList.length > 5) {
+            oldFeedList.shift();
+        }
+        let newFeedList = (structuredClone(oldFeedList));
+        newFeedList.push(temp);
+        return newFeedList;
+    }
+
+
+        // setFeedList(() => props.feedList);
 
         // if (typeof props.webSocket != typeof undefined) {
         //     props.webSocket.onmessage = async (message) => {
@@ -48,7 +74,7 @@ export function FeedWrapper(props){
         //         return newFeedList;
         //     });
         // }, 2000);
-    },[])
+
     return (<Fragment>
             <FeedItem num={0} feedList={feedList}/>
             <FeedItem num={1} feedList={feedList}/>
