@@ -11,7 +11,7 @@ export function FeedWrapper(){
     React.useEffect(() => {
 
         if (feedList == null) {
-            setFeedList(() => [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:false}]);
+            setFeedList(() => [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}]);
         }
         let port = window.location.port;
         let protocol = window.location.protocol == "https" ? "wss" : "ws";
