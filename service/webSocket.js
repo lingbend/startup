@@ -11,6 +11,7 @@ function run(server) {
         session.on('message', function message(message) {
             webSocket.clients.forEach((client)=>{
                 if (client != session && client.readyState == WebSocket.OPEN) {
+                    console.log(message)
                     client.send(message);
                 }
             })

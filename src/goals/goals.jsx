@@ -56,18 +56,22 @@ export function Goals(props) {
         let protocol = window.location.protocol == "https:" ? "wss" : "ws";
         let newWebSocket = new WebSocket(protocol + "://" + window.location.host + "/ws");
         newWebSocket.onmessage = async (message) => {
-            let temp = await JSON.parse(message);
-            setFeedList((feedList) => {
-                if (feedList == null) {
-                    return [temp];
-                }
-                if (feedList.length > 5) {
-                    feedList.shift();
-                }
-                let newFeedList = (structuredClone(feedList))
-                newFeedList.push(temp);
-                return newFeedList;
-            })
+            console.log(message);
+            try {
+                let temp = await JSON.parse(await message.data.text());
+                setFeedList((feedList) => {
+                    if (feedList == null) {
+                        return [temp];
+                    }
+                    if (feedList.length > 5) {
+                        feedList.shift();
+                    }
+                    let newFeedList = (structuredClone(feedList))
+                    newFeedList.push(temp);
+                    return newFeedList;
+                })
+            }
+            catch{};
         }
         setWebSocket(newWebSocket);
     }, [])
