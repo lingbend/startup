@@ -206,7 +206,7 @@ export function Goals(props) {
         setNewGoalText('');
         setNewGoalPublic(false);
         if (response?.status == 200) {
-            sessionStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
+            sessionStorage.setItem('nextGoalID', response.nextGoalID);
             setNumGoals(tempIndex?.length);
             setGoalIndex(tempIndex);
         }
