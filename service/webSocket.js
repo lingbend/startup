@@ -1,7 +1,7 @@
 let ws = require('ws');
 
 function run(server) {
-    let webSocket = new ws.WebSocketServer({port: server});
+    let webSocket = new ws.WebSocketServer({server: server});
 
 
     webSocket.on('connect', (session) => {
