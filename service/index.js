@@ -5,6 +5,7 @@ let uuid = require('uuid');
 let app = express();
 const mongo = require('./database.js');
 const { data } = require('react-router-dom');
+let webSocket = require('./webSocket.js');
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -199,6 +200,8 @@ async function sendAuthCookie(res, cookie) {
     });
 }
 
-app.listen(port, ()=> {
+let server = app.listen(port, ()=> {
     console.log(port);
 });
+
+webSocket.run(server);
