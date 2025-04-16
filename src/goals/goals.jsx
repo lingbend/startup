@@ -191,7 +191,17 @@ export function Goals(props) {
         setDisplayNewGoal(state => !state);
 
         saveGoal(newGoal);
+
+        broadcastGoal(newGoal);
     }
+
+    async function broadcastGoal(newGoal) {
+        let port = window.location.port;
+        let protocol = window.location.protocol == "https" ? "wss" : "ws";
+        let webSocket = new WebSocket(protocol + "://" + window.location.host + ":" + port + "/ws");
+        webSocket.send(JSON.stringify({icon:"bi bi-hand-thumbs-up", text:"username set a new goal: " + newGoal.nameVar, visible:false}))
+    }
+
 
     async function saveGoal(newGoal) {
         let response = await saveGoalToServer(newGoal);
