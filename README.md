@@ -155,7 +155,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] **Node.js/Express HTTP service** - I created endpoints using node.js, express, cookie-parser, and bcrypt for login, logout, register, and restricted goal access and management endpoints within index.js that accepts http requests.
 - [x] **Static middleware for frontend** - Express serves up the frontend via static middleware.
-- [x] **Calls to third party endpoints** - I created a call to a third party quote api from the frontend instead of a chatGPT call, since I don't want to store my api token in the frontend code. You can see the result in the create or edit goal view.
+- [x] **Calls to third party endpoints** - I created a call to a third party quote api from the frontend instead of a chatGPT call, since I don't want to store my api token in the frontend code. You can see the result in the create or edit goal view. This call is to "https://thequoteshub.com/api/".
 - [x] **Backend service endpoints** - I used express and nodejs to create endpoints as described above.
 - [x] **Frontend calls service endpoints** - My frontend calls the backend endpoints for login, logout, registration, goal access, and goal management functions using fetch.
 
@@ -173,8 +173,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [x] **Backend listens for WebSocket connection** - The backend uses the 'ws' module to listen for completed public goals and created public goals and relays them to other active users.
+- [x] **Frontend makes WebSocket connection** - The frontend makes and stores a webSocket connection in the goals component which it uses to transmit messages of public completed and created goals.
+- [x] **Data sent over WebSocket connection** - Username, goal name, icon type, and visibility status are transmitted over websocket to populate other user's feed.
+- [x] **WebSocket data displayed** - The websocket's data is displayed in the feed section of the website. Note that there needs to be another user's client's signal for anything to be displayed here.
+- [x] **Application is fully functional** - There are no placeholders. The website has full functionality and works 100%.
