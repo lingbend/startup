@@ -197,7 +197,9 @@ export function Goals(props) {
 
         saveGoal(newGoal);
 
-        broadcastGoal(newGoal);
+        if (newGoal.publicVar == true) {
+            broadcastGoal(newGoal);
+        }
     }
 
     async function broadcastGoal(newGoal) {
