@@ -17,16 +17,11 @@ export function FeedWrapper(props){
 
         props?.webSocket?.addEventListener("message", async (message) => {
             let temp = await JSON.parse(await message.data.text());
-            console.log(temp);
             let newFeedList = await saveMessage(temp);
             setFeedList(() => structuredClone(newFeedList));
         }) 
         
         }, [props.webSocket]);
-
-    React.useEffect(()=>{
-        console.log(feedList)
-    },[feedList]);
 
     async function saveMessage(temp) {
         let oldFeedList = sessionStorage.getItem("feedList") ? await JSON.parse(sessionStorage.getItem("feedList")) : feedList;

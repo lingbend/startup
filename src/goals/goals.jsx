@@ -28,7 +28,6 @@ export function Goals(props) {
     const [webSocket, setWebSocket] = React.useState((()=>{
         let protocol = window.location.protocol == "https:" ? "wss" : "ws";
         let newWebSocket = new WebSocket(protocol + "://" + window.location.host + "/ws");
-        console.log(newWebSocket);
         return newWebSocket;
 
     })());
@@ -203,7 +202,6 @@ export function Goals(props) {
     }
 
     async function broadcastGoal(newGoal) {
-        console.log(webSocket);
         let username = sessionStorage.getItem("userName");
         webSocket?.send(JSON.stringify({icon:"bi bi-hand-thumbs-up", text: username + " set a new goal: " + newGoal.nameVar, visible:false}));
 
