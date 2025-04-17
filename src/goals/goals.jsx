@@ -204,7 +204,8 @@ export function Goals(props) {
 
     async function broadcastGoal(newGoal) {
         console.log(webSocket);
-        webSocket?.send(JSON.stringify({icon:"bi bi-hand-thumbs-up", text:"username set a new goal: " + newGoal.nameVar, visible:false}));
+        let username = sessionStorage.getItem("userName");
+        webSocket?.send(JSON.stringify({icon:"bi bi-hand-thumbs-up", text: username + " set a new goal: " + newGoal.nameVar, visible:false}));
 
     }
 

@@ -238,7 +238,8 @@ export function GoalItem(props) {
     }
 
     async function broadcastGoal(newGoal) {
-        props.webSocket?.send(JSON.stringify({icon:"bi bi-check2-circle", text:"username completed their goal: " + newGoal.nameVar, visible:false}));
+        let username = sessionStorage.getItem("userName");
+        props.webSocket?.send(JSON.stringify({icon:"bi bi-check2-circle", text: username + " completed their goal: " + newGoal.nameVar, visible:false}));
 
     }
 
