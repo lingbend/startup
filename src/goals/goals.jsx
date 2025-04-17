@@ -32,11 +32,6 @@ export function Goals(props) {
         return newWebSocket;
 
     })());
-    // const [feedList, setFeedList] = React.useState([{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}, {icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}, {icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}, {icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}, {icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}]);
-
-    // function setWebSocket(newValue) {
-    //     webSocket = newValue;
-    // }
 
     React.useEffect(() => {
         fetch('/api/goals/index', {
@@ -57,42 +52,6 @@ export function Goals(props) {
                 sessionStorage.setItem('nextGoalID', jsonResponse.nextGoalID);
             });
     }, []);
-
-    // const [feedList, setFeedList] = React.useState([{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}]);
-
-    // React.useEffect(() => {
-    //     // if (feedList == null) {
-    //     //     setFeedList(() => );
-    //     // }
-    //     let protocol = window.location.protocol == "https:" ? "wss" : "ws";
-    //     let newWebSocket = new WebSocket(protocol + "://" + window.location.host + "/ws");
-    //     // newWebSocket.onmessage = async (message) => {
-    //     //     let temp = await JSON.parse(await message.data.text());
-    //     //     console.log(temp);
-    //     //     let newFeedList = await saveMessage(temp, feedList);
-    //     //     setFeedList(() => newFeedList);
-    //     // }
-    //     setWebSocket(newWebSocket);
-    //     }, []);
-
-    //     React.useEffect(()=>{
-    //         console.log(feedList)
-    //     },[feedList]);
-
-
-    // async function saveMessage(temp, oldFeedList) {
-    //     if (oldFeedList == null) {
-    //         return [temp];
-    //     }
-    //     if (oldFeedList.length > 5) {
-    //         oldFeedList.shift();
-    //     }
-    //     let newFeedList = (structuredClone(oldFeedList));
-    //     newFeedList.push(temp);
-    //     return newFeedList;
-    // }
-
-    
 
     React.useEffect(() => {
         sessionStorage.setItem('goalindex', JSON.stringify(goalindex));
