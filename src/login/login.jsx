@@ -11,6 +11,7 @@ export function Login(props) {
     const [errorMessage, setErrorMessage] = React.useState('');
 
     async function login() {
+        sessionStorage.removeItem("feedList");
         fetch('/api/login', {
             method: 'PUT', 
             body: JSON.stringify({

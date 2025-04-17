@@ -7,31 +7,38 @@ import { FeedItem } from '/src/goals/feedItem.jsx';
 
 
 export function FeedWrapper(props){
-    const [feedList, setFeedList] = React.useState([{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}]);
+    const [feedList, setFeedList] = React.useState(()=>{
+        let feedList = sessionStorage.getItem("feedList") ? JSON.parse(sessionStorage.getItem("feedList")) : [{icon:"bi bi-hand-thumbs-up", text:"Suzie decided to eat styrofoam!", visible:true}];
+        return feedList;
+    });
+
 
     React.useEffect(() => {
 
-        props.webSocket?.addEventListener("message", async (message) => {
+        props?.webSocket?.addEventListener("message", async (message) => {
             let temp = await JSON.parse(await message.data.text());
             console.log(temp);
-            let newFeedList = await saveMessage(temp, feedList);
+            let newFeedList = await saveMessage(temp);
             setFeedList(() => structuredClone(newFeedList));
         }) 
+        
         }, [props.webSocket]);
 
     React.useEffect(()=>{
         console.log(feedList)
     },[feedList]);
 
-    async function saveMessage(temp, oldFeedList) {
+    async function saveMessage(temp) {
+        let oldFeedList = sessionStorage.getItem("feedList") ? await JSON.parse(sessionStorage.getItem("feedList")) : feedList;
         if (oldFeedList == null) {
             return [temp];
         }
-        if (oldFeedList.length > 5) {
+        if (oldFeedList.length >= 5) {
             oldFeedList.shift();
         }
         let newFeedList = (structuredClone(oldFeedList));
         newFeedList.push(temp);
+        sessionStorage.setItem("feedList", await JSON.stringify(newFeedList));
         return newFeedList;
     }
 
