@@ -105,7 +105,7 @@ export function Goals(props) {
                 if (temp2[i] == null) {
                     continue;
                 }
-                resultArr.push(<GoalItem key={(temp2[i]).goalID} goalObj={(temp2[i])} setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} today={today}/>);
+                resultArr.push(<GoalItem key={(temp2[i]).goalID} goalObj={(temp2[i])} setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} today={today} webSocket={webSocket}/>);
             }
             
             return (<Fragment>{resultArr}</Fragment>);
@@ -216,7 +216,7 @@ export function Goals(props) {
         await new Promise((resolve) => {
             sessionStorage.setItem('goalindex', JSON.stringify(tempIndex));
             let tempInsert = goalsInsert.props.children;
-            tempInsert.push(<GoalItem key={newGoal.goalID} goalObj={newGoal} setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} today={today}/>);
+            tempInsert.push(<GoalItem key={newGoal.goalID} goalObj={newGoal} setNumGoals={setNumGoals} setGoalIndex={setGoalIndex} today={today} webSocket={webSocket}/>);
             resolve(setGoalsInsert(<Fragment>{tempInsert}</Fragment>));});
         setNewGoalName('');
         setNewGoalText('');

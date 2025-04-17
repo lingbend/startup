@@ -222,6 +222,26 @@ export function GoalItem(props) {
         .then(onEditToggle());
     }
 
+    async function markComplete() {
+        let newGoalObj = structuredClone(props.goalObj);
+        newGoalObj.nameVar = newGoalName;
+        newGoalObj.text = newGoalText;
+        newGoalObj.publicVar = newGoalPublic;
+        newGoalObj.prog = newGoalProg;
+        newGoalObj.streak = currGoalStreak;
+        if (newGoalObj.publicVar == true) {
+            broadcastGoal(newGoalObj);
+        }
+
+        deleteGoal();
+        
+    }
+
+    async function broadcastGoal(newGoal) {
+        props.webSocket?.send(JSON.stringify({icon:"bi bi-check2-circle", text:"username completed their goal: " + newGoal.nameVar, visible:false}));
+
+    }
+
     async function updateGoal() {
         let newGoalObj = structuredClone(props.goalObj);
         newGoalObj.nameVar = newGoalName;
@@ -339,6 +359,7 @@ export function GoalItem(props) {
                             <button className="btn btn-warning" type="button" onClick={saveGoal}>Save</button>
                             <button className="btn btn-warning" type="reset" onClick={onEditToggle}>Cancel</button>
                             <button className="btn btn-warning" type="button" onClick={deleteGoal}>Delete</button>
+                            <button className='btn btn-warning' type="button" onClick={markComplete}>Mark Complete</button>
                         </div>
                     </form>
                     <div>
